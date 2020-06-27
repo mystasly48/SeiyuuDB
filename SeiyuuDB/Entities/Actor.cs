@@ -1,0 +1,232 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Data.Linq.Mapping;
+
+namespace SeiyuuDB.Entities {
+  [Table(Name = "Actor")]
+  [JsonObject("Actor")]
+  public sealed class Actor : ISeiyuuEntity<Actor> {
+    [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
+    [JsonIgnore]
+    public int Id { get; set; } = -1;
+    
+    // For CosmosDB
+    //[JsonProperty("id")]
+    //private string _idString {
+    //  get {
+    //    return Id.ToString();
+    //  }
+    //  set {
+    //    Id = int.Parse(value);
+    //  }
+    //}
+
+    [Column(Name = "name", CanBeNull = false, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("name")]
+    public string Name { get; private set; }
+
+    [Column(Name = "hepburn", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("hepburn")]
+    public string Hepburn { get; private set; }
+
+    [Column(Name = "nickname", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("nickname")]
+    public string Nickname { get; private set; }
+
+    [Column(Name = "gender_id", CanBeNull = true, DbType = "INT")]
+    [JsonProperty("gender_id")]
+    private int? _genderId;
+
+    [JsonIgnore]
+    public Gender? Gender {
+      get {
+        if (_genderId.HasValue) {
+          return (Gender)Enum.ToObject(typeof(Gender), _genderId.Value);
+        } else {
+          return null;
+        }
+      }
+      private set {
+        if (value.HasValue) {
+          _genderId = (int)value.Value;
+        } else {
+          _genderId = null;
+        }
+      }
+    }
+
+    [Column(Name = "birthdate", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("birthdate")]
+    private string _birthdate;
+
+    [JsonIgnore]
+    public DateTime? Birthdate {
+      get {
+        if (_birthdate is null) {
+          return null;
+        } else {
+          return DateTime.Parse(_birthdate);
+        }
+      }
+      private set {
+        if (value.HasValue) {
+          _birthdate = value.Value.ToString();
+        } else {
+          _birthdate = null;
+        }
+      }
+    }
+
+    [Column(Name = "blood_type_id", CanBeNull = true, DbType = "INT")]
+    [JsonProperty("blood_type_id")]
+    private int? _bloodTypeId;
+
+    [JsonIgnore]
+    public BloodType? BloodType {
+      get {
+        if (_genderId.HasValue) {
+          return (BloodType)Enum.ToObject(typeof(BloodType), _bloodTypeId.Value);
+        } else {
+          return null;
+        }
+      }
+      private set {
+        if (value.HasValue) {
+          _bloodTypeId = (int)value.Value;
+        } else {
+          _bloodTypeId = null;
+        }
+      }
+    }
+
+    [Column(Name = "height", CanBeNull = true, DbType = "INT")]
+    [JsonProperty("height")]
+    public int? Height { get; private set; }
+
+    [Column(Name = "hometown", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("hometown")]
+    public string Hometown { get; private set; }
+
+    [Column(Name = "debut", CanBeNull = true, DbType = "INT")]
+    [JsonProperty("debut")]
+    public int? Debut { get; private set; }
+
+    [Column(Name = "spouse", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("spouse")]
+    public string Spouse { get; private set; }
+
+    [Column(Name = "agency_id", CanBeNull = true, DbType = "INT")]
+    [JsonProperty("agency_id")]
+    public int? AgencyId { get; private set; }
+
+    [JsonIgnore]
+    public Company Agency { get; private set; }
+
+    [Column(Name = "picture_url", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("picture_url")]
+    public string PictureUrl { get; private set; }
+
+    [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("created_at")]
+    private string _createdAt;
+
+    [JsonIgnore]
+    public DateTime CreatedAt {
+      get {
+        return DateTime.Parse(_createdAt);
+      }
+      private set {
+        _createdAt = value.ToString();
+      }
+    }
+
+    [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("updated_at")]
+    private string _updatedAt;
+
+    [JsonIgnore]
+    public DateTime UpdatedAt {
+      get {
+        return DateTime.Parse(_updatedAt);
+      }
+      set {
+        _updatedAt = value.ToString();
+      }
+    }
+
+    public Actor() { }
+
+    public Actor(string name, string hepburn, string nickname, Gender? gender, DateTime? birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse, Company agency, string picture_url, DateTime created_at, DateTime updated_at) {
+      Name = name;
+      Hepburn = hepburn;
+      Nickname = nickname;
+      Gender = gender;
+      Birthdate = birthdate;
+      BloodType = blood_type;
+      Height = height;
+      Hometown = hometown;
+      Debut = debut;
+      Spouse = spouse;
+      Agency = agency;
+      AgencyId = agency.Id;
+      PictureUrl = picture_url;
+      CreatedAt = created_at;
+      UpdatedAt = updated_at;
+    }
+
+    public Actor(Actor actor, Company agency) : this(actor.Name, actor.Hepburn, actor.Nickname, actor.Gender, actor.Birthdate, actor.BloodType, actor.Height, actor.Hometown, actor.Debut, actor.Spouse, agency, actor.PictureUrl, actor.CreatedAt, actor.UpdatedAt) {
+      Id = actor.Id;
+    }
+
+    /// <summary>
+    /// Replace all of the properties to the entity provided excluding Id, CreatedAt, and UpdatedAt.
+    /// </summary>
+    /// <param name="entity">Entity</param>
+    public void Replace(Actor entity) {
+      Name = entity.Name;
+      Hepburn = entity.Hepburn;
+      Nickname = entity.Nickname;
+      Gender = entity.Gender;
+      Birthdate = entity.Birthdate;
+      BloodType = entity.BloodType;
+      Height = entity.Height;
+      Hometown = entity.Hometown;
+      Debut = entity.Debut;
+      Spouse = entity.Spouse;
+      Agency = entity.Agency;
+      AgencyId = entity.AgencyId;
+      PictureUrl = entity.PictureUrl;
+    }
+
+    public bool IsReadyEntity() {
+      return IsReadyEntityWithoutId() && Id != -1;
+    }
+
+    public bool IsReadyEntityWithoutId() {
+      return Name != null;
+    }
+
+    public override bool Equals(object obj) {
+      if (obj is Actor item) {
+        return item.Name == Name;
+      }
+      return false;
+    }
+
+    public override int GetHashCode() {
+      return Name.GetHashCode();
+    }
+
+    public static bool operator ==(Actor a, Actor b) {
+      return Equals(a, b);
+    }
+
+    public static bool operator !=(Actor a, Actor b) {
+      return !Equals(a, b);
+    }
+
+    public override string ToString() {
+      return $"Id: {Id}, Name: {Name}, Hepburn: {Hepburn ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUrl: {PictureUrl ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+    }
+  }
+}
