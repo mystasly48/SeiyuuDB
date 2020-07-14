@@ -364,6 +364,4 @@ SeiyuuDB.Samples/
 SeiyuuDB.WpfSamples/
 
 # Ignore Sample Database and related files
-DatabaseTables.xlsx
-SeiyuuDB.db
-
+Databases/
