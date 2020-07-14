@@ -2,7 +2,9 @@
 using System;
 using System.Data.Linq;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
+using System.Net;
 
 namespace SeiyuuDB.Databases {
   public class LocalSqlite : ISeiyuuDB, IDisposable {
@@ -22,9 +24,11 @@ namespace SeiyuuDB.Databases {
     private Table<Note> _noteTable;
 
     public string DataSource { get; }
+    public string BlobLocation { get; }
 
-    public LocalSqlite(string source) {
-      this.DataSource = source;
+    public LocalSqlite(string dbSource, string blobLocation) {
+      this.DataSource = dbSource;
+      this.BlobLocation = blobLocation;
       var connStr = new SQLiteConnectionStringBuilder() { DataSource = this.DataSource };
       _connection = new SQLiteConnection(connStr.ToString());
       _connection.Open();
@@ -90,20 +94,29 @@ namespace SeiyuuDB.Databases {
     public T[] GetTableArray<T>() where T : class, ISeiyuuEntity<T> {
       object[] obj = null;
       if (typeof(T) == typeof(Actor)) {
-        obj = _actorTable
-          .Join(_companyTable, x => x.AgencyId, y => y.Id, (x, y) => new { x, y })
+        //obj = _actorTable
+        //  .Join(_companyTable, x => x.AgencyId, y => y.Id, (x, y) => new { Actor = x, Agency = y })
+        //  .ToArray()
+        //  .Select(x => new Actor(x.Actor, x.Agency))
+        //  .ToArray();
+        obj =
+          (from x in _actorTable
+           join y in _companyTable
+           on new { x.AgencyId } equals new { AgencyId = (int?)y.Id } into res
+           from p in res.DefaultIfEmpty()
+           select new { Actor = x, Agency = p })
           .ToArray()
-          .Select(x => new Actor(x.x, x.y))
+          .Select(x => new Actor(x.Actor, x.Agency))
           .ToArray();
       } else if (typeof(T) == typeof(Anime)) {
         obj = _animeTable.ToArray();
       } else if (typeof(T) == typeof(AnimeFilmography)) {
         obj = _animeFilmographyTable
-          .Join(_actorTable, a => a.ActorId, b => b.Id, (a, b) => new { a, b })
-          .Join(_companyTable, a => a.b.AgencyId, c => c.Id, (a, c) => new { a.a, a.b, c })
-          .Join(_animeTable, a => a.a.AnimeId, d => d.Id, (a, d) => new { a.a, a.b, a.c, d })
+          .Join(_actorTable, x => x.ActorId, y => y.Id, (x, y) => new { AnimeFilm = x, Actor = y })
+          .Join(_companyTable, x => x.Actor.AgencyId, y => y.Id, (x, y) => new { x.AnimeFilm, x.Actor, Agency = y })
+          .Join(_animeTable, x => x.AnimeFilm.AnimeId, y => y.Id, (x, y) => new { x.AnimeFilm, x.Actor, x.Agency, Anime = y })
           .ToArray()
-          .Select(x => new AnimeFilmography(x.a, new Actor(x.b, x.c), x.d))
+          .Select(x => new AnimeFilmography(x.AnimeFilm, new Actor(x.Actor, x.Agency), x.Anime))
           .ToArray();
       } else if (typeof(T) == typeof(Game)) {
         obj = _gameTable.ToArray();
@@ -191,7 +204,7 @@ namespace SeiyuuDB.Databases {
 
     public int Delete<T>(T entity) where T : class, ISeiyuuEntity<T> {
       if (typeof(T) == typeof(Actor) || typeof(T) == typeof(Anime) || typeof(T) == typeof(Company) || typeof(T) == typeof(Radio)) {
-        throw new NotImplementedException("指定されたエンティティは削除すると他のテーブルにも影響があるので現時点では実装していません");
+        throw new NotImplementedException("The entity can be referred by another table, it may cause an error so you can't delete it now. We will implement the feature ASAP.");
       }
 
       var del = GetEntity<T>(entity);
@@ -201,6 +214,27 @@ namespace SeiyuuDB.Databases {
       GetTable<T>().DeleteOnSubmit(del);
       _context.SubmitChanges();
       return del.Id;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="picture_url">Picture Url(Accessible from anywhere)</param>
+    /// <returns>Picture Internal Path(Accessible from local)</returns>
+    public string SavePictureToBlob(string picture_url) {
+      if (string.IsNullOrEmpty(picture_url)) {
+        return null;
+      } else {
+        var client = new WebClient();
+        var uri = new Uri(picture_url);
+        var name = Path.GetFileName(uri.LocalPath);
+        if (string.IsNullOrEmpty(name)) {
+          return null;
+        }
+        var path = Path.Combine(BlobLocation, name);
+        client.DownloadFile(picture_url, path);
+        return path;
+      }
     }
   }
 }

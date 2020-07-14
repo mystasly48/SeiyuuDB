@@ -65,12 +65,20 @@ namespace SeiyuuDB.Entities {
         if (_birthdate is null) {
           return null;
         } else {
-          return DateTime.Parse(_birthdate);
+          if (_birthdate.Length <= 5) {
+            return DateTime.Parse("0001/" + _birthdate);
+          } else {
+            return DateTime.Parse(_birthdate);
+          }
         }
       }
       private set {
         if (value.HasValue) {
-          _birthdate = value.Value.ToString();
+          if (value.Value.Year == 1) {
+            _birthdate = value.Value.ToString("MM/dd");
+          } else {
+            _birthdate = value.Value.ToString("yyyy/MM/dd");
+          }
         } else {
           _birthdate = null;
         }
@@ -84,7 +92,7 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public BloodType? BloodType {
       get {
-        if (_genderId.HasValue) {
+        if (_bloodTypeId.HasValue) {
           return (BloodType)Enum.ToObject(typeof(BloodType), _bloodTypeId.Value);
         } else {
           return null;
@@ -122,9 +130,9 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public Company Agency { get; private set; }
 
-    [Column(Name = "picture_url", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("picture_url")]
-    public string PictureUrl { get; private set; }
+    [Column(Name = "picture_uri", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("picture_uri")]
+    public string PictureUri { get; private set; }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("created_at")]
@@ -156,7 +164,7 @@ namespace SeiyuuDB.Entities {
 
     public Actor() { }
 
-    public Actor(string name, string hepburn, string nickname, Gender? gender, DateTime? birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse, Company agency, string picture_url, DateTime created_at, DateTime updated_at) {
+    public Actor(string name, string hepburn, string nickname, Gender? gender, DateTime? birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse, Company agency, string picture_uri, DateTime created_at, DateTime updated_at) {
       Name = name;
       Hepburn = hepburn;
       Nickname = nickname;
@@ -168,13 +176,13 @@ namespace SeiyuuDB.Entities {
       Debut = debut;
       Spouse = spouse;
       Agency = agency;
-      AgencyId = agency.Id;
-      PictureUrl = picture_url;
+      AgencyId = agency?.Id;
+      PictureUri = picture_uri;
       CreatedAt = created_at;
       UpdatedAt = updated_at;
     }
 
-    public Actor(Actor actor, Company agency) : this(actor.Name, actor.Hepburn, actor.Nickname, actor.Gender, actor.Birthdate, actor.BloodType, actor.Height, actor.Hometown, actor.Debut, actor.Spouse, agency, actor.PictureUrl, actor.CreatedAt, actor.UpdatedAt) {
+    public Actor(Actor actor, Company agency) : this(actor.Name, actor.Hepburn, actor.Nickname, actor.Gender, actor.Birthdate, actor.BloodType, actor.Height, actor.Hometown, actor.Debut, actor.Spouse, agency, actor.PictureUri, actor.CreatedAt, actor.UpdatedAt) {
       Id = actor.Id;
     }
 
@@ -195,7 +203,7 @@ namespace SeiyuuDB.Entities {
       Spouse = entity.Spouse;
       Agency = entity.Agency;
       AgencyId = entity.AgencyId;
-      PictureUrl = entity.PictureUrl;
+      PictureUri = entity.PictureUri;
     }
 
     public bool IsReadyEntity() {
@@ -226,7 +234,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, Hepburn: {Hepburn ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUrl: {PictureUrl ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, Hepburn: {Hepburn ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUri: {PictureUri ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }
