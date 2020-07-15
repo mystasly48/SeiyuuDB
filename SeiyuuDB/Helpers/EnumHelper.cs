@@ -14,6 +14,13 @@ namespace SeiyuuDB.Helpers {
       { Gender.Female, "女性" }
     };
 
+    public static readonly Dictionary<BloodType, string> BloodTypeDisplayNames = new Dictionary<BloodType, string>() {
+      { BloodType.A, "A型" },
+      { BloodType.B, "B型" },
+      { BloodType.O, "O型" },
+      { BloodType.AB, "AB型" }
+    };
+
     public static bool IsDefined<T>(int n) {
       return Enum.IsDefined(typeof(T), n);
     }
@@ -29,6 +36,14 @@ namespace SeiyuuDB.Helpers {
     public static string DisplayName(Gender? e) {
       if (e.HasValue && IsDefined<Gender>((int)e)) {
         return GenderDisplayNames[e.Value];
+      } else {
+        return null;
+      }
+    }
+
+    public static string DisplayName(BloodType? e) {
+      if (e.HasValue && IsDefined<BloodType>((int)e)) {
+        return BloodTypeDisplayNames[e.Value];
       } else {
         return null;
       }
