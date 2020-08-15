@@ -5,22 +5,7 @@ using System.Data.Linq.Mapping;
 namespace SeiyuuDB.Entities {
   [Table(Name = "RadioFilmography")]
   [JsonObject("RadioFilmography")]
-  public sealed class RadioFilmography : ISeiyuuEntity<RadioFilmography> {
-    [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
-    public int Id { get; set; } = -1;
-
-    // For CosmosDB
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+  public sealed class RadioFilmography : SeiyuuBaseEntity<RadioFilmography> {
     [Column(Name = "actor_id", CanBeNull = false, DbType = "INT")]
     [JsonProperty("actor_id")]
     public int ActorId { get; private set; }
@@ -34,34 +19,6 @@ namespace SeiyuuDB.Entities {
 
     [JsonIgnore]
     public Radio Radio { get; private set; }
-
-    [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
-    private string _createdAt;
-
-    [JsonIgnore]
-    public DateTime CreatedAt {
-      get {
-        return DateTime.Parse(_createdAt);
-      }
-      private set {
-        _createdAt = value.ToString();
-      }
-    }
-
-    [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
-    private string _updatedAt;
-
-    [JsonIgnore]
-    public DateTime UpdatedAt {
-      get {
-        return DateTime.Parse(_updatedAt);
-      }
-      set {
-        _updatedAt = value.ToString();
-      }
-    }
 
     public RadioFilmography() { }
 
@@ -78,18 +35,18 @@ namespace SeiyuuDB.Entities {
       Id = film.Id;
     }
 
-    public void Replace(RadioFilmography entity) {
+    public override void Replace(RadioFilmography entity) {
       ActorId = entity.ActorId;
       Actor = entity.Actor;
       RadioId = entity.RadioId;
       Radio = entity.Radio;
     }
 
-    public bool IsReadyEntity() {
+    public override bool IsReadyEntity() {
       return IsReadyEntityWithoutId() && Id != -1;
     }
 
-    public bool IsReadyEntityWithoutId() {
+    public override bool IsReadyEntityWithoutId() {
       return true;
     }
 
