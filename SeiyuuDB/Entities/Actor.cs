@@ -22,13 +22,38 @@ namespace SeiyuuDB.Entities {
     //  }
     //}
 
-    [Column(Name = "name", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("name")]
-    public string Name { get; private set; }
+    [Column(Name = "last_name", CanBeNull = false, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("last_name")]
+    public string LastName { get; private set; }
 
-    [Column(Name = "hepburn", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("hepburn")]
-    public string Hepburn { get; private set; }
+    [Column(Name = "first_name", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("first_name")]
+    public string FirstName { get; private set; }
+
+    [Column(Name = "last_name_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("last_name_kana")]
+    public string LastNameKana { get; private set; }
+
+    [Column(Name = "first_name_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("first_name_kana")]
+    public string FirstNameKana { get; private set; }
+
+    [Column(Name = "last_name_romaji", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("last_name_romaji")]
+    public string LastNameRomaji { get; private set; }
+
+    [Column(Name = "first_name_romaji", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("first_name_romaji")]
+    public string FirstNameRomaji { get; private set; }
+
+    [JsonIgnore]
+    public string Name => LastName + " " + FirstName;
+
+    [JsonIgnore]
+    public string NameKana => LastNameKana + " " + FirstNameKana;
+
+    [JsonIgnore]
+    public string NameRomaji => LastNameRomaji + " " + FirstNameRomaji;
 
     [Column(Name = "nickname", CanBeNull = true, DbType = "VARCHAR(MAX)")]
     [JsonProperty("nickname")]
@@ -161,9 +186,15 @@ namespace SeiyuuDB.Entities {
     }
 
     public Actor() { }
-    public Actor(string name, string hepburn, string nickname, Gender? gender, DateTime? birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse, Company agency, string picture_uri, DateTime created_at, DateTime updated_at) {
-      Name = name;
-      Hepburn = hepburn;
+    public Actor(string last_name, string first_name, string last_name_kana, string first_name_kana, string last_name_romaji, string first_name_romaji,
+      string nickname, Gender? gender, DateTime? birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse,
+      Company agency, string picture_uri, DateTime created_at, DateTime updated_at) {
+      LastName = last_name;
+      FirstName = first_name;
+      LastNameKana = last_name_kana;
+      FirstNameKana = first_name_kana;
+      LastNameRomaji = last_name_romaji;
+      FirstNameRomaji = first_name_romaji;
       Nickname = nickname;
       Gender = gender;
       Birthdate = birthdate;
@@ -184,8 +215,12 @@ namespace SeiyuuDB.Entities {
     /// </summary>
     /// <param name="entity">Entity</param>
     public void Replace(Actor entity) {
-      Name = entity.Name;
-      Hepburn = entity.Hepburn;
+      LastName = entity.LastName;
+      FirstName = entity.FirstName;
+      LastNameKana = entity.LastNameKana;
+      FirstNameKana = entity.FirstNameKana;
+      LastNameRomaji = entity.LastNameRomaji;
+      FirstNameRomaji = entity.FirstNameRomaji;
       Nickname = entity.Nickname;
       Gender = entity.Gender;
       Birthdate = entity.Birthdate;
@@ -227,7 +262,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, Hepburn: {Hepburn ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate?.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUri: {PictureUri ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate?.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUri: {PictureUri ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }
