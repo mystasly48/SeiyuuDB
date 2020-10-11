@@ -158,7 +158,8 @@ namespace SeiyuuDB.Databases {
 
     public int Delete<T>(T entity) where T : class, ISeiyuuEntity<T> {
       if (typeof(T) == typeof(Actor) || typeof(T) == typeof(Anime) || typeof(T) == typeof(Company) || typeof(T) == typeof(Radio)) {
-        throw new NotImplementedException("The entity can be referred by another table, it may cause an error so you can't delete it now. We will implement the feature ASAP.");
+        //throw new NotImplementedException("The entity can be referred by another table, it may cause an error so you can't delete it now. We will implement the feature ASAP.");
+        return -1;
       }
 
       var del = GetEntity<T>(entity);
