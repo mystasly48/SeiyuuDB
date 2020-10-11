@@ -5,6 +5,7 @@ using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 
 namespace SeiyuuDB.Databases {
   public class LocalSqlite : ISeiyuuDB, IDisposable {
@@ -94,30 +95,35 @@ namespace SeiyuuDB.Databases {
     public T[] GetTableArray<T>() where T : class, ISeiyuuEntity<T> {
       object[] obj = null;
       if (typeof(T) == typeof(Actor)) {
-        //obj = _actorTable
-        //  .Join(_companyTable, x => x.AgencyId, y => y.Id, (x, y) => new { Actor = x, Agency = y })
-        //  .ToArray()
-        //  .Select(x => new Actor(x.Actor, x.Agency))
-        //  .ToArray();
-        obj =
-          (from x in _actorTable
-           join y in _companyTable
-           on new { x.AgencyId } equals new { AgencyId = (int?)y.Id } into res
-           from p in res.DefaultIfEmpty()
-           select new { Actor = x, Agency = p })
-          .ToArray()
-          .Select(x => new Actor(x.Actor, x.Agency))
-          .ToArray();
+        var query =
+          from x in _actorTable
+          join y in _companyTable
+          on new { x.AgencyId } equals new { AgencyId = (int?)y.Id } into res
+          from y in res.DefaultIfEmpty()
+          select new { Actor = x, Agency = y };
+        obj = query.ToArray().Select(x => new Actor(x.Actor, x.Agency)).ToArray();
       } else if (typeof(T) == typeof(Anime)) {
         obj = _animeTable.ToArray();
       } else if (typeof(T) == typeof(AnimeFilmography)) {
-        obj = _animeFilmographyTable
-          .Join(_actorTable, x => x.ActorId, y => y.Id, (x, y) => new { AnimeFilm = x, Actor = y })
-          .Join(_companyTable, x => x.Actor.AgencyId, y => y.Id, (x, y) => new { x.AnimeFilm, x.Actor, Agency = y })
-          .Join(_animeTable, x => x.AnimeFilm.AnimeId, y => y.Id, (x, y) => new { x.AnimeFilm, x.Actor, x.Agency, Anime = y })
-          .ToArray()
-          .Select(x => new AnimeFilmography(x.AnimeFilm, new Actor(x.Actor, x.Agency), x.Anime))
-          .ToArray();
+        var query1 =
+          from x in _animeFilmographyTable
+          join y in _actorTable
+          on new { x.ActorId } equals new { ActorId = y.Id } into res
+          from y in res.DefaultIfEmpty()
+          select new { AnimeFilm = x, Actor = y };
+        var query2 =
+          from x in query1
+          join y in _companyTable
+          on new { x.Actor.AgencyId } equals new { AgencyId = (int?)y.Id } into res
+          from y in res.DefaultIfEmpty()
+          select new { x.AnimeFilm, x.Actor, Agency = y };
+        var query3 =
+          from x in query2
+          join y in _animeTable
+          on new { x.AnimeFilm.AnimeId } equals new { AnimeId = y.Id } into res
+          from y in res.DefaultIfEmpty()
+          select new { x.AnimeFilm, x.Actor, x.Agency, Anime = y };
+        obj = query3.ToArray().Select(x => new AnimeFilmography(x.AnimeFilm, new Actor(x.Actor, x.Agency), x.Anime)).ToArray();
       } else if (typeof(T) == typeof(Game)) {
         obj = _gameTable.ToArray();
       } else if (typeof(T) == typeof(GameFilmography)) {
