@@ -5,7 +5,22 @@ using System.Data.Linq.Mapping;
 namespace SeiyuuDB.Entities {
   [Table(Name = "AnimeFilmography")]
   [JsonObject("AnimeFilmography")]
-  public sealed class AnimeFilmography : SeiyuuBaseEntity<AnimeFilmography> {
+  public sealed class AnimeFilmography : ISeiyuuEntity<AnimeFilmography> {
+    [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
+    [JsonIgnore]
+    public int Id { get; set; } = -1;
+
+    // For CosmosDB
+    //[JsonProperty("id")]
+    //private string _idString {
+    //  get {
+    //    return Id.ToString();
+    //  }
+    //  set {
+    //    Id = int.Parse(value);
+    //  }
+    //}
+
     [Column(Name = "role", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("role")]
     public string Role { get; private set; }
@@ -42,6 +57,34 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public Anime Anime { get; private set; }
 
+    [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("created_at")]
+    private string _createdAt;
+
+    [JsonIgnore]
+    public DateTime CreatedAt {
+      get {
+        return DateTime.Parse(_createdAt);
+      }
+      private set {
+        _createdAt = value.ToString();
+      }
+    }
+
+    [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("updated_at")]
+    private string _updatedAt;
+
+    [JsonIgnore]
+    public DateTime UpdatedAt {
+      get {
+        return DateTime.Parse(_updatedAt);
+      }
+      set {
+        _updatedAt = value.ToString();
+      }
+    }
+
     public AnimeFilmography() { }
 
     public AnimeFilmography(string role, bool is_main_role, Actor actor, Anime anime, DateTime created_at, DateTime updated_at) {
@@ -59,7 +102,7 @@ namespace SeiyuuDB.Entities {
       Id = film.Id;
     }
 
-    public override void Replace(AnimeFilmography entity) {
+    public void Replace(AnimeFilmography entity) {
       Role = entity.Role;
       IsMainRole = entity.IsMainRole;
       ActorId = entity.ActorId;
@@ -68,11 +111,11 @@ namespace SeiyuuDB.Entities {
       Anime = entity.Anime;
     }
 
-    public override bool IsReadyEntity() {
+    public bool IsReadyEntity() {
       return IsReadyEntityWithoutId() && Id != -1;
     }
 
-    public override bool IsReadyEntityWithoutId() {
+    public bool IsReadyEntityWithoutId() {
       return Role != null;
     }
 

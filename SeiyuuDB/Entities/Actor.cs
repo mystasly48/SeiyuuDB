@@ -5,7 +5,22 @@ using System.Data.Linq.Mapping;
 namespace SeiyuuDB.Entities {
   [Table(Name = "Actor")]
   [JsonObject("Actor")]
-  public sealed class Actor : SeiyuuBaseEntity<Actor> {
+  public sealed class Actor : ISeiyuuEntity<Actor> {
+    [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
+    [JsonIgnore]
+    public int Id { get; set; } = -1;
+    
+    // For CosmosDB
+    //[JsonProperty("id")]
+    //private string _idString {
+    //  get {
+    //    return Id.ToString();
+    //  }
+    //  set {
+    //    Id = int.Parse(value);
+    //  }
+    //}
+
     [Column(Name = "name", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("name")]
     public string Name { get; private set; }
@@ -119,6 +134,34 @@ namespace SeiyuuDB.Entities {
     [JsonProperty("picture_uri")]
     public string PictureUri { get; private set; }
 
+    [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("created_at")]
+    private string _createdAt;
+
+    [JsonIgnore]
+    public DateTime CreatedAt {
+      get {
+        return DateTime.Parse(_createdAt);
+      }
+      private set {
+        _createdAt = value.ToString();
+      }
+    }
+
+    [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("updated_at")]
+    private string _updatedAt;
+
+    [JsonIgnore]
+    public DateTime UpdatedAt {
+      get {
+        return DateTime.Parse(_updatedAt);
+      }
+      set {
+        _updatedAt = value.ToString();
+      }
+    }
+
     public Actor() { }
 
     public Actor(string name, string hepburn, string nickname, Gender? gender, DateTime? birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse, Company agency, string picture_uri, DateTime created_at, DateTime updated_at) {
@@ -147,7 +190,7 @@ namespace SeiyuuDB.Entities {
     /// Replace all of the properties to the entity provided excluding Id, CreatedAt, and UpdatedAt.
     /// </summary>
     /// <param name="entity">Entity</param>
-    public override void Replace(Actor entity) {
+    public void Replace(Actor entity) {
       Name = entity.Name;
       Hepburn = entity.Hepburn;
       Nickname = entity.Nickname;
@@ -163,11 +206,11 @@ namespace SeiyuuDB.Entities {
       PictureUri = entity.PictureUri;
     }
 
-    public override bool IsReadyEntity() {
+    public bool IsReadyEntity() {
       return IsReadyEntityWithoutId() && Id != -1;
     }
 
-    public override bool IsReadyEntityWithoutId() {
+    public bool IsReadyEntityWithoutId() {
       return Name != null;
     }
 
