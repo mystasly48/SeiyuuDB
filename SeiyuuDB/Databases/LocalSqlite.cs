@@ -5,7 +5,6 @@ using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Runtime.CompilerServices;
 
 namespace SeiyuuDB.Databases {
   public class LocalSqlite : ISeiyuuDB, IDisposable {
@@ -95,76 +94,25 @@ namespace SeiyuuDB.Databases {
     public T[] GetTableArray<T>() where T : class, ISeiyuuEntity<T> {
       object[] obj = null;
       if (typeof(T) == typeof(Actor)) {
-        var query =
-          from x in _actorTable
-          join y in _companyTable
-          on new { x.AgencyId } equals new { AgencyId = (int?)y.Id } into res
-          from y in res.DefaultIfEmpty()
-          select new { Actor = x, Agency = y };
-        obj = query.ToArray().Select(x => new Actor(x.Actor, x.Agency)).ToArray();
+        obj = _actorTable.ToArray();
       } else if (typeof(T) == typeof(Anime)) {
         obj = _animeTable.ToArray();
       } else if (typeof(T) == typeof(AnimeFilmography)) {
-        var query1 =
-          from x in _animeFilmographyTable
-          join y in _actorTable
-          on new { x.ActorId } equals new { ActorId = y.Id } into res
-          from y in res.DefaultIfEmpty()
-          select new { AnimeFilm = x, Actor = y };
-        var query2 =
-          from x in query1
-          join y in _companyTable
-          on new { x.Actor.AgencyId } equals new { AgencyId = (int?)y.Id } into res
-          from y in res.DefaultIfEmpty()
-          select new { x.AnimeFilm, x.Actor, Agency = y };
-        var query3 =
-          from x in query2
-          join y in _animeTable
-          on new { x.AnimeFilm.AnimeId } equals new { AnimeId = y.Id } into res
-          from y in res.DefaultIfEmpty()
-          select new { x.AnimeFilm, x.Actor, x.Agency, Anime = y };
-        obj = query3.ToArray().Select(x => new AnimeFilmography(x.AnimeFilm, new Actor(x.Actor, x.Agency), x.Anime)).ToArray();
+        obj = _animeFilmographyTable.ToArray();
       } else if (typeof(T) == typeof(Game)) {
         obj = _gameTable.ToArray();
       } else if (typeof(T) == typeof(GameFilmography)) {
-        obj = _gameFilmographyTable
-          .Join(_actorTable, a => a.ActorId, b => b.Id, (a, b) => new { a, b })
-          .Join(_companyTable, a => a.b.AgencyId, c => c.Id, (a, c) => new { a.a, a.b, c })
-          .Join(_gameTable, a => a.a.GameId, d => d.Id, (a, d) => new { a.a, a.b, a.c, d })
-          .ToArray()
-          .Select(x => new GameFilmography(x.a, new Actor(x.b, x.c), x.d))
-          .ToArray();
+        obj = _gameFilmographyTable.ToArray();
       } else if (typeof(T) == typeof(Radio)) {
-        obj = _radioTable
-          .Join(_companyTable, x => x.StationId, y => y.Id, (x, y) => new { x, y })
-          .ToArray()
-          .Select(x => new Radio(x.x, x.y))
-          .ToArray();
+        obj = _radioTable.ToArray();
       } else if (typeof(T) == typeof(RadioFilmography)) {
-        obj = _radioFilmographyTable
-          .Join(_actorTable, a => a.ActorId, b => b.Id, (a, b) => new { a, b })
-          .Join(_radioTable, a => a.a.RadioId, c => c.Id, (a, c) => new { a.a, a.b, c })
-          .Join(_companyTable, a => a.b.AgencyId, d => d.Id, (a, d) => new { a.a, a.b, a.c, d })
-          .Join(_companyTable, a => a.c.StationId, e => e.Id, (a, e) => new { a.a, a.b, a.c, a.d, e })
-          .ToArray()
-          .Select(x => new RadioFilmography(x.a, new Actor(x.b, x.d), new Radio(x.c, x.e)))
-          .ToArray();
+        obj = _radioFilmographyTable.ToArray();
       } else if (typeof(T) == typeof(Company)) {
         obj = _companyTable.ToArray();
       } else if (typeof(T) == typeof(ExternalLink)) {
-        obj = _externalLinkTable
-          .Join(_actorTable, a => a.ActorId, b => b.Id, (a, b) => new { a, b })
-          .Join(_companyTable, a => a.b.AgencyId, c => c.Id, (a, c) => new { a.a, a.b, c })
-          .ToArray()
-          .Select(x => new ExternalLink(x.a, new Actor(x.b, x.c)))
-          .ToArray();
+        obj = _externalLinkTable.ToArray();
       } else if (typeof(T) == typeof(Note)) {
-        obj = _noteTable
-          .Join(_actorTable, a => a.ActorId, b => b.Id, (a, b) => new { a, b })
-          .Join(_companyTable, a => a.b.AgencyId, c => c.Id, (a, c) => new { a.a, a.b, c })
-          .ToArray()
-          .Select(x => new Note(x.a, new Actor(x.b, x.c)))
-          .ToArray();
+        obj = _noteTable.ToArray();
       }
       return obj as T[];
     }
