@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
@@ -25,15 +26,25 @@ namespace SeiyuuDB.Entities {
     [JsonProperty("actor_id")]
     public int ActorId { get; private set; }
 
+    private EntityRef<Actor> _actor;
+    [Association(Storage = "_actor", ThisKey = "ActorId", IsForeignKey = true)]
     [JsonIgnore]
-    public Actor Actor { get; private set; }
+    public Actor Actor {
+      get { return _actor.Entity; }
+      private set { _actor.Entity = value; }
+    }
 
     [Column(Name = "radio_id", CanBeNull = false, DbType = "INT")]
     [JsonProperty("radio_id")]
     public int RadioId { get; private set; }
 
+    private EntityRef<Radio> _radio;
+    [Association(Storage = "_radio", ThisKey = "RadioId", IsForeignKey = true)]
     [JsonIgnore]
-    public Radio Radio { get; private set; }
+    public Radio Radio {
+      get { return _radio.Entity; }
+      private set { _radio.Entity = value; }
+    }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("created_at")]
@@ -64,7 +75,6 @@ namespace SeiyuuDB.Entities {
     }
 
     public RadioFilmography() { }
-
     public RadioFilmography(Actor actor, Radio radio, DateTime created_at, DateTime updated_at) {
       ActorId = actor.Id;
       Actor = actor;
@@ -72,10 +82,6 @@ namespace SeiyuuDB.Entities {
       Radio = radio;
       CreatedAt = created_at;
       UpdatedAt = updated_at;
-    }
-
-    public RadioFilmography(RadioFilmography film, Actor actor, Radio radio) : this(actor, radio, film.CreatedAt, film.UpdatedAt) {
-      Id = film.Id;
     }
 
     public void Replace(RadioFilmography entity) {

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
@@ -127,8 +128,13 @@ namespace SeiyuuDB.Entities {
     [JsonProperty("agency_id")]
     public int? AgencyId { get; private set; }
 
+    private EntityRef<Company> _agency;
+    [Association(Storage = "_agency", ThisKey = "AgencyId", IsForeignKey = true)]
     [JsonIgnore]
-    public Company Agency { get; private set; }
+    public Company Agency {
+      get { return _agency.Entity; }
+      private set { _agency.Entity = value; }
+    }
 
     [Column(Name = "picture_uri", CanBeNull = true, DbType = "VARCHAR(MAX)")]
     [JsonProperty("picture_uri")]
@@ -163,7 +169,6 @@ namespace SeiyuuDB.Entities {
     }
 
     public Actor() { }
-
     public Actor(string name, string hepburn, string nickname, Gender? gender, DateTime? birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse, Company agency, string picture_uri, DateTime created_at, DateTime updated_at) {
       Name = name;
       Hepburn = hepburn;
@@ -180,10 +185,6 @@ namespace SeiyuuDB.Entities {
       PictureUri = picture_uri;
       CreatedAt = created_at;
       UpdatedAt = updated_at;
-    }
-
-    public Actor(Actor actor, Company agency) : this(actor.Name, actor.Hepburn, actor.Nickname, actor.Gender, actor.Birthdate, actor.BloodType, actor.Height, actor.Hometown, actor.Debut, actor.Spouse, agency, actor.PictureUri, actor.CreatedAt, actor.UpdatedAt) {
-      Id = actor.Id;
     }
 
     /// <summary>

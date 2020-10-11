@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
@@ -33,8 +34,13 @@ namespace SeiyuuDB.Entities {
     [JsonProperty("actor_id")]
     public int ActorId { get; private set; }
 
+    private EntityRef<Actor> _actor;
+    [Association(Storage = "_actor", ThisKey = "ActorId", IsForeignKey = true)]
     [JsonIgnore]
-    public Actor Actor { get; private set; }
+    public Actor Actor {
+      get { return _actor.Entity; }
+      private set { _actor.Entity = value; }
+    }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("created_at")]
@@ -65,15 +71,6 @@ namespace SeiyuuDB.Entities {
     }
 
     public Note() { }
-
-    public Note(string title, Actor actor, DateTime created_at, DateTime updated_at) {
-      Title = title;
-      ActorId = actor.Id;
-      Actor = actor;
-      CreatedAt = created_at;
-      UpdatedAt = updated_at;
-    }
-
     public Note(string title, string content, Actor actor, DateTime created_at, DateTime updated_at) {
       Title = title;
       Content = content;
@@ -81,10 +78,6 @@ namespace SeiyuuDB.Entities {
       Actor = actor;
       CreatedAt = created_at;
       UpdatedAt = updated_at;
-    }
-
-    public Note(Note note, Actor actor) : this(note.Title, note.Content, actor, note.CreatedAt, note.UpdatedAt) {
-      Id = note.Id;
     }
 
     public void Replace(Note entity) {

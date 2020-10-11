@@ -72,7 +72,6 @@ namespace SeiyuuDB.Entities {
     }
 
     public Company() { }
-
     public Company(string name, CompanyType company_type, string url, DateTime created_at, DateTime updated_at) {
       Name = name;
       CompanyType = company_type;

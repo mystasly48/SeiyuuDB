@@ -34,8 +34,13 @@ namespace SeiyuuDB.Entities {
     [JsonProperty("actor_id")]
     public int ActorId { get; private set; }
 
+    private EntityRef<Actor> _actor;
+    [Association(Storage = "_actor", ThisKey = "ActorId", IsForeignKey = true)]
     [JsonIgnore]
-    public Actor Actor { get; private set; }
+    public Actor Actor {
+      get { return _actor.Entity; }
+      private set { _actor.Entity = value; }
+    }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("created_at")]
@@ -66,7 +71,6 @@ namespace SeiyuuDB.Entities {
     }
 
     public ExternalLink() { }
-
     public ExternalLink(string title, Actor actor, string url, DateTime created_at, DateTime updated_at) {
       Title = title;
       ActorId = actor.Id;
@@ -75,11 +79,7 @@ namespace SeiyuuDB.Entities {
       CreatedAt = created_at;
       UpdatedAt = updated_at;
     }
-
-    public ExternalLink(ExternalLink link, Actor actor) : this(link.Title, actor, link.Url, link.CreatedAt, link.UpdatedAt) {
-      Id = link.Id;
-    }
-
+    
     public void Replace(ExternalLink entity) {
       Title = entity.Title;
       ActorId = entity.ActorId;

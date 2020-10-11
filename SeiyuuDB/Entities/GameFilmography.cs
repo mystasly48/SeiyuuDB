@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
@@ -47,15 +48,25 @@ namespace SeiyuuDB.Entities {
     [JsonProperty("actor_id")]
     public int ActorId { get; private set; }
 
+    private EntityRef<Actor> _actor;
+    [Association(Storage = "_actor", ThisKey = "ActorId", IsForeignKey = true)]
     [JsonIgnore]
-    public Actor Actor { get; private set; }
+    public Actor Actor {
+      get { return _actor.Entity; }
+      private set { _actor.Entity = value; }
+    }
 
     [Column(Name = "game_id", CanBeNull = false, DbType = "INT")]
     [JsonProperty("game_id")]
     public int GameId { get; private set; }
 
+    private EntityRef<Game> _game;
+    [Association(Storage = "_game", ThisKey = "GameId", IsForeignKey = true)]
     [JsonIgnore]
-    public Game Game { get; private set; }
+    public Game Game {
+      get { return _game.Entity; }
+      private set { _game.Entity = value; }
+    }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("created_at")]
@@ -86,7 +97,6 @@ namespace SeiyuuDB.Entities {
     }
 
     public GameFilmography() { }
-
     public GameFilmography(string role, bool is_main_role, Actor actor, Game game, DateTime created_at, DateTime updated_at) {
       Role = role;
       IsMainRole = is_main_role;
@@ -96,10 +106,6 @@ namespace SeiyuuDB.Entities {
       Game = game;
       CreatedAt = created_at;
       UpdatedAt = updated_at;
-    }
-
-    public GameFilmography(GameFilmography film, Actor actor, Game game) : this(film.Role, film.IsMainRole, actor, game, film.CreatedAt, film.UpdatedAt) {
-      Id = film.Id;
     }
 
     public void Replace(GameFilmography entity) {

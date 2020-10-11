@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
@@ -28,8 +29,13 @@ namespace SeiyuuDB.Entities {
     [JsonProperty("station_id")]
     public int? StationId { get; private set; }
 
+    private EntityRef<Company> _station;
+    [Association(Storage = "_station", ThisKey = "StationId", IsForeignKey = true)]
     [JsonIgnore]
-    public Company Station { get; private set; }
+    public Company Station {
+      get { return _station.Entity; }
+      private set { _station.Entity = value; }
+    }
 
     [Column(Name = "since", CanBeNull = true, DbType = "VARCHAR(MAX)")]
     [JsonProperty("since")]
@@ -108,7 +114,6 @@ namespace SeiyuuDB.Entities {
     }
 
     public Radio() { }
-
     public Radio(string title, Company station, DateTime? since, DateTime? until, string url, DateTime created_at, DateTime updated_at) {
       Title = title;
       StationId= station.Id;
@@ -118,10 +123,6 @@ namespace SeiyuuDB.Entities {
       Url = url;
       CreatedAt = created_at;
       UpdatedAt = updated_at;
-    }
-
-    public Radio(Radio radio, Company station) : this(radio.Title, station, radio.Since, radio.Until, radio.Url, radio.CreatedAt, radio.UpdatedAt) {
-      Id = radio.Id;
     }
 
     public void Replace(Radio entity) {
