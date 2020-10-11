@@ -48,12 +48,8 @@ namespace SeiyuuDB.Entities {
 
     [JsonIgnore]
     public DateTime CreatedAt {
-      get {
-        return DateTime.Parse(_createdAt);
-      }
-      private set {
-        _createdAt = value.ToString();
-      }
+      get { return DateTime.Parse(_createdAt); }
+      private set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
@@ -62,12 +58,8 @@ namespace SeiyuuDB.Entities {
 
     [JsonIgnore]
     public DateTime UpdatedAt {
-      get {
-        return DateTime.Parse(_updatedAt);
-      }
-      set {
-        _updatedAt = value.ToString();
-      }
+      get { return DateTime.Parse(_updatedAt); }
+      set { _updatedAt = value.ToString(); }
     }
 
     public ExternalLink() { }
