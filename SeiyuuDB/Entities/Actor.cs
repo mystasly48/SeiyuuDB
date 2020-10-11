@@ -111,6 +111,15 @@ namespace SeiyuuDB.Entities {
       }
     }
 
+    [JsonIgnore]
+    public string BirthdateString {
+      get {
+        return Birthdate.HasValue
+          ? (Birthdate.Value.Year == 1 ? Birthdate.Value.ToString(" M月 d日") : Birthdate.Value.ToString("yyyy年 M月 d日"))
+          : null;
+      }
+    }
+
     [Column(Name = "blood_type_id", CanBeNull = true, DbType = "INT")]
     [JsonProperty("blood_type_id")]
     private int? _bloodTypeId;
