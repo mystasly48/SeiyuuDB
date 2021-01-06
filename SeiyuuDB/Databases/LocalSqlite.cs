@@ -136,6 +136,8 @@ namespace SeiyuuDB.Databases {
       if (!entity.IsReadyEntity()) {
         entity.Id = GetNextId<T>();
       }
+      entity.CreatedAt = DateTime.Now;
+      entity.UpdatedAt = entity.CreatedAt;
       GetTable<T>().InsertOnSubmit(entity);
       _context.SubmitChanges();
       return entity.Id;
