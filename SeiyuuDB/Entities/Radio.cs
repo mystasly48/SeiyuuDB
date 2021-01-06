@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SeiyuuDB.Helpers;
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
@@ -92,7 +93,7 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
-      private set { _createdAt = value.ToString(); }
+      set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
@@ -106,15 +107,13 @@ namespace SeiyuuDB.Entities {
     }
 
     public Radio() { }
-    public Radio(string title, Company station, DateTime? since, DateTime? until, string url, DateTime created_at, DateTime updated_at) {
+    public Radio(string title, Company station, DateTime? since, DateTime? until, string url) {
       Title = title;
       StationId= station.Id;
       Station = station;
       Since = since;
       Until = until;
       Url = url;
-      CreatedAt = created_at;
-      UpdatedAt = updated_at;
     }
 
     public void Replace(Radio entity) {
@@ -155,6 +154,10 @@ namespace SeiyuuDB.Entities {
 
     public override string ToString() {
       return $"Id: {Id}, Title: {Title}, Station: ({Station?.ToString() ?? "NULL"}), Since: {Since?.ToString() ?? "NULL"}, Until: {Until?.ToString() ?? "NULL"}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+    }
+
+    public bool Contains(string value) {
+      return Title.ContainsOriginally(value) || Station.Contains(value);
     }
   }
 }

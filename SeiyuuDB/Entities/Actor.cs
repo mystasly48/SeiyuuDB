@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SeiyuuDB.Helpers;
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
@@ -50,10 +51,19 @@ namespace SeiyuuDB.Entities {
     public string Name => LastName + " " + FirstName;
 
     [JsonIgnore]
+    public string ShortName => LastName + FirstName;
+
+    [JsonIgnore]
     public string NameKana => LastNameKana + " " + FirstNameKana;
 
     [JsonIgnore]
+    public string ShortNameKana => LastNameKana + FirstNameKana;
+
+    [JsonIgnore]
     public string NameRomaji => LastNameRomaji + " " + FirstNameRomaji;
+
+    [JsonIgnore]
+    public string ShortNameRomaji => LastNameRomaji + FirstNameRomaji;
 
     [Column(Name = "nickname", CanBeNull = true, DbType = "VARCHAR(MAX)")]
     [JsonProperty("nickname")]
@@ -114,9 +124,24 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public string BirthdateString {
       get {
-        return Birthdate.HasValue
-          ? (Birthdate.Value.Year == 1 ? Birthdate.Value.ToString(" M月 d日") : Birthdate.Value.ToString("yyyy年 M月 d日"))
-          : null;
+        if (Birthdate.HasValue) {
+          if (Birthdate.Value.Year == 1) {
+            return BirthdayString;
+          } else {
+            return Birthdate.Value.ToString("yyyy年") + BirthdayString;
+          }
+        } else {
+          return null;
+        }
+      }
+    }
+
+    [JsonIgnore]
+    public string BirthdayString {
+      get {
+        string month = Birthdate.Value.Month.ToString().PadLeft(2, ' ');
+        string day = Birthdate.Value.Day.ToString().PadLeft(2, ' ');
+        return $"{month}月{day}日";
       }
     }
 
@@ -181,7 +206,7 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
-      private set { _createdAt = value.ToString(); }
+      set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
@@ -197,7 +222,7 @@ namespace SeiyuuDB.Entities {
     public Actor() { }
     public Actor(string last_name, string first_name, string last_name_kana, string first_name_kana, string last_name_romaji, string first_name_romaji,
       string nickname, Gender? gender, DateTime? birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse,
-      Company agency, string picture_uri, DateTime created_at, DateTime updated_at) {
+      Company agency, string picture_uri) {
       LastName = last_name;
       FirstName = first_name;
       LastNameKana = last_name_kana;
@@ -215,8 +240,6 @@ namespace SeiyuuDB.Entities {
       Agency = agency;
       AgencyId = agency?.Id;
       PictureUri = picture_uri;
-      CreatedAt = created_at;
-      UpdatedAt = updated_at;
     }
 
     /// <summary>
@@ -272,6 +295,21 @@ namespace SeiyuuDB.Entities {
 
     public override string ToString() {
       return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate?.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUri: {PictureUri ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+    }
+
+    public bool Contains(string value) {
+      return Name.ContainsOriginally(value) ||
+        NameKana.ContainsOriginally(value) ||
+        NameRomaji.ContainsOriginally(value) ||
+        Nickname.ContainsOriginally(value) ||
+        EnumHelper.DisplayName(Gender).ContainsOriginally(value) ||
+        BirthdateString.ContainsOriginally(value) ||
+        EnumHelper.DisplayName(BloodType).ContainsOriginally(value) ||
+        Height.ContainsOriginally(value) ||
+        Hometown.ContainsOriginally(value) ||
+        Debut.ContainsOriginally(value) ||
+        Spouse.ContainsOriginally(value) ||
+        (Agency?.Contains(value) ?? false);
     }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SeiyuuDB.Helpers;
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
@@ -75,7 +76,7 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
-      private set { _createdAt = value.ToString(); }
+      set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
@@ -89,15 +90,13 @@ namespace SeiyuuDB.Entities {
     }
 
     public AnimeFilmography() { }
-    public AnimeFilmography(string role, bool is_main_role, Actor actor, Anime anime, DateTime created_at, DateTime updated_at) {
+    public AnimeFilmography(string role, bool is_main_role, Actor actor, Anime anime) {
       Role = role;
       IsMainRole = is_main_role;
       ActorId = actor.Id;
       Actor = actor;
       AnimeId = anime.Id;
       Anime = anime;
-      CreatedAt = created_at;
-      UpdatedAt = updated_at;
     }
 
     public void Replace(AnimeFilmography entity) {
@@ -138,6 +137,10 @@ namespace SeiyuuDB.Entities {
 
     public override string ToString() {
       return $"Id: {Id}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), Anime: ({Anime}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+    }
+
+    public bool Contains(string value) {
+      return Role.ContainsOriginally(value) || Anime.Contains(value);
     }
   }
 }

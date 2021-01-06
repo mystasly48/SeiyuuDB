@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SeiyuuDB.Helpers;
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
@@ -75,7 +76,7 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
-      private set { _createdAt = value.ToString(); }
+      set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
@@ -89,15 +90,13 @@ namespace SeiyuuDB.Entities {
     }
 
     public GameFilmography() { }
-    public GameFilmography(string role, bool is_main_role, Actor actor, Game game, DateTime created_at, DateTime updated_at) {
+    public GameFilmography(string role, bool is_main_role, Actor actor, Game game) {
       Role = role;
       IsMainRole = is_main_role;
       ActorId = actor.Id;
       Actor = actor;
       GameId = game.Id;
       Game = game;
-      CreatedAt = created_at;
-      UpdatedAt = updated_at;
     }
 
     public void Replace(GameFilmography entity) {
@@ -137,7 +136,11 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), Anime: ({Game}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), Game: ({Game}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+    }
+
+    public bool Contains(string value) {
+      return Role.ContainsOriginally(value) || Game.Contains(value);
     }
   }
 }

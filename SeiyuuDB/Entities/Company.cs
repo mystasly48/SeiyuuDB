@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SeiyuuDB.Helpers;
 using System;
 using System.Data.Linq.Mapping;
 
@@ -50,7 +51,7 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
-      private set { _createdAt = value.ToString(); }
+      set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
@@ -64,12 +65,10 @@ namespace SeiyuuDB.Entities {
     }
 
     public Company() { }
-    public Company(string name, CompanyType company_type, string url, DateTime created_at, DateTime updated_at) {
+    public Company(string name, CompanyType company_type, string url) {
       Name = name;
       CompanyType = company_type;
       Url = url;
-      CreatedAt = created_at;
-      UpdatedAt = updated_at;
     }
 
     public void Replace(Company entity) {
@@ -107,6 +106,10 @@ namespace SeiyuuDB.Entities {
 
     public override string ToString() {
       return $"Id: {Id}, Name: {Name}, CompanyType: {CompanyType}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+    }
+
+    public bool Contains(string value) {
+      return Name.ContainsOriginally(value);
     }
   }
 }

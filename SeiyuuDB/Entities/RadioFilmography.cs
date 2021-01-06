@@ -53,7 +53,7 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
-      private set { _createdAt = value.ToString(); }
+      set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
@@ -67,13 +67,11 @@ namespace SeiyuuDB.Entities {
     }
 
     public RadioFilmography() { }
-    public RadioFilmography(Actor actor, Radio radio, DateTime created_at, DateTime updated_at) {
+    public RadioFilmography(Actor actor, Radio radio) {
       ActorId = actor.Id;
       Actor = actor;
       RadioId = radio.Id;
       Radio = radio;
-      CreatedAt = created_at;
-      UpdatedAt = updated_at;
     }
 
     public void Replace(RadioFilmography entity) {
@@ -112,6 +110,10 @@ namespace SeiyuuDB.Entities {
 
     public override string ToString() {
       return $"Id: {Id}, Actor: ({Actor}), Radio: ({Radio}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+    }
+
+    public bool Contains(string value) {
+      return Radio.Contains(value);
     }
   }
 }

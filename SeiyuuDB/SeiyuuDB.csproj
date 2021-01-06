@@ -62,6 +62,8 @@
     <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\Radio.cs" />
     <Compile Include="Entities\RadioFilmography.cs" />
+    <Compile Include="Helpers\kanaxs.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
