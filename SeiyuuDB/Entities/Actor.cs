@@ -219,10 +219,52 @@ namespace SeiyuuDB.Entities {
       set { _updatedAt = value.ToString(); }
     }
 
-    public Actor() { }
+    private EntitySet<AnimeFilmography> _animeFilmographies;
+    [Association(OtherKey = "ActorId", Storage = "_animeFilmographies")]
+    public EntitySet<AnimeFilmography> AnimeFilmographies {
+      get { return _animeFilmographies; }
+      set { _animeFilmographies.Assign(value); }
+    }
+
+    private EntitySet<GameFilmography> _gameFilmographies;
+    [Association(OtherKey = "ActorId", Storage = "_gameFilmographies")]
+    public EntitySet<GameFilmography> GameFilmographies {
+      get { return _gameFilmographies; }
+      set { _gameFilmographies.Assign(value); }
+    }
+
+    private EntitySet<RadioFilmography> _radioFilmographies;
+    [Association(OtherKey = "ActorId", Storage = "_radioFilmographies")]
+    public EntitySet<RadioFilmography> RadioFilmographies {
+      get { return _radioFilmographies; }
+      set { _radioFilmographies.Assign(value); }
+    }
+
+    private EntitySet<ExternalLink> _externalLinks;
+    [Association(OtherKey = "ActorId", Storage = "_externalLinks")]
+    public EntitySet<ExternalLink> ExternalLinks {
+      get { return _externalLinks; }
+      set { _externalLinks.Assign(value); }
+    }
+
+    private EntitySet<Note> _notes;
+    [Association(OtherKey = "ActorId", Storage = "_notes")]
+    public EntitySet<Note> Notes {
+      get { return _notes; }
+      set { _notes.Assign(value); }
+    }
+
+    public Actor() {
+      _animeFilmographies = new EntitySet<AnimeFilmography>();
+      _gameFilmographies = new EntitySet<GameFilmography>();
+      _radioFilmographies = new EntitySet<RadioFilmography>();
+      _externalLinks = new EntitySet<ExternalLink>();
+      _notes = new EntitySet<Note>();
+    }
+
     public Actor(string last_name, string first_name, string last_name_kana, string first_name_kana, string last_name_romaji, string first_name_romaji,
       string nickname, Gender? gender, DateTime? birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse,
-      Company agency, string picture_uri) {
+      Company agency, string picture_uri) : this() {
       LastName = last_name;
       FirstName = first_name;
       LastNameKana = last_name_kana;

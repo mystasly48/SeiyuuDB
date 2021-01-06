@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SeiyuuDB.Helpers;
 using System;
+using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
@@ -64,8 +65,26 @@ namespace SeiyuuDB.Entities {
       set { _updatedAt = value.ToString(); }
     }
 
-    public Company() { }
-    public Company(string name, CompanyType company_type, string url) {
+    private EntitySet<Actor> _actors;
+    [Association(OtherKey = "AgencyId", Storage = "_actors")]
+    public EntitySet<Actor> Actors {
+      get { return _actors; }
+      set { _actors.Assign(value); }
+    }
+
+    private EntitySet<Radio> _radios;
+    [Association(OtherKey = "StationId", Storage = "_radios")]
+    public EntitySet<Radio> Radios {
+      get { return _radios; }
+      set { _radios.Assign(value); }
+    }
+
+    public Company() {
+      _actors = new EntitySet<Actor>();
+      _radios = new EntitySet<Radio>();
+    }
+
+    public Company(string name, CompanyType company_type, string url) : this() {
       Name = name;
       CompanyType = company_type;
       Url = url;

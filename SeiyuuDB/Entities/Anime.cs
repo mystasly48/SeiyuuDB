@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SeiyuuDB.Helpers;
 using System;
+using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
@@ -54,8 +55,18 @@ namespace SeiyuuDB.Entities {
       set { _updatedAt = value.ToString(); }
     }
 
-    public Anime() { }
-    public Anime(string title, int year, string url) {
+    private EntitySet<AnimeFilmography> _animeFilmographies;
+    [Association(OtherKey = "AnimeId", Storage = "_animeFilmographies")]
+    public EntitySet<AnimeFilmography> AnimeFilmographies {
+      get { return _animeFilmographies; }
+      set { _animeFilmographies.Assign(value); }
+    }
+
+    public Anime() {
+      _animeFilmographies = new EntitySet<AnimeFilmography>();
+    }
+
+    public Anime(string title, int year, string url) : this() {
       Title = title;
       Year = year;
       Url = url;

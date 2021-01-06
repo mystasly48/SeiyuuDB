@@ -106,8 +106,18 @@ namespace SeiyuuDB.Entities {
       set { _updatedAt = value.ToString(); }
     }
 
-    public Radio() { }
-    public Radio(string title, Company station, DateTime? since, DateTime? until, string url) {
+    private EntitySet<RadioFilmography> _radioFilmographies;
+    [Association(OtherKey = "ActorId", Storage = "_radioFilmographies")]
+    public EntitySet<RadioFilmography> RadioFilmographies {
+      get { return _radioFilmographies; }
+      set { _radioFilmographies.Assign(value); }
+    }
+
+    public Radio() {
+      _radioFilmographies = new EntitySet<RadioFilmography>();
+    }
+
+    public Radio(string title, Company station, DateTime? since, DateTime? until, string url) : this() {
       Title = title;
       StationId= station.Id;
       Station = station;
