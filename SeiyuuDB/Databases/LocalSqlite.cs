@@ -182,15 +182,16 @@ namespace SeiyuuDB.Databases {
       if (string.IsNullOrEmpty(picture_url)) {
         return null;
       } else {
-        var client = new WebClient();
-        var uri = new Uri(picture_url);
-        var name = Path.GetFileName(uri.LocalPath);
-        if (string.IsNullOrEmpty(name)) {
-          return null;
+        using (var client = new WebClient()) {
+          var uri = new Uri(picture_url);
+          var name = Path.GetFileName(uri.LocalPath);
+          if (string.IsNullOrEmpty(name)) {
+            return null;
+          }
+          var path = Path.Combine(BlobLocation, name);
+          client.DownloadFile(picture_url, path);
+          return path;
         }
-        var path = Path.Combine(BlobLocation, name);
-        client.DownloadFile(picture_url, path);
-        return path;
       }
     }
   }
