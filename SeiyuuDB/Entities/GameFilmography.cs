@@ -138,9 +138,5 @@ namespace SeiyuuDB.Entities {
     public override string ToString() {
       return $"Id: {Id}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), Game: ({Game}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
-
-    public bool Contains(string value) {
-      return Role.ContainsOriginally(value) || Game.Contains(value);
-    }
   }
 }

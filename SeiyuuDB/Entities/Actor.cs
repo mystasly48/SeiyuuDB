@@ -339,19 +339,19 @@ namespace SeiyuuDB.Entities {
       return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate?.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUri: {PictureUri ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
 
-    public bool Contains(string value) {
-      return Name.ContainsOriginally(value) ||
-        NameKana.ContainsOriginally(value) ||
-        NameRomaji.ContainsOriginally(value) ||
-        Nickname.ContainsOriginally(value) ||
-        EnumHelper.DisplayName(Gender).ContainsOriginally(value) ||
-        BirthdateString.ContainsOriginally(value) ||
-        EnumHelper.DisplayName(BloodType).ContainsOriginally(value) ||
-        Height.ContainsOriginally(value) ||
-        Hometown.ContainsOriginally(value) ||
-        Debut.ContainsOriginally(value) ||
-        Spouse.ContainsOriginally(value) ||
-        (Agency?.Contains(value) ?? false);
-    }
+    //public bool Contains(string value) {
+    //  return Name.ContainsOriginally(value) ||
+    //    NameKana.ContainsOriginally(value) ||
+    //    NameRomaji.ContainsOriginally(value) ||
+    //    Nickname.ContainsOriginally(value) ||
+    //    EnumHelper.DisplayName(Gender).ContainsOriginally(value) ||
+    //    BirthdateString.ContainsOriginally(value) ||
+    //    EnumHelper.DisplayName(BloodType).ContainsOriginally(value) ||
+    //    Height.ContainsOriginally(value) ||
+    //    Hometown.ContainsOriginally(value) ||
+    //    Debut.ContainsOriginally(value) ||
+    //    Spouse.ContainsOriginally(value) ||
+    //    (Agency?.Contains(value) ?? false);
+    //}
   }
 }

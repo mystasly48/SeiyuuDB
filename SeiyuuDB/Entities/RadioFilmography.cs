@@ -111,9 +111,5 @@ namespace SeiyuuDB.Entities {
     public override string ToString() {
       return $"Id: {Id}, Actor: ({Actor}), Radio: ({Radio}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
-
-    public bool Contains(string value) {
-      return Radio.Contains(value);
-    }
   }
 }

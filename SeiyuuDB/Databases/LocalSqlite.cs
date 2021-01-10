@@ -159,5 +159,70 @@ namespace SeiyuuDB.Databases {
         }
       }
     }
+
+    public Actor SearchActor(int actorId) {
+      return _context.Actors.FirstOrDefault(x => x.Id == actorId);
+    }
+
+    public Actor[] SearchActors(string[] keywords) {
+      IEnumerable<Actor> result = null;
+      foreach (var keyword in keywords) {
+        string escaped = EscapedLikeQuery(keyword);
+
+        // TODO もっと
+        var actor = _context.Actors
+          .Where(x => SqlMethods.Like(x.FirstName, escaped)
+          || SqlMethods.Like(x.LastName, escaped)
+          || SqlMethods.Like(x.FirstNameKana, escaped)
+          || SqlMethods.Like(x.LastNameKana, escaped)
+          || SqlMethods.Like(x.FirstNameRomaji, escaped)
+          || SqlMethods.Like(x.LastNameRomaji, escaped)
+          || SqlMethods.Like(x.Nickname, escaped)
+          // Gender
+          // Birthdate
+          // BloodType
+          //|| SqlMethods.Like(SqlFunctions.StringConvert((double)x.Height), escaped)
+          || SqlMethods.Like(x.Hometown, escaped)
+          //|| SqlMethods.Like(SqlFunctions.StringConvert((double)x.Debut), escaped)
+          || SqlMethods.Like(x.Spouse, escaped)
+          || SqlMethods.Like(x.Agency.Name, escaped));
+
+        actor = actor.Union(_context.AnimeFilmographies
+          .Where(x => SqlMethods.Like(x.Role, escaped)
+          || SqlMethods.Like(x.Anime.Title, escaped))
+          .Select(x => x.Actor));
+
+        actor = actor.Union(_context.RadioFilmographies
+          .Where(x => SqlMethods.Like(x.Radio.Title, escaped)
+          || SqlMethods.Like(x.Radio.Station.Name, escaped))
+          .Select(x => x.Actor));
+
+        actor = actor.Union(_context.GameFilmographies
+          .Where(x => SqlMethods.Like(x.Role, escaped)
+          || SqlMethods.Like(x.Game.Title, escaped))
+          .Select(x => x.Actor));
+
+        actor = actor.Union(_context.ExternalLinks
+          .Where(x => SqlMethods.Like(x.Title, escaped))
+          .Select(x => x.Actor));
+
+        actor = actor.Union(_context.Notes
+          .Where(x => SqlMethods.Like(x.Title, escaped)
+          || SqlMethods.Like(x.Content, escaped))
+          .Select(x => x.Actor));
+
+        result = (result == null) ? actor : result.Union(actor);
+      }
+      return result.ToArray();
+    }
+
+    private string EscapedLikeQuery(string originalQuery) {
+      string escaped = originalQuery
+        .Replace("/", "//")
+        .Replace("_", "/_")
+        .Replace("%", "/%")
+        .Replace("[", "/[");
+      return string.Format("%{0}%", escaped);
+    }
   }
 }

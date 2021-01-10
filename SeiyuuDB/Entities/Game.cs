@@ -108,9 +108,5 @@ namespace SeiyuuDB.Entities {
     public override string ToString() {
       return $"Id: {Id}, Title: {Title}, Year: {Year}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
-
-    public bool Contains(string value) {
-      return Title.ContainsOriginally(value);
-    }
   }
 }
