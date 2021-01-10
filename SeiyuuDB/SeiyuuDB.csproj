@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Databases\AzureCosmos.cs" />
+    <Compile Include="Databases\SeiyuuDataContext.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\GameFilmography.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />

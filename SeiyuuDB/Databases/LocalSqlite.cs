@@ -1,6 +1,8 @@
 ﻿using SeiyuuDB.Entities;
 using System;
+using System.Collections.Generic;
 using System.Data.Linq;
+using System.Data.Linq.SqlClient;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
@@ -10,21 +12,21 @@ namespace SeiyuuDB.Databases {
   public class LocalSqlite : ISeiyuuDB, IDisposable {
     private SQLiteConnection _connection;
     private SQLiteCommand _command;
-    private DataContext _context;
-
-    private Table<Actor> _actorTable;
-    private Table<Anime> _animeTable;
-    private Table<AnimeFilmography> _animeFilmographyTable;
-    private Table<Game> _gameTable;
-    private Table<GameFilmography> _gameFilmographyTable;
-    private Table<Radio> _radioTable;
-    private Table<RadioFilmography> _radioFilmographyTable;
-    private Table<Company> _companyTable;
-    private Table<ExternalLink> _externalLinkTable;
-    private Table<Note> _noteTable;
+    private SeiyuuDataContext _context;
 
     public string DataSource { get; }
     public string BlobLocation { get; }
+
+    public Actor[] Actors => _context.Actors.ToArray();
+    public Anime[] Animes => _context.Animes.ToArray();
+    public AnimeFilmography[] AnimeFilmographies => _context.AnimeFilmographies.ToArray();
+    public Company[] Companies => _context.Companies.ToArray();
+    public ExternalLink[] ExternalLinks => _context.ExternalLinks.ToArray();
+    public Game[] Games => _context.Games.ToArray();
+    public GameFilmography[] GameFilmographies => _context.GameFilmographies.ToArray();
+    public Note[] Notes => _context.Notes.ToArray();
+    public Radio[] Radios => _context.Radios.ToArray();
+    public RadioFilmography[] RadioFilmographies => _context.RadioFilmographies.ToArray();
 
     public LocalSqlite(string dbSource, string blobLocation) {
       this.DataSource = dbSource;
@@ -33,18 +35,7 @@ namespace SeiyuuDB.Databases {
       _connection = new SQLiteConnection(connStr.ToString());
       _connection.Open();
       _command = new SQLiteCommand(_connection);
-      _context = new DataContext(_connection);
-
-      _actorTable = _context.GetTable<Actor>();
-      _animeTable = _context.GetTable<Anime>();
-      _animeFilmographyTable = _context.GetTable<AnimeFilmography>();
-      _gameTable = _context.GetTable<Game>();
-      _gameFilmographyTable = _context.GetTable<GameFilmography>();
-      _radioTable = _context.GetTable<Radio>();
-      _radioFilmographyTable = _context.GetTable<RadioFilmography>();
-      _companyTable = _context.GetTable<Company>();
-      _externalLinkTable = _context.GetTable<ExternalLink>();
-      _noteTable = _context.GetTable<Note>();
+      _context = new SeiyuuDataContext(_connection);
     }
 
     public void Dispose() {
@@ -66,67 +57,41 @@ namespace SeiyuuDB.Databases {
     }
 
     private Table<T> GetTable<T>() where T : class, ISeiyuuEntity<T> {
-      object obj = null;
-      if (typeof(T) == typeof(Actor)) {
-        obj = _actorTable;
-      } else if (typeof(T) == typeof(Anime)) {
-        obj = _animeTable;
-      } else if (typeof(T) == typeof(AnimeFilmography)) {
-        obj = _animeFilmographyTable;
-      } else if (typeof(T) == typeof(Game)) {
-        obj = _gameTable;
-      } else if (typeof(T) == typeof(GameFilmography)) {
-        obj = _gameFilmographyTable;
-      } else if (typeof(T) == typeof(Radio)) {
-        obj = _radioTable;
-      } else if (typeof(T) == typeof(RadioFilmography)) {
-        obj = _radioFilmographyTable;
-      } else if (typeof(T) == typeof(Company)) {
-        obj = _companyTable;
-      } else if (typeof(T) == typeof(ExternalLink)) {
-        obj = _externalLinkTable;
-      } else if (typeof(T) == typeof(Note)) {
-        obj = _noteTable;
-      }
-      return obj as Table<T>;
-    }
-
-    public T[] GetTableArray<T>() where T : class, ISeiyuuEntity<T> {
-      object[] obj = null;
-      if (typeof(T) == typeof(Actor)) {
-        obj = _actorTable.ToArray();
-      } else if (typeof(T) == typeof(Anime)) {
-        obj = _animeTable.ToArray();
-      } else if (typeof(T) == typeof(AnimeFilmography)) {
-        obj = _animeFilmographyTable.ToArray();
-      } else if (typeof(T) == typeof(Game)) {
-        obj = _gameTable.ToArray();
-      } else if (typeof(T) == typeof(GameFilmography)) {
-        obj = _gameFilmographyTable.ToArray();
-      } else if (typeof(T) == typeof(Radio)) {
-        obj = _radioTable.ToArray();
-      } else if (typeof(T) == typeof(RadioFilmography)) {
-        obj = _radioFilmographyTable.ToArray();
-      } else if (typeof(T) == typeof(Company)) {
-        obj = _companyTable.ToArray();
-      } else if (typeof(T) == typeof(ExternalLink)) {
-        obj = _externalLinkTable.ToArray();
-      } else if (typeof(T) == typeof(Note)) {
-        obj = _noteTable.ToArray();
-      }
-      return obj as T[];
+      return _context.GetTable<T>();
     }
 
     public T GetEntity<T>(int id) where T : class, ISeiyuuEntity<T> {
-      return GetTableArray<T>().FirstOrDefault(x => x.Id == id);
+      object obj = null;
+      if (typeof(T) == typeof(Actor)) {
+        obj = _context.Actors.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(Anime)) {
+        obj = _context.Animes.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(AnimeFilmography)) {
+        obj = _context.AnimeFilmographies.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(Game)) {
+        obj = _context.Games.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(GameFilmography)) {
+        obj = _context.GameFilmographies.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(Radio)) {
+        obj = _context.Radios.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(RadioFilmography)) {
+        obj = _context.RadioFilmographies.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(Company)) {
+        obj = _context.Companies.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(ExternalLink)) {
+        obj = _context.ExternalLinks.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(Note)) {
+        obj  = _context.Notes.FirstOrDefault(x => x.Id == id);
+      }
+      return obj as T;
     }
 
     public T GetEntity<T>(T entity) where T : class, ISeiyuuEntity<T> {
-      return GetTableArray<T>().FirstOrDefault(x => x.Equals(entity));
+      return GetTable<T>().FirstOrDefault(x => x.Equals(entity));
     }
 
     public bool IsExists<T>(T entity) where T : class, ISeiyuuEntity<T> {
-      return GetTableArray<T>().Any(x => x.Equals(entity));
+      return GetTable<T>().Any(x => x.Equals(entity));
     }
 
     public int Insert<T>(T entity) where T : class, ISeiyuuEntity<T> {
