@@ -149,15 +149,31 @@ namespace SeiyuuDB.Databases {
       } else {
         using (var client = new WebClient()) {
           var uri = new Uri(picture_url);
-          var name = Path.GetFileName(uri.LocalPath);
-          if (string.IsNullOrEmpty(name)) {
+          var ext = Path.GetExtension(uri.LocalPath);
+          if (string.IsNullOrEmpty(ext)) {
             return null;
           }
+          var name = getRandomName() + ext;
           var path = Path.Combine(BlobLocation, name);
+          while (File.Exists(path)) {
+            name = getRandomName() + ext;
+            path = Path.Combine(BlobLocation, name);
+          }
           client.DownloadFile(picture_url, path);
           return path;
         }
       }
+    }
+
+    private string getRandomName() {
+      var rand = new Random();
+      const string BASE = "abcdefghijklmnopqrstuvwxyz0123456789";
+      const int SIZE = 16;
+      string res = string.Empty;
+      for (int i = 0; i < SIZE; i++) {
+        res += BASE[rand.Next(0, BASE.Length)];
+      }
+      return res;
     }
 
     public Actor SearchActor(int actorId) {
