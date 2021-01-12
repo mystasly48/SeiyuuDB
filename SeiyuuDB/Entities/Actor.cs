@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using SeiyuuDB.Helpers;
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
@@ -11,7 +10,7 @@ namespace SeiyuuDB.Entities {
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
     [JsonIgnore]
     public int Id { get; set; } = -1;
-    
+
     // For CosmosDB
     //[JsonProperty("id")]
     //private string _idString {
@@ -201,7 +200,17 @@ namespace SeiyuuDB.Entities {
 
     [Column(Name = "is_favorite", CanBeNull = false, DbType = "INT")]
     [JsonProperty("is_favorite")]
-    public bool IsFavorite { get; private set; }
+    private int _isFavorite;
+
+    [JsonIgnore]
+    public bool IsFavorite {
+      get {
+        return _isFavorite == 1;
+      }
+      set {
+        _isFavorite = value ? 1 : 0;
+      }
+    }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("created_at")]

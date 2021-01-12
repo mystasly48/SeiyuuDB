@@ -36,12 +36,8 @@ namespace SeiyuuDB.Entities {
       get {
         return _isMainRole == 1;
       }
-      set {
-        if (value) {
-          _isMainRole = 1;
-        } else {
-          _isMainRole = 0;
-        }
+      private set {
+        _isMainRole = value ? 1 : 0;
       }
     }
 
