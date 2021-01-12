@@ -47,6 +47,7 @@
     <Compile Include="Databases\SeiyuuDataContext.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\GameFilmography.cs" />
+    <Compile Include="Entities\OtherFilmography.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Databases\ISeiyuuDB.cs" />
