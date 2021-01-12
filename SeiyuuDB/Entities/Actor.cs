@@ -65,7 +65,7 @@ namespace SeiyuuDB.Entities {
       get {
         if (string.IsNullOrEmpty(FirstNameKana) && string.IsNullOrEmpty(LastNameKana)) {
           return null;
-        } else if (string.IsNullOrEmpty(FirstNameKana) {
+        } else if (string.IsNullOrEmpty(FirstNameKana)) {
           return LastNameKana;
         } else if (string.IsNullOrEmpty(LastNameKana)) {
           return FirstNameKana;
@@ -83,7 +83,7 @@ namespace SeiyuuDB.Entities {
       get {
         if (string.IsNullOrEmpty(FirstNameRomaji) && string.IsNullOrEmpty(LastNameRomaji)) {
           return null;
-        } else if (string.IsNullOrEmpty(FirstNameRomaji) {
+        } else if (string.IsNullOrEmpty(FirstNameRomaji)) {
           return LastNameRomaji;
         } else if (string.IsNullOrEmpty(LastNameRomaji)) {
           return FirstNameRomaji;
