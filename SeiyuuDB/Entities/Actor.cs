@@ -47,19 +47,51 @@ namespace SeiyuuDB.Entities {
     public string FirstNameRomaji { get; private set; }
 
     [JsonIgnore]
-    public string Name => LastName + " " + FirstName;
+    public string Name {
+      get {
+        if (string.IsNullOrEmpty(FirstName)) {
+          return LastName;
+        } else {
+          return LastName + " " + FirstName;
+        }
+      }
+    }
 
     [JsonIgnore]
     public string ShortName => LastName + FirstName;
 
     [JsonIgnore]
-    public string NameKana => LastNameKana + " " + FirstNameKana;
+    public string NameKana {
+      get {
+        if (string.IsNullOrEmpty(FirstNameKana) && string.IsNullOrEmpty(LastNameKana)) {
+          return null;
+        } else if (string.IsNullOrEmpty(FirstNameKana) {
+          return LastNameKana;
+        } else if (string.IsNullOrEmpty(LastNameKana)) {
+          return FirstNameKana;
+        } else {
+          return LastNameKana + " " + FirstNameKana;
+        }
+      }
+    }
 
     [JsonIgnore]
     public string ShortNameKana => LastNameKana + FirstNameKana;
 
     [JsonIgnore]
-    public string NameRomaji => LastNameRomaji + " " + FirstNameRomaji;
+    public string NameRomaji {
+      get {
+        if (string.IsNullOrEmpty(FirstNameRomaji) && string.IsNullOrEmpty(LastNameRomaji)) {
+          return null;
+        } else if (string.IsNullOrEmpty(FirstNameRomaji) {
+          return LastNameRomaji;
+        } else if (string.IsNullOrEmpty(LastNameRomaji)) {
+          return FirstNameRomaji;
+        } else {
+          return LastNameRomaji + " " + FirstNameRomaji;
+        }
+      }
+    }
 
     [JsonIgnore]
     public string ShortNameRomaji => LastNameRomaji + FirstNameRomaji;
