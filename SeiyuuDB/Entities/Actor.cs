@@ -173,6 +173,22 @@ namespace SeiyuuDB.Entities {
         string month = Birthdate.Value.Month.ToString().PadLeft(2, ' ');
         string day = Birthdate.Value.Day.ToString().PadLeft(2, ' ');
         return $"{month}月{day}日";
+
+    [JsonIgnore]
+    public int? Age {
+      get {
+        if (Birthdate.HasValue) {
+          if (Birthdate.Value.Year == 1) {
+            return null;
+          } else {
+            var baseTime = new DateTime(1, 1, 1);
+            var span = DateTime.Now - Birthdate.Value;
+            var age = (baseTime + span).Year - 1;
+            return age;
+          }
+        } else {
+          return null;
+        }
       }
     }
 
