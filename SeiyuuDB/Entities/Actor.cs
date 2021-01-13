@@ -170,9 +170,15 @@ namespace SeiyuuDB.Entities {
     [JsonIgnore]
     public string BirthdayString {
       get {
-        string month = Birthdate.Value.Month.ToString().PadLeft(2, ' ');
-        string day = Birthdate.Value.Day.ToString().PadLeft(2, ' ');
-        return $"{month}月{day}日";
+        if (Birthdate.HasValue) {
+          string month = Birthdate.Value.Month.ToString().PadLeft(2, ' ');
+          string day = Birthdate.Value.Day.ToString().PadLeft(2, ' ');
+          return $"{month}月{day}日";
+        } else {
+          return null;
+        }
+      }
+    }
 
     [JsonIgnore]
     public int? Age {
