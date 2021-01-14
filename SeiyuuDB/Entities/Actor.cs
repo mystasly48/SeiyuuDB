@@ -127,74 +127,12 @@ namespace SeiyuuDB.Entities {
     private string _birthdate;
 
     [JsonIgnore]
-    public DateTime? Birthdate {
+    public Birthdate Birthdate {
       get {
-        if (_birthdate is null) {
-          return null;
-        } else {
-          if (_birthdate.Length <= 5) {
-            return DateTime.Parse("0001/" + _birthdate);
-          } else {
-            return DateTime.Parse(_birthdate);
-          }
-        }
+        return new Birthdate(_birthdate);
       }
       private set {
-        if (value.HasValue) {
-          if (value.Value.Year == 1) {
-            _birthdate = value.Value.ToString("MM/dd");
-          } else {
-            _birthdate = value.Value.ToString("yyyy/MM/dd");
-          }
-        } else {
-          _birthdate = null;
-        }
-      }
-    }
-
-    [JsonIgnore]
-    public string BirthdateString {
-      get {
-        if (Birthdate.HasValue) {
-          if (Birthdate.Value.Year == 1) {
-            return BirthdayString;
-          } else {
-            return Birthdate.Value.ToString("yyyy年") + BirthdayString;
-          }
-        } else {
-          return null;
-        }
-      }
-    }
-
-    [JsonIgnore]
-    public string BirthdayString {
-      get {
-        if (Birthdate.HasValue) {
-          string month = Birthdate.Value.Month.ToString().PadLeft(2, ' ');
-          string day = Birthdate.Value.Day.ToString().PadLeft(2, ' ');
-          return $"{month}月{day}日";
-        } else {
-          return null;
-        }
-      }
-    }
-
-    [JsonIgnore]
-    public int? Age {
-      get {
-        if (Birthdate.HasValue) {
-          if (Birthdate.Value.Year == 1) {
-            return null;
-          } else {
-            var baseTime = new DateTime(1, 1, 1);
-            var span = DateTime.Now - Birthdate.Value;
-            var age = (baseTime + span).Year - 1;
-            return age;
-          }
-        } else {
-          return null;
-        }
+        _birthdate = value.StorageString;
       }
     }
 
@@ -330,7 +268,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public Actor(string last_name, string first_name, string last_name_kana, string first_name_kana, string last_name_romaji, string first_name_romaji,
-      string nickname, Gender? gender, DateTime? birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse,
+      string nickname, Gender? gender, Birthdate birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse,
       Company agency, string picture_uri, bool is_favorite) : this() {
       LastName = last_name;
       FirstName = first_name;
@@ -405,7 +343,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate?.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUri: {PictureUri ?? "NULL"}, IsFavorite: {IsFavorite}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUri: {PictureUri ?? "NULL"}, IsFavorite: {IsFavorite}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
 
     //public bool Contains(string value) {
