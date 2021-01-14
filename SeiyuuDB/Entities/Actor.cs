@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
+using System.Linq;
 
 namespace SeiyuuDB.Entities {
   [Table(Name = "Actor")]
@@ -224,18 +226,11 @@ namespace SeiyuuDB.Entities {
       set { _updatedAt = value.ToString(); }
     }
 
-    private EntitySet<AnimeFilmography> _animeFilmographies;
-    [Association(OtherKey = "ActorId", Storage = "_animeFilmographies")]
-    public EntitySet<AnimeFilmography> AnimeFilmographies {
-      get { return _animeFilmographies; }
-      set { _animeFilmographies.Assign(value); }
-    }
-
-    private EntitySet<GameFilmography> _gameFilmographies;
-    [Association(OtherKey = "ActorId", Storage = "_gameFilmographies")]
-    public EntitySet<GameFilmography> GameFilmographies {
-      get { return _gameFilmographies; }
-      set { _gameFilmographies.Assign(value); }
+    private EntitySet<Character> _characters;
+    [Association(OtherKey = "ActorId", Storage = "_characters")]
+    public EntitySet<Character> Characters {
+      get { return _characters; }
+      set { _characters.Assign(value); }
     }
 
     private EntitySet<RadioFilmography> _radioFilmographies;
@@ -259,9 +254,20 @@ namespace SeiyuuDB.Entities {
       set { _notes.Assign(value); }
     }
 
+    public IEnumerable<AnimeFilmography> AnimeFilmographies {
+      get {
+        return Characters.SelectMany(x => x.AnimeFilmographies);
+      }
+    }
+
+    public IEnumerable<GameFilmography> GameFilmographies {
+      get {
+        return Characters.SelectMany(x => x.GameFilmographies);
+      }
+    }
+
     public Actor() {
-      _animeFilmographies = new EntitySet<AnimeFilmography>();
-      _gameFilmographies = new EntitySet<GameFilmography>();
+      _characters = new EntitySet<Character>();
       _radioFilmographies = new EntitySet<RadioFilmography>();
       _externalLinks = new EntitySet<ExternalLink>();
       _notes = new EntitySet<Note>();

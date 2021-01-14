@@ -7,6 +7,7 @@ namespace SeiyuuDB.Databases {
     public Table<Actor> Actors;
     public Table<Anime> Animes;
     public Table<AnimeFilmography> AnimeFilmographies;
+    public Table<Character> Characters;
     public Table<Company> Companies;
     public Table<ExternalLink> ExternalLinks;
     public Table<Game> Games;

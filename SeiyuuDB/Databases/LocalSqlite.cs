@@ -7,6 +7,7 @@ using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace SeiyuuDB.Databases {
   public class LocalSqlite : ISeiyuuDB, IDisposable {
@@ -20,11 +21,13 @@ namespace SeiyuuDB.Databases {
     public Actor[] Actors => _context.Actors.ToArray();
     public Anime[] Animes => _context.Animes.ToArray();
     public AnimeFilmography[] AnimeFilmographies => _context.AnimeFilmographies.ToArray();
+    public Character[] Characters => _context.Characters.ToArray();
     public Company[] Companies => _context.Companies.ToArray();
     public ExternalLink[] ExternalLinks => _context.ExternalLinks.ToArray();
     public Game[] Games => _context.Games.ToArray();
     public GameFilmography[] GameFilmographies => _context.GameFilmographies.ToArray();
     public Note[] Notes => _context.Notes.ToArray();
+    public OtherFilmography[] OtherFilmographies => _context.OtherFilmographies.ToArray();
     public Radio[] Radios => _context.Radios.ToArray();
     public RadioFilmography[] RadioFilmographies => _context.RadioFilmographies.ToArray();
 
@@ -180,56 +183,70 @@ namespace SeiyuuDB.Databases {
       return _context.Actors.FirstOrDefault(x => x.Id == actorId);
     }
 
-    public Actor[] SearchActors(string[] keywords) {
-      IEnumerable<Actor> result = null;
-      foreach (var keyword in keywords) {
-        string escaped = EscapedLikeQuery(keyword);
+    public Actor SearchActor(Actor actor) {
+      _context.Refresh(RefreshMode.OverwriteCurrentValues, _context.Actors);
+      return _context.Actors.FirstOrDefault(x => x.Id == actor.Id);
+    }
 
-        // TODO もっと
-        var actor = _context.Actors
-          .Where(x => SqlMethods.Like(x.FirstName, escaped)
-          || SqlMethods.Like(x.LastName, escaped)
-          || SqlMethods.Like(x.FirstNameKana, escaped)
-          || SqlMethods.Like(x.LastNameKana, escaped)
-          || SqlMethods.Like(x.FirstNameRomaji, escaped)
-          || SqlMethods.Like(x.LastNameRomaji, escaped)
-          || SqlMethods.Like(x.Nickname, escaped)
-          // Gender
-          // Birthdate
-          // BloodType
-          //|| SqlMethods.Like(SqlFunctions.StringConvert((double)x.Height), escaped)
-          || SqlMethods.Like(x.Hometown, escaped)
-          //|| SqlMethods.Like(SqlFunctions.StringConvert((double)x.Debut), escaped)
-          || SqlMethods.Like(x.Spouse, escaped)
-          || SqlMethods.Like(x.Agency.Name, escaped));
+    public async Task<Actor[]> SearchActorsAsync(string[] keywords) {
+      return await Task.Run(() => {
+        IEnumerable<Actor> result = null;
+        foreach (var keyword in keywords) {
+          string escaped = EscapedLikeQuery(keyword);
 
-        actor = actor.Union(_context.AnimeFilmographies
-          .Where(x => SqlMethods.Like(x.Role, escaped)
-          || SqlMethods.Like(x.Anime.Title, escaped))
-          .Select(x => x.Actor));
+          // TODO もっと
+          var actor = _context.Actors
+            .Where(x => SqlMethods.Like(x.FirstName, escaped)
+            || SqlMethods.Like(x.LastName, escaped)
+            || SqlMethods.Like(x.FirstNameKana, escaped)
+            || SqlMethods.Like(x.LastNameKana, escaped)
+            || SqlMethods.Like(x.FirstNameRomaji, escaped)
+            || SqlMethods.Like(x.LastNameRomaji, escaped)
+            || SqlMethods.Like(x.Nickname, escaped)
+            // Gender
+            // Birthdate
+            // BloodType
+            //|| SqlMethods.Like(SqlFunctions.StringConvert((double)x.Height), escaped)
+            || SqlMethods.Like(x.Hometown, escaped)
+            //|| SqlMethods.Like(SqlFunctions.StringConvert((double)x.Debut), escaped)
+            || SqlMethods.Like(x.Spouse, escaped)
+            || SqlMethods.Like(x.Agency.Name, escaped)
+            || SqlMethods.Like(x.Agency.NameKana, escaped));
 
-        actor = actor.Union(_context.RadioFilmographies
-          .Where(x => SqlMethods.Like(x.Radio.Title, escaped)
-          || SqlMethods.Like(x.Radio.Station.Name, escaped))
-          .Select(x => x.Actor));
+          actor = actor.Union(_context.AnimeFilmographies
+            .Where(x => SqlMethods.Like(x.Character.Name, escaped)
+            || SqlMethods.Like(x.Character.NameKana, escaped)
+            || SqlMethods.Like(x.Anime.Title, escaped)
+            || SqlMethods.Like(x.Anime.TitleKana, escaped))
+            .Select(x => x.Character.Actor));
 
-        actor = actor.Union(_context.GameFilmographies
-          .Where(x => SqlMethods.Like(x.Role, escaped)
-          || SqlMethods.Like(x.Game.Title, escaped))
-          .Select(x => x.Actor));
+          actor = actor.Union(_context.GameFilmographies
+            .Where(x => SqlMethods.Like(x.Character.Name, escaped)
+            || SqlMethods.Like(x.Character.NameKana, escaped)
+            || SqlMethods.Like(x.Game.Title, escaped)
+            || SqlMethods.Like(x.Game.TitleKana, escaped))
+            .Select(x => x.Character.Actor));
 
-        actor = actor.Union(_context.ExternalLinks
-          .Where(x => SqlMethods.Like(x.Title, escaped))
-          .Select(x => x.Actor));
+          actor = actor.Union(_context.RadioFilmographies
+            .Where(x => SqlMethods.Like(x.Radio.Title, escaped)
+            || SqlMethods.Like(x.Radio.TitleKana, escaped)
+            || SqlMethods.Like(x.Radio.Station.Name, escaped)
+            || SqlMethods.Like(x.Radio.Station.NameKana, escaped))
+            .Select(x => x.Actor));
 
-        actor = actor.Union(_context.Notes
-          .Where(x => SqlMethods.Like(x.Title, escaped)
-          || SqlMethods.Like(x.Content, escaped))
-          .Select(x => x.Actor));
+          actor = actor.Union(_context.ExternalLinks
+            .Where(x => SqlMethods.Like(x.Title, escaped))
+            .Select(x => x.Actor));
 
-        result = (result == null) ? actor : result.Union(actor);
-      }
-      return result.ToArray();
+          actor = actor.Union(_context.Notes
+            .Where(x => SqlMethods.Like(x.Title, escaped)
+            || SqlMethods.Like(x.Content, escaped))
+            .Select(x => x.Actor));
+
+          result = (result == null) ? actor : result.Union(actor);
+        }
+        return result.ToArray();
+      });
     }
 
     private string EscapedLikeQuery(string originalQuery) {

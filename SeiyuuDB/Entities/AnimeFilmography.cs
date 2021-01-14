@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using SeiyuuDB.Helpers;
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
@@ -23,34 +22,16 @@ namespace SeiyuuDB.Entities {
     //  }
     //}
 
-    [Column(Name = "role", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("role")]
-    public string Role { get; private set; }
+    [Column(Name = "character_id", CanBeNull = false, DbType = "INT")]
+    [JsonProperty("character_id")]
+    public int CharacterId { get; private set; }
 
-    [Column(Name = "is_main_role", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("is_main_role")]
-    private int _isMainRole;
-
+    private EntityRef<Character> _character;
+    [Association(Storage = "_character", ThisKey = "CharacterId", IsForeignKey = true)]
     [JsonIgnore]
-    public bool IsMainRole {
-      get {
-        return _isMainRole == 1;
-      }
-      private set {
-        _isMainRole = value ? 1 : 0;
-      }
-    }
-
-    [Column(Name = "actor_id", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("actor_id")]
-    public int ActorId { get; private set; }
-
-    private EntityRef<Actor> _actor;
-    [Association(Storage = "_actor", ThisKey = "ActorId", IsForeignKey = true)]
-    [JsonIgnore]
-    public Actor Actor {
-      get { return _actor.Entity; }
-      private set { _actor.Entity = value; }
+    public Character Character {
+      get { return _character.Entity; }
+      private set { _character.Entity = value; }
     }
 
     [Column(Name = "anime_id", CanBeNull = false, DbType = "INT")]
@@ -86,20 +67,16 @@ namespace SeiyuuDB.Entities {
     }
 
     public AnimeFilmography() { }
-    public AnimeFilmography(string role, bool is_main_role, Actor actor, Anime anime) {
-      Role = role;
-      IsMainRole = is_main_role;
-      ActorId = actor.Id;
-      Actor = actor;
+    public AnimeFilmography(Character character, Anime anime) {
+      CharacterId = character.Id;
+      Character = character;
       AnimeId = anime.Id;
       Anime = anime;
     }
 
     public void Replace(AnimeFilmography entity) {
-      Role = entity.Role;
-      IsMainRole = entity.IsMainRole;
-      ActorId = entity.ActorId;
-      Actor = entity.Actor;
+      CharacterId = entity.CharacterId;
+      Character = entity.Character;
       AnimeId = entity.Anime.Id;
       Anime = entity.Anime;
     }
@@ -109,18 +86,18 @@ namespace SeiyuuDB.Entities {
     }
 
     public bool IsReadyEntityWithoutId() {
-      return Role != null;
+      return true;
     }
 
     public override bool Equals(object obj) {
       if (obj is AnimeFilmography item) {
-        return item.Role == Role && item.ActorId == ActorId && item.AnimeId == AnimeId;
+        return item.CharacterId == CharacterId && item.AnimeId == AnimeId;
       }
       return false;
     }
 
     public override int GetHashCode() {
-      return Tuple.Create(Role, ActorId, AnimeId).GetHashCode();
+      return Tuple.Create(CharacterId, AnimeId).GetHashCode();
     }
 
     public static bool operator ==(AnimeFilmography a, AnimeFilmography b) {
@@ -132,7 +109,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), Anime: ({Anime}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Character: ({Character}), Anime: ({Anime}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }
