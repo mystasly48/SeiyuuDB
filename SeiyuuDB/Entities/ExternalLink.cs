@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using SeiyuuDB.Helpers;
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;

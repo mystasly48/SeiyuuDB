@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeiyuuDB.Entities {
   [Table(Name = "OtherFilmography")]
@@ -29,6 +25,10 @@ namespace SeiyuuDB.Entities {
     [Column(Name = "title", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("title")]
     public string Title { get; private set; }
+
+    [Column(Name = "title_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("title_kana")]
+    public string TitleKana { get; private set; }
 
     [Column(Name = "role", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("role")]
@@ -105,8 +105,9 @@ namespace SeiyuuDB.Entities {
     }
 
     public OtherFilmography() { }
-    public OtherFilmography(string title, string role, bool is_main_role, Actor actor, DateTime date) {
+    public OtherFilmography(string title, string title_kana, string role, bool is_main_role, Actor actor, DateTime date) {
       Title = title;
+      TitleKana = title_kana;
       Role = role;
       IsMainRole = is_main_role;
       ActorId = actor.Id;
@@ -116,6 +117,7 @@ namespace SeiyuuDB.Entities {
 
     public void Replace(OtherFilmography entity) {
       Title = entity.Title;
+      TitleKana = entity.TitleKana;
       Role = entity.Role;
       IsMainRole = entity.IsMainRole;
       ActorId = entity.Actor.Id;
@@ -151,7 +153,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), Date: {Date}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), Date: {Date}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

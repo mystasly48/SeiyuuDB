@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using SeiyuuDB.Helpers;
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
@@ -26,6 +25,10 @@ namespace SeiyuuDB.Entities {
     [Column(Name = "name", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("name")]
     public string Name { get; private set; }
+
+    [Column(Name = "name_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("name_kana")]
+    public string NameKana { get; private set; }
 
     [Column(Name = "type_id", CanBeNull = false, DbType = "INT")]
     [JsonProperty("type_id")]
@@ -84,14 +87,16 @@ namespace SeiyuuDB.Entities {
       _radios = new EntitySet<Radio>();
     }
 
-    public Company(string name, CompanyType company_type, string url) : this() {
+    public Company(string name, string name_kana, CompanyType company_type, string url) : this() {
       Name = name;
+      NameKana = name_kana;
       CompanyType = company_type;
       Url = url;
     }
 
     public void Replace(Company entity) {
       Name = entity.Name;
+      NameKana = entity.NameKana;
       CompanyType = entity.CompanyType;
       Url = entity.Url;
     }
@@ -124,7 +129,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, CompanyType: {CompanyType}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana}, CompanyType: {CompanyType}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

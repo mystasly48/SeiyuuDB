@@ -26,6 +26,10 @@ namespace SeiyuuDB.Entities {
     [JsonProperty("title")]
     public string Title { get; private set; }
 
+    [Column(Name = "title_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("title_kana")]
+    public string TitleKana { get; private set; }
+
     [Column(Name = "station_id", CanBeNull = true, DbType = "INT")]
     [JsonProperty("station_id")]
     public int? StationId { get; private set; }
@@ -117,8 +121,9 @@ namespace SeiyuuDB.Entities {
       _radioFilmographies = new EntitySet<RadioFilmography>();
     }
 
-    public Radio(string title, Company station, DateTime? since, DateTime? until, string url) : this() {
+    public Radio(string title, string title_kana, Company station, DateTime? since, DateTime? until, string url) : this() {
       Title = title;
+      TitleKana = title_kana;
       StationId= station.Id;
       Station = station;
       Since = since;
@@ -128,6 +133,7 @@ namespace SeiyuuDB.Entities {
 
     public void Replace(Radio entity) {
       Title = entity.Title;
+      TitleKana = entity.TitleKana;
       StationId = entity.StationId;
       Station = entity.Station;
       Since = entity.Since;
@@ -163,7 +169,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, Station: ({Station?.ToString() ?? "NULL"}), Since: {Since?.ToString() ?? "NULL"}, Until: {Until?.ToString() ?? "NULL"}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Station: ({Station?.ToString() ?? "NULL"}), Since: {Since?.ToString() ?? "NULL"}, Until: {Until?.ToString() ?? "NULL"}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

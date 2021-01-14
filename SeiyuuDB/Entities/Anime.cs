@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using SeiyuuDB.Helpers;
 using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
@@ -26,6 +25,10 @@ namespace SeiyuuDB.Entities {
     [Column(Name = "title", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     [JsonProperty("title")]
     public string Title { get; private set; }
+
+    [Column(Name = "title_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("title_kana")]
+    public string TitleKana { get; private set; }
 
     [Column(Name = "year", CanBeNull = false, DbType = "INT")]
     [JsonProperty("year")]
@@ -66,14 +69,16 @@ namespace SeiyuuDB.Entities {
       _animeFilmographies = new EntitySet<AnimeFilmography>();
     }
 
-    public Anime(string title, int year, string url) : this() {
+    public Anime(string title, string title_kana, int year, string url) : this() {
       Title = title;
+      TitleKana = title_kana;
       Year = year;
       Url = url;
     }
 
     public void Replace(Anime entity) {
       Title = entity.Title;
+      Title = entity.TitleKana;
       Year = entity.Year;
       Url = entity.Url;
     }
@@ -106,7 +111,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, Year: {Year}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Year: {Year}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }
