@@ -134,29 +134,39 @@ namespace SeiyuuDB.Databases {
       return del.Id;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="picture_url">Picture Url(Accessible from anywhere)</param>
-    /// <returns>Picture Internal Path(Accessible from local)</returns>
-    public string SavePictureToBlob(string picture_url) {
-      if (string.IsNullOrEmpty(picture_url)) {
+    public string SavePictureToBlob(string pictureUrl) {
+      if (string.IsNullOrEmpty(pictureUrl)) {
         return null;
       } else {
         using (var client = new WebClient()) {
-          var uri = new Uri(picture_url);
+          var uri = new Uri(pictureUrl);
           var ext = Path.GetExtension(uri.LocalPath);
           if (string.IsNullOrEmpty(ext)) {
             return null;
           }
+          ext = ".jpg";
           var name = getRandomName() + ext;
-          var path = Path.Combine(BlobLocation, name);
-          while (File.Exists(path)) {
+          var savedPath = Path.Combine(BlobLocation, name);
+          while (File.Exists(savedPath)) {
             name = getRandomName() + ext;
-            path = Path.Combine(BlobLocation, name);
+            savedPath = Path.Combine(BlobLocation, name);
           }
-          client.DownloadFile(picture_url, path);
-          return path;
+          client.DownloadFile(pictureUrl, savedPath);
+
+          Bitmap bmp = new Bitmap(savedPath);
+          int resizeHeight = 400;
+          int resizeWidth = (int)(bmp.Width * (resizeHeight / (double)bmp.Height));
+
+          Bitmap resizedBmp = new Bitmap(resizeWidth, resizeHeight);
+          Graphics g = Graphics.FromImage(resizedBmp);
+          g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+          g.DrawImage(bmp, 0, 0, resizeWidth, resizeHeight);
+          g.Dispose();
+          bmp.Dispose();
+
+          resizedBmp.Save(savedPath, ImageFormat.Jpeg);
+
+          return savedPath;
         }
       }
     }
