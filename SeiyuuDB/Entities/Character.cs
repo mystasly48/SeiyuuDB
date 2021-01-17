@@ -122,7 +122,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public bool IsReadyEntityWithoutId() {
-      return Name != null;
+      return Name != null && Actor != null;
     }
 
     public override bool Equals(object obj) {
