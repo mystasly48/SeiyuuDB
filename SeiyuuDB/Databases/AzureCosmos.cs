@@ -149,5 +149,6 @@ namespace SeiyuuDB.Databases {
     public int Update<T>(T entity) where T : class, ISeiyuuEntity<T> => throw new NotImplementedException();
     public int Delete<T>(T entity) where T : class, ISeiyuuEntity<T> => throw new NotImplementedException();
     public string SavePictureToBlob(string url) => throw new NotImplementedException();
+    public bool DeletePictureFromBlob(string url) => throw new NotImplementedException();
   }
 }

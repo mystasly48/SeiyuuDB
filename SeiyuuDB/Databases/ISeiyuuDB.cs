@@ -8,5 +8,6 @@ namespace SeiyuuDB.Databases {
     bool IsExists<T>(T entity) where T : class, ISeiyuuEntity<T>;
     T GetEntity<T>(int id) where T : class, ISeiyuuEntity<T>;
     string SavePictureToBlob(string url);
+    bool DeletePictureFromBlob(string url);
   }
 }
