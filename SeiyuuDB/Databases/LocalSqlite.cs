@@ -179,18 +179,13 @@ namespace SeiyuuDB.Databases {
       return res;
     }
 
-    public Actor SearchActor(int actorId) {
+    public Actor FindActor(int actorId) {
       return _context.Actors.FirstOrDefault(x => x.Id == actorId);
     }
 
-    public Actor SearchActor(Actor actor) {
-      _context.Refresh(RefreshMode.OverwriteCurrentValues, _context.Actors);
-      return _context.Actors.FirstOrDefault(x => x.Id == actor.Id);
-    }
-
-    public async Task<Actor[]> SearchActorsAsync(string[] keywords) {
+    public async Task<Actor[]> FindActorsAsync(string[] keywords) {
       return await Task.Run(() => {
-        IEnumerable<Actor> result = null;
+        IQueryable<Actor> result = null;
         foreach (var keyword in keywords) {
           string escaped = EscapedLikeQuery(keyword);
 
@@ -245,8 +240,44 @@ namespace SeiyuuDB.Databases {
 
           result = (result == null) ? actor : result.Union(actor);
         }
-        return result.ToArray();
+        return result.OrderBy(actor => actor.NameRomaji).ToArray();
       });
+    }
+
+    public ExternalLink[] FindExternalLinks(int actorId) {
+      var externalLinks = from link in _context.ExternalLinks
+                          where link.Actor.Id == actorId
+                          select link;
+      return externalLinks.ToArray();
+    }
+    
+    public Note[] FindNotes(int actorId) {
+      var notes = from note in _context.Notes
+                  where note.Actor.Id == actorId
+                  select note;
+      return notes.ToArray();
+    }
+
+    public Character[] FindCharacters(int actorId) {
+      var characters = from character in _context.Characters
+                       where character.Actor.Id == actorId
+                       select character;
+      return characters.ToArray();
+    }
+
+    public RadioFilmography[] FindRadioFilmographies(int actorId) {
+      var radioFilmographies = from film in _context.RadioFilmographies
+                               where film.Actor.Id == actorId
+                               select film;
+      return radioFilmographies.ToArray();
+    }
+
+    public Anime FindAnime(string title) {
+      return _context.Animes.FirstOrDefault(x => x.Title == title);
+    }
+
+    public Character FindCharacter(string name, int actorId) {
+      return _context.Characters.FirstOrDefault(x => x.Name == name && x.Actor.Id == actorId);
     }
 
     private string EscapedLikeQuery(string originalQuery) {
