@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Linq;
-using System.Data.Linq.SqlClient;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
@@ -188,59 +187,81 @@ namespace SeiyuuDB.Databases {
         IQueryable<Actor> result = null;
         foreach (var keyword in keywords) {
           string escaped = EscapedLikeQuery(keyword);
+          //SqlMethods.Like(x.Title, escaped);
+          //SqlMethods.Like(SqlFunctions.StringConvert((double)x.Height), escaped)
 
-          // TODO もっと
-          var actor = _context.Actors
-            .Where(x => SqlMethods.Like(x.FirstName, escaped)
-            || SqlMethods.Like(x.LastName, escaped)
-            || SqlMethods.Like(x.FirstNameKana, escaped)
-            || SqlMethods.Like(x.LastNameKana, escaped)
-            || SqlMethods.Like(x.FirstNameRomaji, escaped)
-            || SqlMethods.Like(x.LastNameRomaji, escaped)
-            || SqlMethods.Like(x.Nickname, escaped)
-            // Gender
-            // Birthdate
-            // BloodType
-            //|| SqlMethods.Like(SqlFunctions.StringConvert((double)x.Height), escaped)
-            || SqlMethods.Like(x.Hometown, escaped)
-            //|| SqlMethods.Like(SqlFunctions.StringConvert((double)x.Debut), escaped)
-            || SqlMethods.Like(x.Spouse, escaped)
-            || SqlMethods.Like(x.Agency.Name, escaped)
-            || SqlMethods.Like(x.Agency.NameKana, escaped));
+          var actorsByNameQuery = $"select id from Actor" +
+                                  $" where last_name || first_name like '{escaped}'" +
+                                  $" or last_name_kana || first_name_kana like '{escaped}'" +
+                                  $" or last_name_romaji || first_name_romaji like '{escaped}'";
 
-          actor = actor.Union(_context.AnimeFilmographies
-            .Where(x => SqlMethods.Like(x.Character.Name, escaped)
-            || SqlMethods.Like(x.Character.NameKana, escaped)
-            || SqlMethods.Like(x.Anime.Title, escaped)
-            || SqlMethods.Like(x.Anime.TitleKana, escaped))
-            .Select(x => x.Character.Actor));
+          _command.CommandText = actorsByNameQuery;
+          var actorIdsByName = new List<int>();
+          using (var reader = _command.ExecuteReader()) {
+            while (reader.Read()) {
+              actorIdsByName.Add(reader.GetInt32(0));
+            }
+          }
+          var actorsByName = from actor in _context.Actors
+                             where actorIdsByName.Contains(actor.Id)
+                             select actor;
 
-          actor = actor.Union(_context.GameFilmographies
-            .Where(x => SqlMethods.Like(x.Character.Name, escaped)
-            || SqlMethods.Like(x.Character.NameKana, escaped)
-            || SqlMethods.Like(x.Game.Title, escaped)
-            || SqlMethods.Like(x.Game.TitleKana, escaped))
-            .Select(x => x.Character.Actor));
+          var actors = from actor in _context.Actors
+                       where actor.Nickname.Contains(keyword)
+                       // Gender
+                       // Birthdate
+                       // BloodType
+                       || actor.Hometown.Contains(keyword)
+                       // Height
+                       // Debut
+                       || actor.Spouse.Contains(keyword)
+                       || actor.Agency.Name.Contains(keyword)
+                       || actor.Agency.NameKana.Contains(keyword)
+                       select actor;
 
-          actor = actor.Union(_context.RadioFilmographies
-            .Where(x => SqlMethods.Like(x.Radio.Title, escaped)
-            || SqlMethods.Like(x.Radio.TitleKana, escaped)
-            || SqlMethods.Like(x.Radio.Station.Name, escaped)
-            || SqlMethods.Like(x.Radio.Station.NameKana, escaped))
-            .Select(x => x.Actor));
+          var characters = from character in _context.Characters
+                           where character.Name.Contains(keyword)
+                           || character.NameKana.Contains(keyword)
+                           select character.Actor;
 
-          actor = actor.Union(_context.ExternalLinks
-            .Where(x => SqlMethods.Like(x.Title, escaped))
-            .Select(x => x.Actor));
+          var animeFilmographies = from film in _context.AnimeFilmographies
+                                   where film.Anime.Title.Contains(keyword)
+                                   || film.Anime.TitleKana.Contains(keyword)
+                                   select film.Character.Actor;
 
-          actor = actor.Union(_context.Notes
-            .Where(x => SqlMethods.Like(x.Title, escaped)
-            || SqlMethods.Like(x.Content, escaped))
-            .Select(x => x.Actor));
+          var gameFilmographies = from film in _context.GameFilmographies
+                                  where film.Game.Title.Contains(keyword)
+                                  || film.Game.TitleKana.Contains(keyword)
+                                  select film.Character.Actor;
 
-          result = (result == null) ? actor : result.Union(actor);
+          var radioFilmographies = from film in _context.RadioFilmographies
+                                   where film.Radio.Title.Contains(keyword)
+                                   || film.Radio.TitleKana.Contains(keyword)
+                                   || film.Radio.Station.Name.Contains(keyword)
+                                   || film.Radio.Station.NameKana.Contains(keyword)
+                                   select film.Actor;
+
+          var links = from link in _context.ExternalLinks
+                      where link.Title.Contains(keyword)
+                      select link.Actor;
+
+          var notes = from note in _context.Notes
+                      where note.Title.Contains(keyword)
+                      || note.Content.Contains(keyword)
+                      select note.Actor;
+
+          actors = actors
+              .Union(actorsByName)
+              .Union(characters)
+              .Union(animeFilmographies)
+              .Union(gameFilmographies)
+              .Union(radioFilmographies)
+              .Union(links)
+              .Union(notes);
+
+          result = (result == null) ? actors : result.Union(actors);
         }
-        return result.OrderBy(actor => actor.NameRomaji).ToArray();
+        return result.ToArray();
       });
     }
 
