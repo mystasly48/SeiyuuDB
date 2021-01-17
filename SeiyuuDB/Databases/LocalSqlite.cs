@@ -111,18 +111,12 @@ namespace SeiyuuDB.Databases {
     }
 
     public int Update<T>(T entity) where T : class, ISeiyuuEntity<T> {
-      if (!IsExists<T>(entity) || !entity.IsReadyEntity()) {
+      if (!IsExists(entity) || !entity.IsReadyEntity()) {
         return -1;
       }
-      var target = GetEntity<T>(entity.Id);
-      if (target is null) {
-        return -1;
-      }
-      target.Replace(entity);
       entity.UpdatedAt = DateTime.Now;
-      target.UpdatedAt = entity.UpdatedAt;
       _context.SubmitChanges();
-      return target.Id;
+      return entity.Id;
     }
 
     public int Delete<T>(T entity) where T : class, ISeiyuuEntity<T> {
