@@ -298,11 +298,18 @@ namespace SeiyuuDB.Databases {
     }
 
     public Anime FindAnime(string title) {
-      return _context.Animes.FirstOrDefault(x => x.Title == title);
+      var animes = from anime in _context.Animes
+                   where anime.Title.Equals(title)
+                   select anime;
+      return animes.ToArray().FirstOrDefault();
     }
 
     public Character FindCharacter(string name, int actorId) {
-      return _context.Characters.FirstOrDefault(x => x.Name == name && x.Actor.Id == actorId);
+      var characters = from character in _context.Characters
+                       where character.Name == name
+                       && character.Actor.Id == actorId
+                       select character;
+      return characters.ToArray().FirstOrDefault();
     }
 
     private string EscapedLikeQuery(string originalQuery) {
