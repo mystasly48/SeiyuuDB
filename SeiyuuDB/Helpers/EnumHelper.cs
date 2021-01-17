@@ -5,16 +5,19 @@ using System.Collections.Generic;
 namespace SeiyuuDB.Helpers {
   public static class EnumHelper {
     public static readonly Dictionary<CompanyType, string> CompanyTypeDisplayNames = new Dictionary<CompanyType, string>() {
+      { CompanyType.Empty, "" },
       { CompanyType.Agency, "事務所" },
       { CompanyType.Station, "放送局" }
     };
 
     public static readonly Dictionary<Gender, string> GenderDisplayNames = new Dictionary<Gender, string>() {
+      { Gender.Empty, "" },
       { Gender.Male, "男性" },
       { Gender.Female, "女性" }
     };
 
     public static readonly Dictionary<BloodType, string> BloodTypeDisplayNames = new Dictionary<BloodType, string>() {
+      { BloodType.Empty, "" },
       { BloodType.A, "A型" },
       { BloodType.B, "B型" },
       { BloodType.O, "O型" },
