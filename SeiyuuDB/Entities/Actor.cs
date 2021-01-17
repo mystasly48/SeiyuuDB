@@ -188,9 +188,12 @@ namespace SeiyuuDB.Entities {
       private set { _agency.Entity = value; }
     }
 
-    [Column(Name = "picture_uri", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("picture_uri")]
-    public string PictureUri { get; private set; }
+    /// <summary>
+    /// 写真URL
+    /// </summary>
+    [Column(Name = "picture_url", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    [JsonProperty("picture_url")]
+    public string PictureUrl { get; private set; }
 
     [Column(Name = "is_favorite", CanBeNull = false, DbType = "INT")]
     [JsonProperty("is_favorite")]
@@ -275,7 +278,7 @@ namespace SeiyuuDB.Entities {
 
     public Actor(string last_name, string first_name, string last_name_kana, string first_name_kana, string last_name_romaji, string first_name_romaji,
       string nickname, Gender? gender, Birthdate birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse,
-      Company agency, string picture_uri, bool is_favorite) : this() {
+      Company agency, string picture_url, bool is_favorite) : this() {
       LastName = last_name;
       FirstName = first_name;
       LastNameKana = last_name_kana;
@@ -292,7 +295,7 @@ namespace SeiyuuDB.Entities {
       Spouse = spouse;
       Agency = agency;
       AgencyId = agency?.Id;
-      PictureUri = picture_uri;
+      PictureUrl = picture_url;
       IsFavorite = is_favorite;
     }
 
@@ -317,7 +320,7 @@ namespace SeiyuuDB.Entities {
       Spouse = entity.Spouse;
       Agency = entity.Agency;
       AgencyId = entity.AgencyId;
-      PictureUri = entity.PictureUri;
+      PictureUrl = entity.PictureUrl;
       IsFavorite = entity.IsFavorite;
     }
 
@@ -349,7 +352,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUri: {PictureUri ?? "NULL"}, IsFavorite: {IsFavorite}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUrl: {PictureUrl ?? "NULL"}, IsFavorite: {IsFavorite}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
 
     //public bool Contains(string value) {
