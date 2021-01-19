@@ -334,7 +334,8 @@ namespace SeiyuuDB.Databases {
         .Replace("/", "//")
         .Replace("_", "/_")
         .Replace("%", "/%")
-        .Replace("[", "/[");
+        .Replace("[", "/[")
+        .Replace("'", "''");
       return string.Format("%{0}%", escaped);
     }
   }
