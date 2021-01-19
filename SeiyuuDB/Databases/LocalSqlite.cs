@@ -1,6 +1,7 @@
 ﻿using SeiyuuDB.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Linq;
 using System.Data.SQLite;
 using System.Drawing;
@@ -186,11 +187,7 @@ namespace SeiyuuDB.Databases {
       return res;
     }
 
-    public Actor FindActor(int actorId) {
-      return _context.Actors.FirstOrDefault(x => x.Id == actorId);
-    }
-
-    public async Task<Actor[]> FindActorsAsync(string[] keywords) {
+    public async Task<Actor[]> FindActorsByKeywords(string[] keywords) {
       return await Task.Run(() => {
         IQueryable<Actor> result = null;
         foreach (var keyword in keywords) {
@@ -269,51 +266,148 @@ namespace SeiyuuDB.Databases {
 
           result = (result == null) ? actors : result.Union(actors);
         }
-        return result.ToArray();
+        return result.ToArray()
+            .OrderBy(actor => actor.NameKana)
+            .ThenBy(actor => actor.Name)
+            .ToArray();
       });
     }
 
-    public ExternalLink[] FindExternalLinks(int actorId) {
+    public Company[] FindAgencies() {
+      var agencies = from company in _context.Companies
+                     where company.CompanyTypeId == (int)CompanyType.Agency
+                     select company;
+      return agencies.ToArray()
+          .OrderBy(agency => agency.NameKana)
+          .ThenBy(agency => agency.Name)
+          .ToArray();
+    }
+
+    public Company[] FindStations() {
+      var stations = from company in _context.Companies
+                     where company.CompanyTypeId == (int)CompanyType.Station
+                     select company;
+      return stations.ToArray()
+          .OrderBy(station => station.NameKana)
+          .ThenBy(station => station.Name)
+          .ToArray();
+    }
+
+    public ExternalLink[] FindExternalLinksByActorId(int actorId) {
       var externalLinks = from link in _context.ExternalLinks
                           where link.Actor.Id == actorId
                           select link;
-      return externalLinks.ToArray();
+      return externalLinks.ToArray()
+          .OrderBy(link => link.CreatedAt)
+          .ToArray();
     }
     
-    public Note[] FindNotes(int actorId) {
+    public Note[] FindNotesByActorId(int actorId) {
       var notes = from note in _context.Notes
                   where note.Actor.Id == actorId
                   select note;
-      return notes.ToArray();
+      return notes.ToArray()
+          .OrderBy(note => note.CreatedAt)
+          .ToArray();
     }
 
-    public Character[] FindCharacters(int actorId) {
+    public Character[] FindCharactersByActorId(int actorId) {
       var characters = from character in _context.Characters
                        where character.Actor.Id == actorId
                        select character;
-      return characters.ToArray();
+      return characters.ToArray()
+          .OrderBy(character => character.NameKana)
+          .ThenBy(character => character.Name)
+          .ToArray();
     }
 
-    public RadioFilmography[] FindRadioFilmographies(int actorId) {
+    public AnimeFilmography[] FindAnimeFilmographiesByActorId(int actorId) {
+      var animeFilmographies = from film in _context.AnimeFilmographies
+                               where film.Character.Actor.Id == actorId
+                               select film;
+      return animeFilmographies.ToArray()
+          .OrderBy(film => film.Anime.Year)
+          .ThenBy(film => film.Anime.TitleKana)
+          .ThenBy(film => film.Anime.Title)
+          .ToArray();
+    }
+
+    public GameFilmography[] FindGameFilmographiesByActorId(int actorId) {
+      var gameFilmographies = from film in _context.GameFilmographies
+                              where film.Character.Actor.Id == actorId
+                              select film;
+      return gameFilmographies.ToArray()
+          .OrderBy(film => film.Game.Year)
+          .ThenBy(film => film.Game.TitleKana)
+          .ThenBy(film => film.Game.Title)
+          .ToArray();
+    }
+
+    public RadioFilmography[] FindRadioFilmographiesByActorId(int actorId) {
       var radioFilmographies = from film in _context.RadioFilmographies
                                where film.Actor.Id == actorId
                                select film;
-      return radioFilmographies.ToArray();
+      return radioFilmographies.ToArray()
+          .OrderBy(radilFimography => radilFimography.Radio.Since)
+          .ThenBy(radilFimography => radilFimography.Radio.Until)
+          .ToArray();
     }
 
-    public Anime FindAnime(string title) {
+    public Anime FindAnimeByTitle(string title) {
       var animes = from anime in _context.Animes
-                   where anime.Title.Equals(title)
+                   where anime.Title == title
                    select anime;
       return animes.ToArray().FirstOrDefault();
     }
 
-    public Character FindCharacter(string name, int actorId) {
+    public Character FindCharacterByNameAndActorId(string name, int actorId) {
       var characters = from character in _context.Characters
                        where character.Name == name
                        && character.Actor.Id == actorId
                        select character;
       return characters.ToArray().FirstOrDefault();
+    }
+
+    public Actor FindActorById(int actorId) {
+      var actors = from actor in _context.Actors
+                   where actor.Id == actorId
+                   select actor;
+      return actors.ToArray().FirstOrDefault();
+    }
+
+    public Character[] FindCharacters() {
+      return _context.Characters.ToArray()
+          .OrderBy(character => character.NameKana)
+          .ThenBy(character => character.Name)
+          .ToArray();
+    }
+
+    public Game[] FindGames() {
+      return _context.Games.ToArray()
+              .OrderBy(game => game.TitleKana)
+              .ThenBy(game => game.Title)
+              .ToArray();
+    }
+
+    public Radio[] FindRadios() {
+      return _context.Radios.ToArray()
+              .OrderBy(radio => radio.TitleKana)
+              .ThenBy(radio => radio.Title)
+              .ToArray();
+    }
+
+    public Anime[] FindAnimes() {
+      return _context.Animes.ToArray()
+        .OrderBy(anime => anime.TitleKana)
+        .ThenBy(anime => anime.Title)
+        .ToArray();
+    }
+
+    public Actor[] FindActors() {
+      return _context.Actors.ToArray()
+        .OrderBy(actor => actor.NameKana)
+        .ThenBy(actor => actor.Name)
+        .ToArray();
     }
 
     private string EscapedLikeQuery(string originalQuery) {
