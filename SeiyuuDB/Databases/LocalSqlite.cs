@@ -20,19 +20,6 @@ namespace SeiyuuDB.Databases {
     public string DataSource { get; }
     public string BlobLocation { get; }
 
-    public Actor[] Actors => _context.Actors.ToArray();
-    public Anime[] Animes => _context.Animes.ToArray();
-    public AnimeFilmography[] AnimeFilmographies => _context.AnimeFilmographies.ToArray();
-    public Character[] Characters => _context.Characters.ToArray();
-    public Company[] Companies => _context.Companies.ToArray();
-    public ExternalLink[] ExternalLinks => _context.ExternalLinks.ToArray();
-    public Game[] Games => _context.Games.ToArray();
-    public GameFilmography[] GameFilmographies => _context.GameFilmographies.ToArray();
-    public Note[] Notes => _context.Notes.ToArray();
-    public OtherFilmography[] OtherFilmographies => _context.OtherFilmographies.ToArray();
-    public Radio[] Radios => _context.Radios.ToArray();
-    public RadioFilmography[] RadioFilmographies => _context.RadioFilmographies.ToArray();
-
     public LocalSqlite(string dbSource, string blobLocation) {
       this.DataSource = dbSource;
       this.BlobLocation = blobLocation;
