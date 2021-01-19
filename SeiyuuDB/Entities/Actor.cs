@@ -257,18 +257,6 @@ namespace SeiyuuDB.Entities {
       set { _notes.Assign(value); }
     }
 
-    public IEnumerable<AnimeFilmography> AnimeFilmographies {
-      get {
-        return Characters.SelectMany(x => x.AnimeFilmographies);
-      }
-    }
-
-    public IEnumerable<GameFilmography> GameFilmographies {
-      get {
-        return Characters.SelectMany(x => x.GameFilmographies);
-      }
-    }
-
     public Actor() {
       _characters = new EntitySet<Character>();
       _radioFilmographies = new EntitySet<RadioFilmography>();
