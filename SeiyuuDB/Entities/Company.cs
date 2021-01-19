@@ -32,15 +32,15 @@ namespace SeiyuuDB.Entities {
 
     [Column(Name = "type_id", CanBeNull = false, DbType = "INT")]
     [JsonProperty("type_id")]
-    private int _companyTypeId;
+    public int CompanyTypeId { get; private set; }
 
     [JsonIgnore]
     public CompanyType CompanyType {
       get {
-        return (CompanyType)Enum.ToObject(typeof(CompanyType), _companyTypeId);
+        return (CompanyType)Enum.ToObject(typeof(CompanyType), CompanyTypeId);
       }
       private set {
-        _companyTypeId = (int)value;
+        CompanyTypeId = (int)value;
       }
     }
 
