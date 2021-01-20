@@ -297,6 +297,16 @@ namespace SeiyuuDB.Databases {
         .ToArray();
     }
 
+    public string[] FindBirthdayActorNames() {
+      return _context.Actors.ToArray()
+        .Where(a => a.Birthdate.IsToday)
+        .OrderByDescending(a => a.Birthdate.Age)
+        .ThenBy(a => a.NameKana)
+        .ThenBy(a => a.Name)
+        .Select(a => a.ShortName)
+        .ToArray();
+    }
+
     public Anime FindAnimeByTitle(string title) {
       var animes = from a in _context.Animes
                    where a.Title == title

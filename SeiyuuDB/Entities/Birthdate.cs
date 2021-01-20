@@ -59,6 +59,20 @@ namespace SeiyuuDB.Entities {
       }
     }
 
+    /// <summary>
+    /// 今日が誕生日であるかどうか
+    /// </summary>
+    public bool IsToday {
+      get {
+        if (Month.HasValue && Day.HasValue) {
+          var today = DateTime.Today;
+          return today.Month == Month && today.Day == Day;
+        } else {
+          return false;
+        }
+      }
+    }
+
     public Birthdate(int? year, int? month, int? day) {
       Year = year;
       Month = month;
