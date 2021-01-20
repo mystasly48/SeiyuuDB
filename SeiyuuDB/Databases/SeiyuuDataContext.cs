@@ -6,16 +6,16 @@ namespace SeiyuuDB.Databases {
   public class SeiyuuDataContext : DataContext {
     public Table<Actor> Actors;
     public Table<Anime> Animes;
-    public Table<AnimeFilmography> AnimeFilmographies;
+    public Table<AnimeCharacter> AnimesCharacters;
     public Table<Character> Characters;
     public Table<Company> Companies;
     public Table<ExternalLink> ExternalLinks;
     public Table<Game> Games;
-    public Table<GameFilmography> GameFilmographies;
+    public Table<GameCharacter> GamesCharacters;
     public Table<Note> Notes;
-    public Table<OtherFilmography> OtherFilmographies;
+    public Table<OtherAppearance> OtherAppearances;
     public Table<Radio> Radios;
-    public Table<RadioFilmography> RadioFilmographies;
+    public Table<RadioActor> RadiosActors;
 
     public SeiyuuDataContext(IDbConnection connection) : base(connection) { }
   }

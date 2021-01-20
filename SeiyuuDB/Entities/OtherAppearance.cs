@@ -1,44 +1,43 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
-  [Table(Name = "OtherFilmography")]
-  [JsonObject("OtherFilmography")]
-  public sealed class OtherFilmography : ISeiyuuEntity<OtherFilmography> {
+  /// <summary>
+  /// その他出演
+  /// </summary>
+  [Table(Name = "other_appearances")]
+  public sealed class OtherAppearance : ISeiyuuEntity<OtherAppearance> {
+    /// <summary>
+    /// その他出演ID
+    /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
     public int Id { get; set; } = -1;
 
-    // For CosmosDB
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+    /// <summary>
+    /// タイトル
+    /// </summary>
     [Column(Name = "title", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("title")]
     public string Title { get; private set; }
 
+    /// <summary>
+    /// タイトルかな
+    /// </summary>
     [Column(Name = "title_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("title_kana")]
     public string TitleKana { get; private set; }
 
+    /// <summary>
+    /// 役割
+    /// </summary>
     [Column(Name = "role", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("role")]
     public string Role { get; private set; }
 
     [Column(Name = "is_main_role", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("is_main_role")]
     private int _isMainRole;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 主役フラグ
+    /// </summary>
     public bool IsMainRole {
       get {
         return _isMainRole == 1;
@@ -48,81 +47,88 @@ namespace SeiyuuDB.Entities {
       }
     }
 
+    /// <summary>
+    /// 声優ID
+    /// </summary>
     [Column(Name = "actor_id", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("actor_id")]
     public int ActorId { get; private set; }
 
-    private EntityRef<Actor> _actor;
+    /// <summary>
+    /// 声優
+    /// </summary>
     [Association(Storage = "_actor", ThisKey = "ActorId", IsForeignKey = true)]
-    [JsonIgnore]
     public Actor Actor {
       get { return _actor.Entity; }
       private set { _actor.Entity = value; }
     }
+    private EntityRef<Actor> _actor;
 
     // TODO Date の対応
+    [Column(Name = "appeared_on", CanBeNull = false, DbType = "VARCHAR(MAX)")]
+    public string _appearedOn;
 
-    [Column(Name = "date", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("date")]
-    public string _date;
-
-    [JsonIgnore]
-    public DateTime? Date {
+    /// <summary>
+    /// 出演日
+    /// </summary>
+    public DateTime? AppearedOn {
       get {
-        if (_date is null) {
+        if (_appearedOn is null) {
           return null;
         } else {
-          return (DateTime?)DateTime.Parse(_date);
+          return (DateTime?)DateTime.Parse(_appearedOn);
         }
       }
       private set {
         if (value.HasValue) {
-          _date = value.Value.ToString();
+          _appearedOn = value.Value.ToString();
         } else {
-          _date = null;
+          _appearedOn = null;
         }
       }
     }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
     private string _createdAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 作成日時
+    /// </summary>
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
       set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
     private string _updatedAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 更新日時
+    /// </summary>
     public DateTime UpdatedAt {
       get { return DateTime.Parse(_updatedAt); }
       set { _updatedAt = value.ToString(); }
     }
 
-    public OtherFilmography() { }
-    public OtherFilmography(string title, string title_kana, string role, bool is_main_role, Actor actor, DateTime date) {
+    public OtherAppearance() { }
+    public OtherAppearance(string title, string titleKana, string role, bool isMainRole, Actor actor, DateTime? appearedOn) {
       Title = title;
-      TitleKana = title_kana;
+      TitleKana = titleKana;
       Role = role;
-      IsMainRole = is_main_role;
+      IsMainRole = isMainRole;
+      AppearedOn = appearedOn;
       ActorId = actor.Id;
       Actor = actor;
-      Date = date;
+      AppearedOn = appearedOn;
     }
 
-    public void Replace(OtherFilmography entity) {
+    public void Replace(OtherAppearance entity) {
       Title = entity.Title;
       TitleKana = entity.TitleKana;
       Role = entity.Role;
       IsMainRole = entity.IsMainRole;
       ActorId = entity.Actor.Id;
       Actor = entity.Actor;
-      Date = entity.Date;
+      AppearedOn = entity.AppearedOn;
     }
 
     public bool IsReadyEntity() {
@@ -134,7 +140,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override bool Equals(object obj) {
-      if (obj is OtherFilmography item) {
+      if (obj is OtherAppearance item) {
         return item.Title == Title && item.Role == Role && item.ActorId == ActorId;
       }
       return false;
@@ -144,16 +150,16 @@ namespace SeiyuuDB.Entities {
       return Tuple.Create(Title, Role, ActorId).GetHashCode();
     }
 
-    public static bool operator ==(OtherFilmography a, OtherFilmography b) {
+    public static bool operator ==(OtherAppearance a, OtherAppearance b) {
       return Equals(a, b);
     }
 
-    public static bool operator !=(OtherFilmography a, OtherFilmography b) {
+    public static bool operator !=(OtherAppearance a, OtherAppearance b) {
       return !Equals(a, b);
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), Date: {Date}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), AppearedOn: {AppearedOn}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

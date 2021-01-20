@@ -1,133 +1,143 @@
-﻿using Newtonsoft.Json;
-using SeiyuuDB.Helpers;
-using System;
+﻿using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
-  [Table(Name = "Radio")]
-  [JsonObject("Radio")]
+  /// <summary>
+  /// ラジオ
+  /// </summary>
+  [Table(Name = "radios")]
   public sealed class Radio : ISeiyuuEntity<Radio> {
+    /// <summary>
+    /// ラジオID
+    /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
     public int Id { get; set; } = -1;
 
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+    /// <summary>
+    /// タイトル
+    /// </summary>
     [Column(Name = "title", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("title")]
     public string Title { get; private set; }
 
+    /// <summary>
+    /// タイトルかな
+    /// </summary>
     [Column(Name = "title_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("title_kana")]
     public string TitleKana { get; private set; }
 
+    /// <summary>
+    /// 放送局ID
+    /// </summary>
     [Column(Name = "station_id", CanBeNull = true, DbType = "INT")]
-    [JsonProperty("station_id")]
     public int? StationId { get; private set; }
 
-    private EntityRef<Company> _station;
+    /// <summary>
+    /// 放送局
+    /// </summary>
     [Association(Storage = "_station", ThisKey = "StationId", IsForeignKey = true)]
-    [JsonIgnore]
     public Company Station {
       get { return _station.Entity; }
       private set { _station.Entity = value; }
     }
+    private EntityRef<Company> _station;
 
-    [Column(Name = "since", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("since")]
-    private string _since;
+    [Column(Name = "started_on", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    private string _startedOn;
 
-    [JsonIgnore]
-    public DateTime? Since {
+    /// <summary>
+    /// 配信開始日
+    /// </summary>
+    public DateTime? StartedOn {
       get {
-        if (_since is null) {
+        if (_startedOn is null) {
           return null;
         } else {
-          return (DateTime?)DateTime.Parse(_since);
+          return (DateTime?)DateTime.Parse(_startedOn);
         }
       }
       private set {
         if (value.HasValue) {
-          _since = value.Value.ToString();
+          _startedOn = value.Value.ToString();
         } else {
-          _since = null;
+          _startedOn = null;
         }
       }
     }
 
-    [Column(Name = "until", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("until")]
-    private string _until;
+    [Column(Name = "ended_on", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    private string _endedOn;
 
-    [JsonIgnore]
-    public DateTime? Until {
+    /// <summary>
+    /// 配信終了日
+    /// </summary>
+    public DateTime? EndedOn {
       get {
-        if (_until is null) {
+        if (_endedOn is null) {
           return null;
         } else {
-          return (DateTime?)DateTime.Parse(_until);
+          return (DateTime?)DateTime.Parse(_endedOn);
         }
       }
       private set {
         if (value.HasValue) {
-          _until = value.Value.ToString();
+          _endedOn = value.Value.ToString();
         } else {
-          _until = null;
+          _endedOn = null;
         }
       }
     }
 
+    /// <summary>
+    /// URL
+    /// </summary>
     [Column(Name = "url", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("url")]
     public string Url { get; private set; }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
     private string _createdAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 作成日時
+    /// </summary>
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
       set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
     private string _updatedAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 更新日時
+    /// </summary>
     public DateTime UpdatedAt {
       get { return DateTime.Parse(_updatedAt); }
       set { _updatedAt = value.ToString(); }
     }
 
-    private EntitySet<RadioFilmography> _radioFilmographies;
-    [Association(OtherKey = "ActorId", Storage = "_radioFilmographies")]
-    public EntitySet<RadioFilmography> RadioFilmographies {
-      get { return _radioFilmographies; }
-      set { _radioFilmographies.Assign(value); }
+
+    /// <summary>
+    /// ラジオ声優一覧
+    /// </summary>
+    [Association(OtherKey = "RadioId", Storage = "_radiosActors")]
+    public EntitySet<RadioActor> RadiosActors {
+      get { return _radiosActors; }
+      set { _radiosActors.Assign(value); }
     }
+    private EntitySet<RadioActor> _radiosActors;
 
     public Radio() {
-      _radioFilmographies = new EntitySet<RadioFilmography>();
+      _radiosActors = new EntitySet<RadioActor>();
     }
 
-    public Radio(string title, string title_kana, Company station, DateTime? since, DateTime? until, string url) : this() {
+    public Radio(string title, string titleKana, Company station, DateTime? startedOn, DateTime? endedOn, string url) : this() {
       Title = title;
-      TitleKana = title_kana;
+      TitleKana = titleKana;
       StationId= station.Id;
       Station = station;
-      Since = since;
-      Until = until;
+      StartedOn = startedOn;
+      EndedOn = endedOn;
       Url = url;
     }
 
@@ -136,8 +146,8 @@ namespace SeiyuuDB.Entities {
       TitleKana = entity.TitleKana;
       StationId = entity.StationId;
       Station = entity.Station;
-      Since = entity.Since;
-      Until = entity.Until;
+      StartedOn = entity.StartedOn;
+      EndedOn = entity.EndedOn;
       Url = entity.Url;
     }
 
@@ -169,7 +179,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Station: ({Station?.ToString() ?? "NULL"}), Since: {Since?.ToString() ?? "NULL"}, Until: {Until?.ToString() ?? "NULL"}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Station: ({Station?.ToString() ?? "NULL"}), StartedOn: {StartedOn?.ToString() ?? "NULL"}, EndedOn: {EndedOn?.ToString() ?? "NULL"}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

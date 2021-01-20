@@ -1,80 +1,82 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
-  [Table(Name = "GameFilmography")]
-  [JsonObject("GameFilmography")]
-  public sealed class GameFilmography : ISeiyuuEntity<GameFilmography> {
+  /// <summary>
+  /// ゲームキャラクタ
+  /// </summary>
+  [Table(Name = "games_characters")]
+  public sealed class GameCharacter : ISeiyuuEntity<GameCharacter> {
+    /// <summary>
+    /// ゲームキャラクタID
+    /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
     public int Id { get; set; } = -1;
 
-    // For CosmosDB
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+    /// <summary>
+    /// キャラクタID
+    /// </summary>
     [Column(Name = "character_id", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("character_id")]
     public int CharacterId { get; private set; }
 
-    private EntityRef<Character> _character;
+    /// <summary>
+    /// キャラクタ
+    /// </summary>
     [Association(Storage = "_character", ThisKey = "CharacterId", IsForeignKey = true)]
-    [JsonIgnore]
     public Character Character {
       get { return _character.Entity; }
       private set { _character.Entity = value; }
     }
+    private EntityRef<Character> _character;
 
+    /// <summary>
+    /// ゲームID
+    /// </summary>
     [Column(Name = "game_id", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("game_id")]
     public int GameId { get; private set; }
 
-    private EntityRef<Game> _game;
+    /// <summary>
+    /// ゲーム
+    /// </summary>
     [Association(Storage = "_game", ThisKey = "GameId", IsForeignKey = true)]
-    [JsonIgnore]
     public Game Game {
       get { return _game.Entity; }
       private set { _game.Entity = value; }
     }
+    private EntityRef<Game> _game;
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
     private string _createdAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 作成日時
+    /// </summary>
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
       set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
     private string _updatedAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 更新日時
+    /// </summary>
     public DateTime UpdatedAt {
       get { return DateTime.Parse(_updatedAt); }
       set { _updatedAt = value.ToString(); }
     }
 
-    public GameFilmography() { }
-    public GameFilmography(Character character, Game game) {
+    public GameCharacter() { }
+    public GameCharacter(Character character, Game game) {
       CharacterId = character.Id;
       Character = character;
       GameId = game.Id;
       Game = game;
     }
 
-    public void Replace(GameFilmography entity) {
+    public void Replace(GameCharacter entity) {
       CharacterId = entity.CharacterId;
       Character = entity.Character;
       GameId = entity.Game.Id;
@@ -90,7 +92,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override bool Equals(object obj) {
-      if (obj is GameFilmography item) {
+      if (obj is GameCharacter item) {
         return item.CharacterId == CharacterId && item.GameId == GameId;
       }
       return false;
@@ -100,11 +102,11 @@ namespace SeiyuuDB.Entities {
       return Tuple.Create(CharacterId, GameId).GetHashCode();
     }
 
-    public static bool operator ==(GameFilmography a, GameFilmography b) {
+    public static bool operator ==(GameCharacter a, GameCharacter b) {
       return Equals(a, b);
     }
 
-    public static bool operator !=(GameFilmography a, GameFilmography b) {
+    public static bool operator !=(GameCharacter a, GameCharacter b) {
       return !Equals(a, b);
     }
 

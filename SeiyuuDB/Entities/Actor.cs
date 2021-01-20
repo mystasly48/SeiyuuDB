@@ -1,54 +1,58 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
-using System.Linq;
 
 namespace SeiyuuDB.Entities {
-  [Table(Name = "Actor")]
-  [JsonObject("Actor")]
+  /// <summary>
+  /// 声優
+  /// </summary>
+  [Table(Name = "actors")]
   public sealed class Actor : ISeiyuuEntity<Actor> {
+    /// <summary>
+    /// 声優ID
+    /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
     public int Id { get; set; } = -1;
 
-    // For CosmosDB
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+    /// <summary>
+    /// 性
+    /// </summary>
     [Column(Name = "last_name", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("last_name")]
     public string LastName { get; private set; }
 
+    /// <summary>
+    /// 名
+    /// </summary>
     [Column(Name = "first_name", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("first_name")]
     public string FirstName { get; private set; }
 
+    /// <summary>
+    /// 性かな
+    /// </summary>
     [Column(Name = "last_name_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("last_name_kana")]
     public string LastNameKana { get; private set; }
 
+    /// <summary>
+    /// 名かな
+    /// </summary>
     [Column(Name = "first_name_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("first_name_kana")]
     public string FirstNameKana { get; private set; }
 
+    /// <summary>
+    /// 性ローマ字
+    /// </summary>
     [Column(Name = "last_name_romaji", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("last_name_romaji")]
     public string LastNameRomaji { get; private set; }
 
+    /// <summary>
+    /// 名ローマ字
+    /// </summary>
     [Column(Name = "first_name_romaji", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("first_name_romaji")]
     public string FirstNameRomaji { get; private set; }
 
-    [JsonIgnore]
+    /// <summary>
+    /// 名前
+    /// </summary>
     public string Name {
       get {
         if (string.IsNullOrEmpty(FirstName)) {
@@ -59,10 +63,14 @@ namespace SeiyuuDB.Entities {
       }
     }
 
-    [JsonIgnore]
+    /// <summary>
+    /// 名前短縮形
+    /// </summary>
     public string ShortName => LastName + FirstName;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 名前かな
+    /// </summary>
     public string NameKana {
       get {
         if (string.IsNullOrEmpty(FirstNameKana) && string.IsNullOrEmpty(LastNameKana)) {
@@ -77,10 +85,14 @@ namespace SeiyuuDB.Entities {
       }
     }
 
-    [JsonIgnore]
+    /// <summary>
+    /// 名前かな短縮形
+    /// </summary>
     public string ShortNameKana => LastNameKana + FirstNameKana;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 名前ローマ字
+    /// </summary>
     public string NameRomaji {
       get {
         if (string.IsNullOrEmpty(FirstNameRomaji) && string.IsNullOrEmpty(LastNameRomaji)) {
@@ -95,18 +107,23 @@ namespace SeiyuuDB.Entities {
       }
     }
 
-    [JsonIgnore]
+    /// <summary>
+    /// 名前ローマ字短縮形
+    /// </summary>
     public string ShortNameRomaji => LastNameRomaji + FirstNameRomaji;
 
+    /// <summary>
+    /// ニックネーム
+    /// </summary>
     [Column(Name = "nickname", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("nickname")]
     public string Nickname { get; private set; }
 
     [Column(Name = "gender_id", CanBeNull = true, DbType = "INT")]
-    [JsonProperty("gender_id")]
     private int? _genderId;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 性別
+    /// </summary>
     public Gender? Gender {
       get {
         if (_genderId.HasValue) {
@@ -125,10 +142,11 @@ namespace SeiyuuDB.Entities {
     }
 
     [Column(Name = "birthdate", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("birthdate")]
     private string _birthdate;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 生年月日
+    /// </summary>
     public Birthdate Birthdate {
       get {
         return new Birthdate(_birthdate);
@@ -139,10 +157,11 @@ namespace SeiyuuDB.Entities {
     }
 
     [Column(Name = "blood_type_id", CanBeNull = true, DbType = "INT")]
-    [JsonProperty("blood_type_id")]
     private int? _bloodTypeId;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 血液型
+    /// </summary>
     public BloodType? BloodType {
       get {
         if (_bloodTypeId.HasValue) {
@@ -160,29 +179,42 @@ namespace SeiyuuDB.Entities {
       }
     }
 
+    /// <summary>
+    /// 身長
+    /// </summary>
     [Column(Name = "height", CanBeNull = true, DbType = "INT")]
-    [JsonProperty("height")]
     public int? Height { get; private set; }
 
+    /// <summary>
+    /// 出身地
+    /// </summary>
     [Column(Name = "hometown", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("hometown")]
     public string Hometown { get; private set; }
 
-    [Column(Name = "debut", CanBeNull = true, DbType = "INT")]
-    [JsonProperty("debut")]
-    public int? Debut { get; private set; }
+    /// <summary>
+    /// デビュー年
+    /// </summary>
+    [Column(Name = "debut_year", CanBeNull = true, DbType = "INT")]
+    public int? DebutYear { get; private set; }
 
-    [Column(Name = "spouse", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("spouse")]
-    public string Spouse { get; private set; }
+    /// <summary>
+    /// 配偶者名
+    /// </summary>
+    [Column(Name = "spouse_name", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    public string SpouseName { get; private set; }
 
+    /// <summary>
+    /// 事務所ID
+    /// </summary>
     [Column(Name = "agency_id", CanBeNull = true, DbType = "INT")]
-    [JsonProperty("agency_id")]
     public int? AgencyId { get; private set; }
 
     private EntityRef<Company> _agency;
+
+    /// <summary>
+    /// 事務所
+    /// </summary>
     [Association(Storage = "_agency", ThisKey = "AgencyId", IsForeignKey = true)]
-    [JsonIgnore]
     public Company Agency {
       get { return _agency.Entity; }
       private set { _agency.Entity = value; }
@@ -192,14 +224,14 @@ namespace SeiyuuDB.Entities {
     /// 写真URL
     /// </summary>
     [Column(Name = "picture_url", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("picture_url")]
     public string PictureUrl { get; private set; }
 
     [Column(Name = "is_favorite", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("is_favorite")]
     private int _isFavorite;
 
-    [JsonIgnore]
+    /// <summary>
+    /// お気に入りフラグ
+    /// </summary>
     public bool IsFavorite {
       get {
         return _isFavorite == 1;
@@ -210,87 +242,97 @@ namespace SeiyuuDB.Entities {
     }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
     private string _createdAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 作成日時
+    /// </summary>
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
       set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
     private string _updatedAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 更新日時
+    /// </summary>
     public DateTime UpdatedAt {
       get { return DateTime.Parse(_updatedAt); }
       set { _updatedAt = value.ToString(); }
     }
 
-    private EntitySet<Character> _characters;
+    /// <summary>
+    /// キャラクタ一覧
+    /// </summary>
     [Association(OtherKey = "ActorId", Storage = "_characters")]
     public EntitySet<Character> Characters {
       get { return _characters; }
       set { _characters.Assign(value); }
     }
+    private EntitySet<Character> _characters;
 
-    private EntitySet<RadioFilmography> _radioFilmographies;
-    [Association(OtherKey = "ActorId", Storage = "_radioFilmographies")]
-    public EntitySet<RadioFilmography> RadioFilmographies {
-      get { return _radioFilmographies; }
-      set { _radioFilmographies.Assign(value); }
+    /// <summary>
+    /// ラジオ声優一覧
+    /// </summary>
+    [Association(OtherKey = "ActorId", Storage = "_radiosActors")]
+    public EntitySet<RadioActor> RadiosActors {
+      get { return _radiosActors; }
+      set { _radiosActors.Assign(value); }
     }
+    private EntitySet<RadioActor> _radiosActors;
 
-    private EntitySet<ExternalLink> _externalLinks;
+    /// <summary>
+    /// 外部リンク一覧
+    /// </summary>
     [Association(OtherKey = "ActorId", Storage = "_externalLinks")]
     public EntitySet<ExternalLink> ExternalLinks {
       get { return _externalLinks; }
       set { _externalLinks.Assign(value); }
     }
+    private EntitySet<ExternalLink> _externalLinks;
 
-    private EntitySet<Note> _notes;
+    /// <summary>
+    /// ノート一覧
+    /// </summary>
     [Association(OtherKey = "ActorId", Storage = "_notes")]
     public EntitySet<Note> Notes {
       get { return _notes; }
       set { _notes.Assign(value); }
     }
+    private EntitySet<Note> _notes;
 
     public Actor() {
       _characters = new EntitySet<Character>();
-      _radioFilmographies = new EntitySet<RadioFilmography>();
+      _radiosActors = new EntitySet<RadioActor>();
       _externalLinks = new EntitySet<ExternalLink>();
       _notes = new EntitySet<Note>();
     }
 
-    public Actor(string last_name, string first_name, string last_name_kana, string first_name_kana, string last_name_romaji, string first_name_romaji,
-      string nickname, Gender? gender, Birthdate birthdate, BloodType? blood_type, int? height, string hometown, int? debut, string spouse,
-      Company agency, string picture_url, bool is_favorite) : this() {
-      LastName = last_name;
-      FirstName = first_name;
-      LastNameKana = last_name_kana;
-      FirstNameKana = first_name_kana;
-      LastNameRomaji = last_name_romaji;
-      FirstNameRomaji = first_name_romaji;
+    public Actor(string lastName, string firstName, string lastNameKana, string firstNameKana, string lastNameRomaji, string firstNameRomaji,
+      string nickname, Gender? gender, Birthdate birthdate, BloodType? bloodType, int? height, string hometown, int? debutYear, string spouseName,
+      Company agency, string pictureUrl, bool isFavorite) : this() {
+      LastName = lastName;
+      FirstName = firstName;
+      LastNameKana = lastNameKana;
+      FirstNameKana = firstNameKana;
+      LastNameRomaji = lastNameRomaji;
+      FirstNameRomaji = firstNameRomaji;
       Nickname = nickname;
       Gender = gender;
       Birthdate = birthdate;
-      BloodType = blood_type;
+      BloodType = bloodType;
       Height = height;
       Hometown = hometown;
-      Debut = debut;
-      Spouse = spouse;
+      DebutYear = debutYear;
+      SpouseName = spouseName;
       Agency = agency;
       AgencyId = agency?.Id;
-      PictureUrl = picture_url;
-      IsFavorite = is_favorite;
+      PictureUrl = pictureUrl;
+      IsFavorite = isFavorite;
     }
 
-    /// <summary>
-    /// Replace all of the properties to the entity provided excluding Id, CreatedAt, and UpdatedAt.
-    /// </summary>
-    /// <param name="entity">Entity</param>
     public void Replace(Actor entity) {
       LastName = entity.LastName;
       FirstName = entity.FirstName;
@@ -304,8 +346,8 @@ namespace SeiyuuDB.Entities {
       BloodType = entity.BloodType;
       Height = entity.Height;
       Hometown = entity.Hometown;
-      Debut = entity.Debut;
-      Spouse = entity.Spouse;
+      DebutYear = entity.DebutYear;
+      SpouseName = entity.SpouseName;
       Agency = entity.Agency;
       AgencyId = entity.AgencyId;
       PictureUrl = entity.PictureUrl;
@@ -340,22 +382,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, Debut: {Debut?.ToString() ?? "NULL"}, Spouse: {Spouse ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUrl: {PictureUrl ?? "NULL"}, IsFavorite: {IsFavorite}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, DebutYear: {DebutYear?.ToString() ?? "NULL"}, SpouseName: {SpouseName ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUrl: {PictureUrl ?? "NULL"}, IsFavorite: {IsFavorite}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
-
-    //public bool Contains(string value) {
-    //  return Name.ContainsOriginally(value) ||
-    //    NameKana.ContainsOriginally(value) ||
-    //    NameRomaji.ContainsOriginally(value) ||
-    //    Nickname.ContainsOriginally(value) ||
-    //    EnumHelper.DisplayName(Gender).ContainsOriginally(value) ||
-    //    BirthdateString.ContainsOriginally(value) ||
-    //    EnumHelper.DisplayName(BloodType).ContainsOriginally(value) ||
-    //    Height.ContainsOriginally(value) ||
-    //    Hometown.ContainsOriginally(value) ||
-    //    Debut.ContainsOriginally(value) ||
-    //    Spouse.ContainsOriginally(value) ||
-    //    (Agency?.Contains(value) ?? false);
-    //}
   }
 }

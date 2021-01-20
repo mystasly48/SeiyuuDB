@@ -1,85 +1,90 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
-  [Table(Name = "Game")]
-  [JsonObject("Game")]
+  /// <summary>
+  /// ゲーム
+  /// </summary>
+  [Table(Name = "games")]
   public sealed class Game : ISeiyuuEntity<Game> {
+    /// <summary>
+    /// ゲームID
+    /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
     public int Id { get; set; } = -1;
 
-    // For CosmosDB
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+    /// <summary>
+    /// タイトル
+    /// </summary>
     [Column(Name = "title", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("title")]
     public string Title { get; private set; }
 
+    /// <summary>
+    /// タイトルかな
+    /// </summary>
     [Column(Name = "title_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("title_kana")]
     public string TitleKana { get; private set; }
 
-    [Column(Name = "year", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("year")]
-    public int Year { get; private set; }
+    /// <summary>
+    /// 発売年
+    /// </summary>
+    [Column(Name = "released_year", CanBeNull = false, DbType = "INT")]
+    public int ReleasedYear { get; private set; }
 
+    /// <summary>
+    /// URL
+    /// </summary>
     [Column(Name = "url", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("url")]
     public string Url { get; private set; }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
     private string _createdAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 作成日時
+    /// </summary>
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
       set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
     private string _updatedAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 更新日時
+    /// </summary>
     public DateTime UpdatedAt {
       get { return DateTime.Parse(_updatedAt); }
       set { _updatedAt = value.ToString(); }
     }
 
-    private EntitySet<GameFilmography> _gameFilmographies;
-    [Association(OtherKey = "GameId", Storage = "_gameFilmographies")]
-    public EntitySet<GameFilmography> GameFilmographies {
-      get { return _gameFilmographies; }
-      set { _gameFilmographies.Assign(value); }
+    /// <summary>
+    /// ゲームキャラクタ一覧
+    /// </summary>
+    [Association(OtherKey = "GameId", Storage = "_gamesCharacters")]
+    public EntitySet<GameCharacter> GamesCharacters {
+      get { return _gamesCharacters; }
+      set { _gamesCharacters.Assign(value); }
     }
+    private EntitySet<GameCharacter> _gamesCharacters;
 
     public Game() {
-      _gameFilmographies = new EntitySet<GameFilmography>();
+      _gamesCharacters = new EntitySet<GameCharacter>();
     }
 
-    public Game(string title, string title_kana, int year, string url) : this() {
+    public Game(string title, string titleKana, int releasedYear, string url) : this() {
       Title = title;
-      TitleKana = title_kana;
-      Year = year;
+      TitleKana = titleKana;
+      ReleasedYear = releasedYear;
       Url = url;
     }
 
     public void Replace(Game entity) {
       Title = entity.Title;
       TitleKana = entity.TitleKana;
-      Year = entity.Year;
+      ReleasedYear = entity.ReleasedYear;
       Url = entity.Url;
     }
 
@@ -111,7 +116,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Year: {Year}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, ReleasedYear: {ReleasedYear}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

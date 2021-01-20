@@ -1,40 +1,40 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
-  [Table(Name = "Company")]
-  [JsonObject("Company")]
+  /// <summary>
+  /// 会社
+  /// </summary>
+  [Table(Name = "companies")]
   public sealed class Company : ISeiyuuEntity<Company> {
+    /// <summary>
+    /// 会社ID
+    /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
     public int Id { get; set; } = -1;
 
-    // For CosmosDB
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+    /// <summary>
+    /// 名前
+    /// </summary>
     [Column(Name = "name", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("name")]
     public string Name { get; private set; }
 
+    /// <summary>
+    /// 名前かな
+    /// </summary>
     [Column(Name = "name_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("name_kana")]
     public string NameKana { get; private set; }
 
-    [Column(Name = "type_id", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("type_id")]
+    /// <summary>
+    /// 会社種別ID
+    /// </summary>
+    [Column(Name = "company_type_id", CanBeNull = false, DbType = "INT")]
     public int CompanyTypeId { get; private set; }
 
-    [JsonIgnore]
+    /// <summary>
+    /// 会社種別
+    /// </summary>
     public CompanyType CompanyType {
       get {
         return (CompanyType)Enum.ToObject(typeof(CompanyType), CompanyTypeId);
@@ -44,53 +44,63 @@ namespace SeiyuuDB.Entities {
       }
     }
 
+    /// <summary>
+    /// URL
+    /// </summary>
     [Column(Name = "url", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("url")]
     public string Url { get; private set; }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
     private string _createdAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 作成日時
+    /// </summary>
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
       set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
     private string _updatedAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 更新日時
+    /// </summary>
     public DateTime UpdatedAt {
       get { return DateTime.Parse(_updatedAt); }
       set { _updatedAt = value.ToString(); }
     }
 
-    private EntitySet<Actor> _actors;
+    /// <summary>
+    /// 声優一覧
+    /// </summary>
     [Association(OtherKey = "AgencyId", Storage = "_actors")]
     public EntitySet<Actor> Actors {
       get { return _actors; }
       set { _actors.Assign(value); }
     }
+    private EntitySet<Actor> _actors;
 
-    private EntitySet<Radio> _radios;
+    /// <summary>
+    /// ラジオ一覧
+    /// </summary>
     [Association(OtherKey = "StationId", Storage = "_radios")]
     public EntitySet<Radio> Radios {
       get { return _radios; }
       set { _radios.Assign(value); }
     }
+    private EntitySet<Radio> _radios;
 
     public Company() {
       _actors = new EntitySet<Actor>();
       _radios = new EntitySet<Radio>();
     }
 
-    public Company(string name, string name_kana, CompanyType company_type, string url) : this() {
+    public Company(string name, string nameKana, CompanyType companyType, string url) : this() {
       Name = name;
-      NameKana = name_kana;
-      CompanyType = company_type;
+      NameKana = nameKana;
+      CompanyType = companyType;
       Url = url;
     }
 

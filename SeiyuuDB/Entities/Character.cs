@@ -1,40 +1,37 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
-  [Table(Name = "Character")]
-  [JsonObject("Character")]
+  /// <summary>
+  /// キャラクタ
+  /// </summary>
+  [Table(Name = "characters")]
   public sealed class Character : ISeiyuuEntity<Character> {
+    /// <summary>
+    /// キャラクタID
+    /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
     public int Id { get; set; } = -1;
 
-    // For CosmosDB
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+    /// <summary>
+    /// 名前
+    /// </summary>
     [Column(Name = "name", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("name")]
     public string Name { get; private set; }
 
+    /// <summary>
+    /// 名前かな
+    /// </summary>
     [Column(Name = "name_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("name_kana")]
     public string NameKana { get; private set; }
 
     [Column(Name = "is_main_role", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("is_main_role")]
     private int _isMainRole;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 主役フラグ
+    /// </summary>
     public bool IsMainRole {
       get {
         return _isMainRole == 1;
@@ -44,66 +41,80 @@ namespace SeiyuuDB.Entities {
       }
     }
 
+    /// <summary>
+    /// 声優ID
+    /// </summary>
     [Column(Name = "actor_id", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("actor_id")]
     public int ActorId { get; private set; }
 
-    private EntityRef<Actor> _actor;
+    /// <summary>
+    /// 声優
+    /// </summary>
     [Association(Storage = "_actor", ThisKey = "ActorId", IsForeignKey = true)]
-    [JsonIgnore]
     public Actor Actor {
       get { return _actor.Entity; }
       private set { _actor.Entity = value; }
     }
+    private EntityRef<Actor> _actor;
 
+    /// <summary>
+    /// 写真URL
+    /// </summary>
     [Column(Name = "picture_url", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("picture_url")]
     public string PictureUrl { get; private set; }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
     private string _createdAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 作成日時
+    /// </summary>
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
       set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
     private string _updatedAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 更新日時
+    /// </summary>
     public DateTime UpdatedAt {
       get { return DateTime.Parse(_updatedAt); }
       set { _updatedAt = value.ToString(); }
     }
 
-    private EntitySet<AnimeFilmography> _animeFilmographies;
-    [Association(OtherKey = "CharacterId", Storage = "_animeFilmographies")]
-    public EntitySet<AnimeFilmography> AnimeFilmographies {
-      get { return _animeFilmographies; }
-      set { _animeFilmographies.Assign(value); }
+    /// <summary>
+    /// アニメキャラクタ一覧
+    /// </summary>
+    [Association(OtherKey = "CharacterId", Storage = "_animesCharacters")]
+    public EntitySet<AnimeCharacter> AnimesCharacters {
+      get { return _animesCharacters; }
+      set { _animesCharacters.Assign(value); }
     }
+    private EntitySet<AnimeCharacter> _animesCharacters;
 
-    private EntitySet<GameFilmography> _gameFilmographies;
-    [Association(OtherKey = "CharacterId", Storage = "_gameFilmographies")]
-    public EntitySet<GameFilmography> GameFilmographies {
-      get { return _gameFilmographies; }
-      set { _gameFilmographies.Assign(value); }
+    /// <summary>
+    /// ゲームキャラクタ一覧
+    /// </summary>
+    [Association(OtherKey = "CharacterId", Storage = "_gamesCharacters")]
+    public EntitySet<GameCharacter> GamesCharacters {
+      get { return _gamesCharacters; }
+      set { _gamesCharacters.Assign(value); }
     }
+    private EntitySet<GameCharacter> _gamesCharacters;
 
     public Character() {
-      _animeFilmographies = new EntitySet<AnimeFilmography>();
-      _gameFilmographies = new EntitySet<GameFilmography>();
+      _animesCharacters = new EntitySet<AnimeCharacter>();
+      _gamesCharacters = new EntitySet<GameCharacter>();
     }
 
-    public Character(string name, string name_kana, bool is_main_role, string picture_url, Actor actor) : this() {
+    public Character(string name, string nameKana, bool isMainRole, string pictureUrl, Actor actor) : this() {
       Name = name;
-      NameKana = name_kana;
-      IsMainRole = is_main_role;
-      PictureUrl = picture_url;
+      NameKana = nameKana;
+      IsMainRole = isMainRole;
+      PictureUrl = pictureUrl;
       ActorId = actor.Id;
       Actor = actor;
     }

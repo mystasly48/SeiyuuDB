@@ -59,16 +59,16 @@ namespace SeiyuuDB.Databases {
         obj = _context.Actors.FirstOrDefault(x => x.Id == id);
       } else if (typeof(T) == typeof(Anime)) {
         obj = _context.Animes.FirstOrDefault(x => x.Id == id);
-      } else if (typeof(T) == typeof(AnimeFilmography)) {
-        obj = _context.AnimeFilmographies.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(AnimeCharacter)) {
+        obj = _context.AnimesCharacters.FirstOrDefault(x => x.Id == id);
       } else if (typeof(T) == typeof(Game)) {
         obj = _context.Games.FirstOrDefault(x => x.Id == id);
-      } else if (typeof(T) == typeof(GameFilmography)) {
-        obj = _context.GameFilmographies.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(GameCharacter)) {
+        obj = _context.GamesCharacters.FirstOrDefault(x => x.Id == id);
       } else if (typeof(T) == typeof(Radio)) {
         obj = _context.Radios.FirstOrDefault(x => x.Id == id);
-      } else if (typeof(T) == typeof(RadioFilmography)) {
-        obj = _context.RadioFilmographies.FirstOrDefault(x => x.Id == id);
+      } else if (typeof(T) == typeof(RadioActor)) {
+        obj = _context.RadiosActors.FirstOrDefault(x => x.Id == id);
       } else if (typeof(T) == typeof(Company)) {
         obj = _context.Companies.FirstOrDefault(x => x.Id == id);
       } else if (typeof(T) == typeof(ExternalLink)) {
@@ -219,7 +219,7 @@ namespace SeiyuuDB.Databases {
                        || actor.Hometown.Contains(keyword)
                        // Height
                        // Debut
-                       || actor.Spouse.Contains(keyword)
+                       || actor.SpouseName.Contains(keyword)
                        || actor.Agency.Name.Contains(keyword)
                        || actor.Agency.NameKana.Contains(keyword)
                        select actor;
@@ -229,17 +229,17 @@ namespace SeiyuuDB.Databases {
                            || character.NameKana.Contains(keyword)
                            select character.Actor;
 
-          var animeFilmographies = from film in _context.AnimeFilmographies
+          var animeFilmographies = from film in _context.AnimesCharacters
                                    where film.Anime.Title.Contains(keyword)
                                    || film.Anime.TitleKana.Contains(keyword)
                                    select film.Character.Actor;
 
-          var gameFilmographies = from film in _context.GameFilmographies
+          var gameFilmographies = from film in _context.GamesCharacters
                                   where film.Game.Title.Contains(keyword)
                                   || film.Game.TitleKana.Contains(keyword)
                                   select film.Character.Actor;
 
-          var radioFilmographies = from film in _context.RadioFilmographies
+          var radioFilmographies = from film in _context.RadiosActors
                                    where film.Radio.Title.Contains(keyword)
                                    || film.Radio.TitleKana.Contains(keyword)
                                    || film.Radio.Station.Name.Contains(keyword)
@@ -321,35 +321,35 @@ namespace SeiyuuDB.Databases {
           .ToArray();
     }
 
-    public AnimeFilmography[] FindAnimeFilmographiesByActorId(int actorId) {
-      var animeFilmographies = from film in _context.AnimeFilmographies
+    public AnimeCharacter[] FindAnimeFilmographiesByActorId(int actorId) {
+      var animeFilmographies = from film in _context.AnimesCharacters
                                where film.Character.Actor.Id == actorId
                                select film;
       return animeFilmographies.ToArray()
-          .OrderBy(film => film.Anime.Year)
+          .OrderBy(film => film.Anime.ReleasedYear)
           .ThenBy(film => film.Anime.TitleKana)
           .ThenBy(film => film.Anime.Title)
           .ToArray();
     }
 
-    public GameFilmography[] FindGameFilmographiesByActorId(int actorId) {
-      var gameFilmographies = from film in _context.GameFilmographies
+    public GameCharacter[] FindGameFilmographiesByActorId(int actorId) {
+      var gameFilmographies = from film in _context.GamesCharacters
                               where film.Character.Actor.Id == actorId
                               select film;
       return gameFilmographies.ToArray()
-          .OrderBy(film => film.Game.Year)
+          .OrderBy(film => film.Game.ReleasedYear)
           .ThenBy(film => film.Game.TitleKana)
           .ThenBy(film => film.Game.Title)
           .ToArray();
     }
 
-    public RadioFilmography[] FindRadioFilmographiesByActorId(int actorId) {
-      var radioFilmographies = from film in _context.RadioFilmographies
+    public RadioActor[] FindRadioFilmographiesByActorId(int actorId) {
+      var radioFilmographies = from film in _context.RadiosActors
                                where film.Actor.Id == actorId
                                select film;
       return radioFilmographies.ToArray()
-          .OrderBy(radilFimography => radilFimography.Radio.Since)
-          .ThenBy(radilFimography => radilFimography.Radio.Until)
+          .OrderBy(radilFimography => radilFimography.Radio.StartedOn)
+          .ThenBy(radilFimography => radilFimography.Radio.EndedOn)
           .ToArray();
     }
 

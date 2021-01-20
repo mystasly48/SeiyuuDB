@@ -1,13 +1,30 @@
 ﻿using System;
 
 namespace SeiyuuDB.Entities {
+  /// <summary>
+  /// 生年月日
+  /// </summary>
   public class Birthdate {
     private static readonly DateTime BASE_DATE = new DateTime(1, 1, 1);
 
+    /// <summary>
+    /// 誕生年
+    /// </summary>
     public int? Year { get; set; }
+
+    /// <summary>
+    /// 誕生月
+    /// </summary>
     public int? Month { get; set; }
+
+    /// <summary>
+    /// 誕生日
+    /// </summary>
     public int? Day { get; set; }
 
+    /// <summary>
+    /// DB保存用生年月日文字列
+    /// </summary>
     public string StorageString {
       get {
         if (!Year.HasValue && !Month.HasValue && !Day.HasValue) {
@@ -21,13 +38,21 @@ namespace SeiyuuDB.Entities {
       }
     }
 
+    /// <summary>
+    /// 年齢
+    /// </summary>
     public int? Age {
       get {
         if (Year.HasValue && Month.HasValue && Day.HasValue) {
           var birthdate = new DateTime(Year.Value, Month.Value, Day.Value);
           var span = DateTime.Now - birthdate;
-          var age = (BASE_DATE + span).Year - 1;
-          return age;
+          if (span.Days >= 0) {
+            var age = (BASE_DATE + span).Year - 1;
+            return age;
+          } else {
+            var age = (BASE_DATE - span).Year;
+            return -age;
+          }
         } else {
           return null;
         }

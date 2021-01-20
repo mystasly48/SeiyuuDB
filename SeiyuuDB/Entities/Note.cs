@@ -1,62 +1,64 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
-  [Table(Name = "Note")]
-  [JsonObject("Note")]
+  /// <summary>
+  /// ノート
+  /// </summary>
+  [Table(Name = "notes")]
   public sealed class Note : ISeiyuuEntity<Note> {
+    /// <summary>
+    /// ノートID
+    /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
     public int Id { get; set; } = -1;
 
-    // For CosmosDB
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+    /// <summary>
+    /// タイトル
+    /// </summary>
     [Column(Name = "title", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("title")]
     public string Title { get; private set; }
 
+    /// <summary>
+    /// 内容
+    /// </summary>
     [Column(Name = "content", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("content")]
     public string Content { get; private set; }
 
+    /// <summary>
+    /// 声優ID
+    /// </summary>
     [Column(Name = "actor_id", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("actor_id")]
     public int ActorId { get; private set; }
 
-    private EntityRef<Actor> _actor;
+    /// <summary>
+    /// 声優
+    /// </summary>
     [Association(Storage = "_actor", ThisKey = "ActorId", IsForeignKey = true)]
-    [JsonIgnore]
     public Actor Actor {
       get { return _actor.Entity; }
       private set { _actor.Entity = value; }
     }
+    private EntityRef<Actor> _actor;
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
     private string _createdAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 作成日時
+    /// </summary>
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
       set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
     private string _updatedAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 更新日時
+    /// </summary>
     public DateTime UpdatedAt {
       get { return DateTime.Parse(_updatedAt); }
       set { _updatedAt = value.ToString(); }

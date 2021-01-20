@@ -1,85 +1,90 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
-  [Table(Name = "Anime")]
-  [JsonObject("Anime")]
+  /// <summary>
+  /// アニメ
+  /// </summary>
+  [Table(Name = "animes")]
   public sealed class Anime : ISeiyuuEntity<Anime> {
+    /// <summary>
+    /// アニメID
+    /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
     public int Id { get; set; } = -1;
 
-    // For CosmosDB
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+    /// <summary>
+    /// タイトル
+    /// </summary>
     [Column(Name = "title", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("title")]
     public string Title { get; private set; }
 
+    /// <summary>
+    /// タイトルかな
+    /// </summary>
     [Column(Name = "title_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("title_kana")]
     public string TitleKana { get; private set; }
 
-    [Column(Name = "year", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("year")]
-    public int Year { get; private set; }
+    /// <summary>
+    /// 放送年
+    /// </summary>
+    [Column(Name = "released_year", CanBeNull = false, DbType = "INT")]
+    public int ReleasedYear { get; private set; }
 
+    /// <summary>
+    /// URL
+    /// </summary>
     [Column(Name = "url", CanBeNull = true, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("url")]
     public string Url { get; private set; }
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
     private string _createdAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 作成日時
+    /// </summary>
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
       set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
     private string _updatedAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 更新日時
+    /// </summary>
     public DateTime UpdatedAt {
       get { return DateTime.Parse(_updatedAt); }
       set { _updatedAt = value.ToString(); }
     }
 
-    private EntitySet<AnimeFilmography> _animeFilmographies;
-    [Association(OtherKey = "AnimeId", Storage = "_animeFilmographies")]
-    public EntitySet<AnimeFilmography> AnimeFilmographies {
-      get { return _animeFilmographies; }
-      set { _animeFilmographies.Assign(value); }
+    /// <summary>
+    /// アニメキャラクタ一覧
+    /// </summary>
+    [Association(OtherKey = "AnimeId", Storage = "_animesCharacters")]
+    public EntitySet<AnimeCharacter> AnimesCharacters {
+      get { return _animesCharacters; }
+      set { _animesCharacters.Assign(value); }
     }
+    private EntitySet<AnimeCharacter> _animesCharacters;
 
     public Anime() {
-      _animeFilmographies = new EntitySet<AnimeFilmography>();
+      _animesCharacters = new EntitySet<AnimeCharacter>();
     }
 
-    public Anime(string title, string title_kana, int year, string url) : this() {
+    public Anime(string title, string titleKana, int releasedYear, string url) : this() {
       Title = title;
-      TitleKana = title_kana;
-      Year = year;
+      TitleKana = titleKana;
+      ReleasedYear = releasedYear;
       Url = url;
     }
 
     public void Replace(Anime entity) {
       Title = entity.Title;
       Title = entity.TitleKana;
-      Year = entity.Year;
+      ReleasedYear = entity.ReleasedYear;
       Url = entity.Url;
     }
 
@@ -111,7 +116,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Year: {Year}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, ReleasedYear: {ReleasedYear}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

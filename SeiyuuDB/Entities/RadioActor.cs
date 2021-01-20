@@ -1,80 +1,82 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
 namespace SeiyuuDB.Entities {
-  [Table(Name = "RadioFilmography")]
-  [JsonObject("RadioFilmography")]
-  public sealed class RadioFilmography : ISeiyuuEntity<RadioFilmography> {
+  /// <summary>
+  /// ラジオ声優
+  /// </summary>
+  [Table(Name = "radios_actors")]
+  public sealed class RadioActor : ISeiyuuEntity<RadioActor> {
+    /// <summary>
+    /// ラジオ声優ID
+    /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
-    [JsonIgnore]
     public int Id { get; set; } = -1;
 
-    // For CosmosDB
-    //[JsonProperty("id")]
-    //private string _idString {
-    //  get {
-    //    return Id.ToString();
-    //  }
-    //  set {
-    //    Id = int.Parse(value);
-    //  }
-    //}
-
+    /// <summary>
+    /// 声優ID
+    /// </summary>
     [Column(Name = "actor_id", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("actor_id")]
     public int ActorId { get; private set; }
 
-    private EntityRef<Actor> _actor;
+    /// <summary>
+    /// 声優
+    /// </summary>
     [Association(Storage = "_actor", ThisKey = "ActorId", IsForeignKey = true)]
-    [JsonIgnore]
     public Actor Actor {
       get { return _actor.Entity; }
       private set { _actor.Entity = value; }
     }
+    private EntityRef<Actor> _actor;
 
+    /// <summary>
+    /// ラジオID
+    /// </summary>
     [Column(Name = "radio_id", CanBeNull = false, DbType = "INT")]
-    [JsonProperty("radio_id")]
     public int RadioId { get; private set; }
 
-    private EntityRef<Radio> _radio;
+    /// <summary>
+    /// ラジオ
+    /// </summary>
     [Association(Storage = "_radio", ThisKey = "RadioId", IsForeignKey = true)]
-    [JsonIgnore]
     public Radio Radio {
       get { return _radio.Entity; }
       private set { _radio.Entity = value; }
     }
+    private EntityRef<Radio> _radio;
 
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("created_at")]
     private string _createdAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 作成日時
+    /// </summary>
     public DateTime CreatedAt {
       get { return DateTime.Parse(_createdAt); }
       set { _createdAt = value.ToString(); }
     }
 
     [Column(Name = "updated_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
-    [JsonProperty("updated_at")]
     private string _updatedAt;
 
-    [JsonIgnore]
+    /// <summary>
+    /// 更新日時
+    /// </summary>
     public DateTime UpdatedAt {
       get { return DateTime.Parse(_updatedAt); }
       set { _updatedAt = value.ToString(); }
     }
 
-    public RadioFilmography() { }
-    public RadioFilmography(Actor actor, Radio radio) {
+    public RadioActor() { }
+    public RadioActor(Actor actor, Radio radio) {
       ActorId = actor.Id;
       Actor = actor;
       RadioId = radio.Id;
       Radio = radio;
     }
 
-    public void Replace(RadioFilmography entity) {
+    public void Replace(RadioActor entity) {
       ActorId = entity.ActorId;
       Actor = entity.Actor;
       RadioId = entity.RadioId;
@@ -90,7 +92,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override bool Equals(object obj) {
-      if (obj is RadioFilmography item) {
+      if (obj is RadioActor item) {
         return item.ActorId == ActorId && item.RadioId == RadioId;
       }
       return false;
@@ -100,11 +102,11 @@ namespace SeiyuuDB.Entities {
       return Tuple.Create(ActorId, RadioId).GetHashCode();
     }
 
-    public static bool operator ==(RadioFilmography a, RadioFilmography b) {
+    public static bool operator ==(RadioActor a, RadioActor b) {
       return Equals(a, b);
     }
 
-    public static bool operator !=(RadioFilmography a, RadioFilmography b) {
+    public static bool operator !=(RadioActor a, RadioActor b) {
       return !Equals(a, b);
     }
 

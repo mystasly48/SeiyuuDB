@@ -48,15 +48,15 @@
     <Compile Include="Entities\Birthdate.cs" />
     <Compile Include="Entities\Character.cs" />
     <Compile Include="Entities\Game.cs" />
-    <Compile Include="Entities\GameFilmography.cs" />
-    <Compile Include="Entities\OtherFilmography.cs" />
+    <Compile Include="Entities\GameCharacter.cs" />
+    <Compile Include="Entities\OtherAppearance.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Databases\ISeiyuuDB.cs" />
     <Compile Include="Databases\LocalSqlite.cs" />
     <Compile Include="Entities\Actor.cs" />
     <Compile Include="Entities\Anime.cs" />
-    <Compile Include="Entities\AnimeFilmography.cs" />
+    <Compile Include="Entities\AnimeCharacter.cs" />
     <Compile Include="Entities\BloodType.cs" />
     <Compile Include="Entities\Company.cs" />
     <Compile Include="Entities\CompanyType.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="Entities\ISeiyuuEntity.cs" />
     <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\Radio.cs" />
-    <Compile Include="Entities\RadioFilmography.cs" />
+    <Compile Include="Entities\RadioActor.cs" />
     <Compile Include="Helpers\kanaxs.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
