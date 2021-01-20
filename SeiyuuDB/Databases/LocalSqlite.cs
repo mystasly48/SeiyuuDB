@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Linq;
+using System.Data.Linq.Mapping;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -39,8 +40,17 @@ namespace SeiyuuDB.Databases {
       _connection.Dispose();
     }
 
+    private string getTableName<T>() where T : class, ISeiyuuEntity<T> {
+      var attributes = typeof(T).GetCustomAttributes(typeof(TableAttribute), false);
+      if (attributes.Count() > 0) {
+        return (attributes.First() as TableAttribute).Name;
+      } else {
+        return typeof(T).Name;
+      }
+    }
+
     private int GetNextId<T>() where T : class, ISeiyuuEntity<T> {
-      _command.CommandText = $"select id from {typeof(T).Name} order by rowid desc limit 1;";
+      _command.CommandText = $"select id from {getTableName<T>()} order by rowid desc limit 1;";
       using (var reader = _command.ExecuteReader()) {
         while (reader.Read()) {
           return reader.GetInt32(0) + 1;
@@ -195,7 +205,7 @@ namespace SeiyuuDB.Databases {
           //SqlMethods.Like(x.Title, escaped);
           //SqlMethods.Like(SqlFunctions.StringConvert((double)x.Height), escaped)
 
-          var actorsByNameQuery = $"select id from Actor" +
+          var actorsByNameQuery = $"select id from actors" +
                                   $" where last_name || first_name like '{escaped}'" +
                                   $" or last_name_kana || first_name_kana like '{escaped}'" +
                                   $" or last_name_romaji || first_name_romaji like '{escaped}'";
