@@ -332,6 +332,16 @@ namespace SeiyuuDB.Databases {
         .ToArray();
     }
 
+    public AnimeCharacter[] FindAnimeCharactersByAnimeId(int animeId) {
+      var animesCharacters = from ac in _context.AnimesCharacters
+                             where ac.AnimeId == animeId
+                             select ac;
+      return animesCharacters.ToArray()
+        .OrderBy(ac => ac.Character.NameKana)
+        .ThenBy(ac => ac.Character.Name)
+        .ToArray();
+    }
+
     public Character FindCharacterByNameAndActorId(string name, int actorId) {
       var characters = from c in _context.Characters
                        where c.Name == name
@@ -355,6 +365,22 @@ namespace SeiyuuDB.Databases {
         .OrderBy(c => c.NameKana)
         .ThenBy(c => c.Name)
         .ToArray();
+    }
+
+    public Company FindAgencyByName(string name) {
+      var agencies = from c in _context.Companies
+                     where c.Name == name
+                     && c.CompanyTypeId == (int)CompanyType.Agency
+                     select c;
+      return agencies.ToArray().FirstOrDefault();
+    }
+    
+    public Company FindStationByName(string name) {
+      var stations = from c in _context.Companies
+                     where c.Name == name
+                     && c.CompanyTypeId == (int)CompanyType.Station
+                     select c;
+      return stations.ToArray().FirstOrDefault();
     }
 
     public Company[] FindAgencies() {
@@ -384,6 +410,13 @@ namespace SeiyuuDB.Databases {
       return externalLinks.ToArray()
         .OrderBy(el => el.CreatedAt)
         .ToArray();
+    }
+
+    public Game FindGameByTitle(string title) {
+      var games = from g in _context.Games
+                   where g.Title == title
+                   select g;
+      return games.ToArray().FirstOrDefault();
     }
 
     public Game[] FindGames() {
@@ -422,6 +455,13 @@ namespace SeiyuuDB.Databases {
         .ThenBy(oa => oa.TitleKana)
         .ThenBy(oa => oa.Title)
         .ToArray();
+    }
+
+    public Radio FindRadioByTitle(string title) {
+      var radios = from r in _context.Radios
+                   where r.Title == title
+                   select r;
+      return radios.ToArray().FirstOrDefault();
     }
 
     public Radio[] FindRadios() {
