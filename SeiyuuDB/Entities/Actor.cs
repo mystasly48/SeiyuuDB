@@ -241,6 +241,21 @@ namespace SeiyuuDB.Entities {
       }
     }
 
+    [Column(Name = "is_completed", CanBeNull = false, DbType = "INT")]
+    private int _isCompleted;
+
+    /// <summary>
+    /// 編集完了フラグ
+    /// </summary>
+    public bool IsCompleted {
+      get {
+        return _isCompleted == 1;
+      }
+      set {
+        _isCompleted = value ? 1 : 0;
+      }
+    }
+
     [Column(Name = "created_at", CanBeNull = false, DbType = "VARCHAR(MAX)")]
     private string _createdAt;
 
@@ -323,7 +338,7 @@ namespace SeiyuuDB.Entities {
 
     public Actor(string lastName, string firstName, string lastNameKana, string firstNameKana, string lastNameRomaji, string firstNameRomaji,
       string nickname, Gender? gender, Birthdate birthdate, BloodType? bloodType, int? height, string hometown, int? debutYear, string spouseName,
-      Company agency, string pictureUrl, bool isFavorite) : this() {
+      Company agency, string pictureUrl, bool isFavorite, bool isCompleted) : this() {
       LastName = lastName;
       FirstName = firstName;
       LastNameKana = lastNameKana;
@@ -342,6 +357,7 @@ namespace SeiyuuDB.Entities {
       AgencyId = agency?.Id;
       PictureUrl = pictureUrl;
       IsFavorite = isFavorite;
+      IsCompleted = isCompleted;
     }
 
     public void Replace(Actor entity) {
@@ -363,6 +379,7 @@ namespace SeiyuuDB.Entities {
       AgencyId = entity.AgencyId;
       PictureUrl = entity.PictureUrl;
       IsFavorite = entity.IsFavorite;
+      IsCompleted = entity.IsCompleted;
     }
 
     public bool IsReadyEntity() {
@@ -393,7 +410,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, DebutYear: {DebutYear?.ToString() ?? "NULL"}, SpouseName: {SpouseName ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUrl: {PictureUrl ?? "NULL"}, IsFavorite: {IsFavorite}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, DebutYear: {DebutYear?.ToString() ?? "NULL"}, SpouseName: {SpouseName ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUrl: {PictureUrl ?? "NULL"}, IsFavorite: {IsFavorite}, IsCompleted: {IsCompleted}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }
