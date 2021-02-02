@@ -232,28 +232,34 @@ namespace SeiyuuDB.Databases {
                        || actor.SpouseName.Contains(keyword)
                        || actor.Agency.Name.Contains(keyword)
                        || actor.Agency.NameKana.Contains(keyword)
+                       || actor.Agency.Alias.Contains(keyword)
                        select actor;
 
           var characters = from character in _context.Characters
                            where character.Name.Contains(keyword)
                            || character.NameKana.Contains(keyword)
+                           || character.Alias.Contains(keyword)
                            select character.Actor;
 
           var animesCharacters = from film in _context.AnimesCharacters
                                    where film.Anime.Title.Contains(keyword)
                                    || film.Anime.TitleKana.Contains(keyword)
+                                   || film.Anime.Alias.Contains(keyword)
                                    select film.Character.Actor;
 
           var gamesCharacters = from film in _context.GamesCharacters
                                   where film.Game.Title.Contains(keyword)
                                   || film.Game.TitleKana.Contains(keyword)
+                                  || film.Game.Alias.Contains(keyword)
                                   select film.Character.Actor;
 
           var radiosActors = from film in _context.RadiosActors
                                    where film.Radio.Title.Contains(keyword)
                                    || film.Radio.TitleKana.Contains(keyword)
+                                   || film.Radio.Alias.Contains(keyword)
                                    || film.Radio.Station.Name.Contains(keyword)
                                    || film.Radio.Station.NameKana.Contains(keyword)
+                                   || film.Radio.Station.Alias.Contains(keyword)
                                    select film.Actor;
 
           var links = from link in _context.ExternalLinks
