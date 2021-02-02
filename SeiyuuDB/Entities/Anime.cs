@@ -27,6 +27,12 @@ namespace SeiyuuDB.Entities {
     public string TitleKana { get; private set; }
 
     /// <summary>
+    /// 別称
+    /// </summary>
+    [Column(Name = "alias", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    public string Alias { get; private set; }
+
+    /// <summary>
     /// 放送年
     /// </summary>
     [Column(Name = "released_year", CanBeNull = false, DbType = "INT")]
@@ -74,9 +80,10 @@ namespace SeiyuuDB.Entities {
       _animesCharacters = new EntitySet<AnimeCharacter>();
     }
 
-    public Anime(string title, string titleKana, int releasedYear, string url) : this() {
+    public Anime(string title, string titleKana, string alias, int releasedYear, string url) : this() {
       Title = title;
       TitleKana = titleKana;
+      Alias = alias;
       ReleasedYear = releasedYear;
       Url = url;
     }
@@ -84,6 +91,7 @@ namespace SeiyuuDB.Entities {
     public void Replace(Anime entity) {
       Title = entity.Title;
       Title = entity.TitleKana;
+      Alias = entity.Alias;
       ReleasedYear = entity.ReleasedYear;
       Url = entity.Url;
     }
@@ -116,7 +124,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, ReleasedYear: {ReleasedYear}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Alias: {Alias}, ReleasedYear: {ReleasedYear}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

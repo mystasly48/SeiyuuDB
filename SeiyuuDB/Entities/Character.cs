@@ -26,6 +26,12 @@ namespace SeiyuuDB.Entities {
     [Column(Name = "name_kana", CanBeNull = true, DbType = "VARCHAR(MAX)")]
     public string NameKana { get; private set; }
 
+    /// <summary>
+    /// 別称
+    /// </summary>
+    [Column(Name = "alias", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    public string Alias { get; private set; }
+
     [Column(Name = "is_main_role", CanBeNull = false, DbType = "INT")]
     private int _isMainRole;
 
@@ -110,9 +116,10 @@ namespace SeiyuuDB.Entities {
       _gamesCharacters = new EntitySet<GameCharacter>();
     }
 
-    public Character(string name, string nameKana, bool isMainRole, string pictureUrl, Actor actor) : this() {
+    public Character(string name, string nameKana, string alias, bool isMainRole, string pictureUrl, Actor actor) : this() {
       Name = name;
       NameKana = nameKana;
+      Alias = alias;
       IsMainRole = isMainRole;
       PictureUrl = pictureUrl;
       ActorId = actor.Id;
@@ -122,6 +129,7 @@ namespace SeiyuuDB.Entities {
     public void Replace(Character entity) {
       Name = entity.Name;
       NameKana = entity.NameKana;
+      Alias = entity.Alias;
       PictureUrl = entity.PictureUrl;
       IsMainRole = entity.IsMainRole;
       ActorId = entity.ActorId;
@@ -156,7 +164,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana}, IsMainRole: {IsMainRole}, PictureUrl: {PictureUrl}, Actor: ({Actor}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana}, Alias: {Alias}, IsMainRole: {IsMainRole}, PictureUrl: {PictureUrl}, Actor: ({Actor}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

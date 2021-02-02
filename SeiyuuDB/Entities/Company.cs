@@ -27,6 +27,12 @@ namespace SeiyuuDB.Entities {
     public string NameKana { get; private set; }
 
     /// <summary>
+    /// 別称
+    /// </summary>
+    [Column(Name = "alias", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    public string Alias { get; private set; }
+
+    /// <summary>
     /// 会社種別ID
     /// </summary>
     [Column(Name = "company_type_id", CanBeNull = false, DbType = "INT")]
@@ -97,9 +103,10 @@ namespace SeiyuuDB.Entities {
       _radios = new EntitySet<Radio>();
     }
 
-    public Company(string name, string nameKana, CompanyType companyType, string url) : this() {
+    public Company(string name, string nameKana, string alias, CompanyType companyType, string url) : this() {
       Name = name;
       NameKana = nameKana;
+      Alias = alias;
       CompanyType = companyType;
       Url = url;
     }
@@ -107,6 +114,7 @@ namespace SeiyuuDB.Entities {
     public void Replace(Company entity) {
       Name = entity.Name;
       NameKana = entity.NameKana;
+      Alias = entity.Alias;
       CompanyType = entity.CompanyType;
       Url = entity.Url;
     }
@@ -139,7 +147,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana}, CompanyType: {CompanyType}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana}, Alias: {Alias}, CompanyType: {CompanyType}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }
