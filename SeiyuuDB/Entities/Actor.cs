@@ -284,6 +284,16 @@ namespace SeiyuuDB.Entities {
     private EntitySet<RadioActor> _radiosActors;
 
     /// <summary>
+    /// その他出演一覧
+    /// </summary>
+    [Association(OtherKey = "ActorId", Storage = "_otherAppearances")]
+    public EntitySet<OtherAppearance> OtherAppearances {
+      get { return _otherAppearances; }
+      set { _otherAppearances.Assign(value); }
+    }
+    private EntitySet<OtherAppearance> _otherAppearances;
+
+    /// <summary>
     /// 外部リンク一覧
     /// </summary>
     [Association(OtherKey = "ActorId", Storage = "_externalLinks")]
@@ -306,6 +316,7 @@ namespace SeiyuuDB.Entities {
     public Actor() {
       _characters = new EntitySet<Character>();
       _radiosActors = new EntitySet<RadioActor>();
+      _otherAppearances = new EntitySet<OtherAppearance>();
       _externalLinks = new EntitySet<ExternalLink>();
       _notes = new EntitySet<Note>();
     }
