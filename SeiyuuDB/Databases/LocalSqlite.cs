@@ -206,9 +206,9 @@ namespace SeiyuuDB.Databases {
           //SqlMethods.Like(SqlFunctions.StringConvert((double)x.Height), escaped)
 
           var actorsByNameQuery = $"select id from actors" +
-                                  $" where last_name || first_name like '{escaped}'" +
-                                  $" or last_name_kana || first_name_kana like '{escaped}'" +
-                                  $" or last_name_romaji || first_name_romaji like '{escaped}'";
+                                  $" where last_name || ifnull(first_name,'') like '{escaped}'" +
+                                  $" or ifnull(last_name_kana,'') || ifnull(first_name_kana,'') like '{escaped}'" +
+                                  $" or ifnull(last_name_romaji,'') || ifnull(first_name_romaji,'') like '{escaped}'";
 
           _command.CommandText = actorsByNameQuery;
           var actorIdsByName = new List<int>();
