@@ -1,7 +1,6 @@
 ﻿using SeiyuuDB.Entities;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Data.SQLite;
@@ -89,10 +88,6 @@ namespace SeiyuuDB.Databases {
       return obj as T;
     }
 
-    public T GetEntity<T>(T entity) where T : class, ISeiyuuEntity<T> {
-      return GetTable<T>().FirstOrDefault(x => x.Equals(entity));
-    }
-
     public bool IsExists<T>(T entity) where T : class, ISeiyuuEntity<T> {
       return GetTable<T>().Any(x => x.Equals(entity));
     }
@@ -126,13 +121,9 @@ namespace SeiyuuDB.Databases {
         return -1;
       }
 
-      var del = GetEntity<T>(entity);
-      if (!IsExists(del)) {
-        return -1;
-      }
-      GetTable<T>().DeleteOnSubmit(del);
+      GetTable<T>().DeleteOnSubmit(entity);
       _context.SubmitChanges();
-      return del.Id;
+      return entity.Id;
     }
 
     public string SavePictureToBlob(string pictureUrl) {
