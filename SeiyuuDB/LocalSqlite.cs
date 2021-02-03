@@ -12,7 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace SeiyuuDB.Databases {
+namespace SeiyuuDB.Core {
   public class LocalSqlite : ISeiyuuDB, IDisposable {
     private SQLiteConnection _connection;
     private SQLiteCommand _command;
@@ -107,6 +107,10 @@ namespace SeiyuuDB.Databases {
     }
 
     public int Update<T>(T entity) where T : class, ISeiyuuEntity<T> {
+      // LastName を変更されたとき、
+      // 条件あり：名前が存在していないのに登録できない
+      // 条件なし：名前が存在しているのに登録できる
+      // の問題が起きる
       if (!IsExists(entity) || !entity.IsReadyEntity()) {
         return -1;
       }

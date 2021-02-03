@@ -1,6 +1,6 @@
 ﻿using SeiyuuDB.Entities;
 
-namespace SeiyuuDB.Databases {
+namespace SeiyuuDB.Core {
   public interface ISeiyuuDB {
     int Insert<T>(T entity) where T : class, ISeiyuuEntity<T>;
     int Update<T>(T entity) where T : class, ISeiyuuEntity<T>;

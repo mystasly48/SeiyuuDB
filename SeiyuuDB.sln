@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeiyuuDB.Console", "SeiyuuDB.Console\SeiyuuDB.Console.csproj", "{616B451F-4673-447B-9EEF-EB4872E4C7EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeiyuuDB", "SeiyuuDB\SeiyuuDB.csproj", "{18DF80A4-7F60-44C6-9079-BB552B7EAB49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeiyuuDB.Core", "SeiyuuDB\SeiyuuDB.Core.csproj", "{18DF80A4-7F60-44C6-9079-BB552B7EAB49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeiyuuDB.Wpf", "SeiyuuDB.Wpf\SeiyuuDB.Wpf.csproj", "{28359418-28EF-4626-9A21-206B1703884D}"
 EndProject

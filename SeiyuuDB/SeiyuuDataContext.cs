@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.Linq;
 
-namespace SeiyuuDB.Databases {
+namespace SeiyuuDB.Core {
   public class SeiyuuDataContext : DataContext {
     public Table<Actor> Actors;
     public Table<Anime> Animes;
