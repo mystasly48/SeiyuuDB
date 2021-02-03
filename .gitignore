@@ -360,8 +360,8 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Ignore Sample Projects
-SeiyuuDB.Samples/
-SeiyuuDB.WpfSamples/
+SeiyuuDB.Console/
+SeiyuuDB.Wpf/
 
 # Ignore Sample Database and related files
 Databases/
