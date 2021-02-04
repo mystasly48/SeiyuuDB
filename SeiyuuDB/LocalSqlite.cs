@@ -291,6 +291,22 @@ namespace SeiyuuDB.Core {
       return actors.ToArray().FirstOrDefault();
     }
 
+    public Actor FindActorByShortName(string shortName) {
+      var query = $"select id from actors" +
+                   $" where last_name || ifnull(first_name,'') == '{shortName}'" +
+                   $" limit 1;";
+      _command.CommandText = query;
+
+      using (var reader = _command.ExecuteReader()) {
+        while (reader.Read()) {
+          var actorId = reader.GetInt32(0);
+          return FindActorById(actorId);
+        }
+      }
+
+      return null;
+    }
+
     public Actor[] FindActors() {
       return _context.Actors.ToArray()
         .OrderBy(a => a.NameKana)
