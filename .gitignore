@@ -359,9 +359,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Ignore Sample Projects
-SeiyuuDB.Console/
-SeiyuuDB.Wpf/
-
 # Ignore Sample Database and related files
 Databases/
