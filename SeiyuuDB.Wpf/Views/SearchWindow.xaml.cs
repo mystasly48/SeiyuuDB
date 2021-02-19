@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeiyuuDB.Wpf.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,16 +11,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SeiyuuDB.Wpf {
+namespace SeiyuuDB.Wpf.Views {
   /// <summary>
-  /// Interaction logic for MainWindow.xaml
+  /// Interaction logic for SearchWindow.xaml
   /// </summary>
-  public partial class MainWindow : Window {
-    public MainWindow() {
+  public partial class SearchWindow : Window {
+    public SearchWindow() {
       InitializeComponent();
+      this.DataContext = new SearchWindowViewModel();
     }
   }
 }
