@@ -2,7 +2,7 @@
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace SeiyuuDB.Entities {
+namespace SeiyuuDB.Core.Entities {
   /// <summary>
   /// 声優
   /// </summary>

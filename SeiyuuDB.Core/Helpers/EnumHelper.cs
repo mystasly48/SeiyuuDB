@@ -1,8 +1,8 @@
-﻿using SeiyuuDB.Entities;
+﻿using SeiyuuDB.Core.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace SeiyuuDB.Helpers {
+namespace SeiyuuDB.Core.Helpers {
   public static class EnumHelper {
     public static readonly Dictionary<CompanyType, string> CompanyTypeDisplayNames = new Dictionary<CompanyType, string>() {
       { CompanyType.Empty, "" },

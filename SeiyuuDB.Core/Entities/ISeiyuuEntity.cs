@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SeiyuuDB.Entities {
+namespace SeiyuuDB.Core.Entities {
   public interface ISeiyuuEntity<T> {
     int Id { get; set; }
     DateTime CreatedAt { get; set;  }

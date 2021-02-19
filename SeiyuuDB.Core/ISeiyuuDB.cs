@@ -1,4 +1,4 @@
-﻿using SeiyuuDB.Entities;
+﻿using SeiyuuDB.Core.Entities;
 
 namespace SeiyuuDB.Core {
   public interface ISeiyuuDB {

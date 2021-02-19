@@ -1,21 +1,21 @@
-﻿namespace SeiyuuDB.Entities {
+﻿namespace SeiyuuDB.Core.Entities {
   /// <summary>
-  /// 会社種別
+  /// 性別
   /// </summary>
-  public enum CompanyType {
+  public enum Gender {
     /// <summary>
     /// 未選択
     /// </summary>
     Empty = -1,
 
     /// <summary>
-    /// 放送局
+    /// 男性
     /// </summary>
-    Station = 1,
+    Male = 1,
 
     /// <summary>
-    /// 事務所
+    /// 女性
     /// </summary>
-    Agency = 2
+    Female = 2
   }
 }

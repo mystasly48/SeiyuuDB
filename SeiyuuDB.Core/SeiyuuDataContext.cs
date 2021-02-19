@@ -1,4 +1,4 @@
-﻿using SeiyuuDB.Entities;
+﻿using SeiyuuDB.Core.Entities;
 using System.Data;
 using System.Data.Linq;
 

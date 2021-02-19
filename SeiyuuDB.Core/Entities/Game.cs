@@ -2,14 +2,14 @@
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
-namespace SeiyuuDB.Entities {
+namespace SeiyuuDB.Core.Entities {
   /// <summary>
-  /// アニメ
+  /// ゲーム
   /// </summary>
-  [Table(Name = "animes")]
-  public sealed class Anime : ISeiyuuEntity<Anime> {
+  [Table(Name = "games")]
+  public sealed class Game : ISeiyuuEntity<Game> {
     /// <summary>
-    /// アニメID
+    /// ゲームID
     /// </summary>
     [Column(Name = "id", CanBeNull = false, DbType = "INT", IsPrimaryKey = true)]
     public int Id { get; set; } = -1;
@@ -33,7 +33,7 @@ namespace SeiyuuDB.Entities {
     public string Alias { get; private set; }
 
     /// <summary>
-    /// 放送年
+    /// 発売年
     /// </summary>
     [Column(Name = "released_year", CanBeNull = false, DbType = "INT")]
     public int ReleasedYear { get; private set; }
@@ -67,20 +67,20 @@ namespace SeiyuuDB.Entities {
     }
 
     /// <summary>
-    /// アニメキャラクタ一覧
+    /// ゲームキャラクタ一覧
     /// </summary>
-    [Association(OtherKey = "AnimeId", Storage = "_animesCharacters")]
-    public EntitySet<AnimeCharacter> AnimesCharacters {
-      get { return _animesCharacters; }
-      set { _animesCharacters.Assign(value); }
+    [Association(OtherKey = "GameId", Storage = "_gamesCharacters")]
+    public EntitySet<GameCharacter> GamesCharacters {
+      get { return _gamesCharacters; }
+      set { _gamesCharacters.Assign(value); }
     }
-    private EntitySet<AnimeCharacter> _animesCharacters;
+    private EntitySet<GameCharacter> _gamesCharacters;
 
-    public Anime() {
-      _animesCharacters = new EntitySet<AnimeCharacter>();
+    public Game() {
+      _gamesCharacters = new EntitySet<GameCharacter>();
     }
 
-    public Anime(string title, string titleKana, string alias, int releasedYear, string url) : this() {
+    public Game(string title, string titleKana, string alias, int releasedYear, string url) : this() {
       Title = title;
       TitleKana = titleKana;
       Alias = alias;
@@ -88,9 +88,9 @@ namespace SeiyuuDB.Entities {
       Url = url;
     }
 
-    public void Replace(Anime entity) {
+    public void Replace(Game entity) {
       Title = entity.Title;
-      Title = entity.TitleKana;
+      TitleKana = entity.TitleKana;
       Alias = entity.Alias;
       ReleasedYear = entity.ReleasedYear;
       Url = entity.Url;
@@ -105,7 +105,7 @@ namespace SeiyuuDB.Entities {
     }
 
     public override bool Equals(object obj) {
-      if (obj is Anime item) {
+      if (obj is Game item) {
         return item.Title == Title;
       }
       return false;
@@ -115,11 +115,11 @@ namespace SeiyuuDB.Entities {
       return Title.GetHashCode();
     }
 
-    public static bool operator ==(Anime a, Anime b) {
+    public static bool operator ==(Game a, Game b) {
       return Equals(a, b);
     }
 
-    public static bool operator !=(Anime a, Anime b) {
+    public static bool operator !=(Game a, Game b) {
       return !Equals(a, b);
     }
 

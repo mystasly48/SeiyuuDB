@@ -1,7 +1,7 @@
 ﻿using CSharp.Japanese.Kanaxs;
 using System;
 
-namespace SeiyuuDB.Helpers {
+namespace SeiyuuDB.Core.Helpers {
   public static class HelperStaticExtentions {
     public static bool Contains(this string str, string substring, StringComparison comp) {
       if (substring == null) {

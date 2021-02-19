@@ -1,4 +1,4 @@
-﻿using SeiyuuDB.Entities;
+﻿using SeiyuuDB.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Linq;
@@ -217,18 +217,18 @@ namespace SeiyuuDB.Core {
                              select actor;
 
           var actors = from actor in _context.Actors
-                       where actor.Nickname.Contains(keyword)
-                       // Gender
-                       // Birthdate
-                       // BloodType
-                       || actor.Hometown.Contains(keyword)
-                       // Height
-                       // Debut
-                       || actor.SpouseName.Contains(keyword)
-                       || actor.Agency.Name.Contains(keyword)
-                       || actor.Agency.NameKana.Contains(keyword)
-                       || actor.Agency.Alias.Contains(keyword)
-                       select actor;
+                              where actor.Nickname.Contains(keyword)
+                              // Gender
+                              // Birthdate
+                              // BloodType
+                              || actor.Hometown.Contains(keyword)
+                              // Height
+                              // Debut
+                              || actor.SpouseName.Contains(keyword)
+                              || actor.Agency.Name.Contains(keyword)
+                              || actor.Agency.NameKana.Contains(keyword)
+                              || actor.Agency.Alias.Contains(keyword)
+                              select actor;
 
           var characters = from character in _context.Characters
                            where character.Name.Contains(keyword)

@@ -1,7 +1,7 @@
-﻿using SeiyuuDB.Entities;
+﻿using SeiyuuDB.Core.Entities;
 using System;
 
-namespace SeiyuuDB.Helpers {
+namespace SeiyuuDB.Core.Helpers {
   public static class DatabaseHelper {
     public static void OutputTable<T>(T[] table) where T : class, ISeiyuuEntity<T>, new() {
       Console.WriteLine($"{typeof(T).Name}");

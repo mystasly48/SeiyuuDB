@@ -1,4 +1,4 @@
-﻿namespace SeiyuuDB.Entities {
+﻿namespace SeiyuuDB.Core.Entities {
   /// <summary>
   /// 血液型
   /// </summary>

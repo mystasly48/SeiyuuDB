@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SeiyuuDB.Entities {
+namespace SeiyuuDB.Core.Entities {
   /// <summary>
   /// 生年月日
   /// </summary>
