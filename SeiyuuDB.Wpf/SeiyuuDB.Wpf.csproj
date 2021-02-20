@@ -65,6 +65,7 @@
     </Compile>
     <Compile Include="Models\ActorCardModel.cs" />
     <Compile Include="Utils\AnotherCommandImplementation.cs" />
+    <Compile Include="Utils\Observable.cs" />
     <Compile Include="Utils\ImageHelper.cs" />
     <Compile Include="Utils\Information.cs" />
     <Compile Include="ViewModels\SearchWindowViewModel.cs" />

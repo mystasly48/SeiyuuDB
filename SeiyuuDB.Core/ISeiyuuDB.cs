@@ -1,4 +1,5 @@
 ﻿using SeiyuuDB.Core.Entities;
+using System.Threading.Tasks;
 
 namespace SeiyuuDB.Core {
   public interface ISeiyuuDB {
@@ -9,5 +10,42 @@ namespace SeiyuuDB.Core {
     T GetEntity<T>(int id) where T : class, ISeiyuuEntity<T>;
     string SavePictureToBlob(string url);
     bool DeletePictureFromBlob(string url);
+
+    Task<Actor[]> FindActorsByKeywords(string[] keywords);
+    Actor FindActorById(int actorId);
+    Actor FindActorByShortName(string shortName);
+    Actor[] FindActors();
+    string[] FindBirthdayActorNames();
+
+    Anime FindAnimeByTitle(string title);
+    Anime[] FindAnimes();
+
+    AnimeCharacter[] FindAnimesCharactersByActorId(int actorId);
+    AnimeCharacter[] FindAnimeCharactersByAnimeId(int animeId);
+
+    Character FindCharacterByNameAndActorId(string name, int actorId);
+    Character[] FindCharacters();
+    Character[] FindCharactersByActorId(int actorId);
+
+    Company FindAgencyByName(string name);
+    Company FindStationByName(string name);
+    Company[] FindAgencies();
+    Company[] FindStations();
+
+    ExternalLink[] FindExternalLinksByActorId(int actorId);
+
+    Game FindGameByTitle(string title);
+    Game[] FindGames();
+
+    GameCharacter[] FindGamesCharactersByActorId(int actorId);
+
+    Note[] FindNotesByActorId(int actorId);
+
+    OtherAppearance[] FindOtherAppearancesByActorId(int actorId);
+
+    Radio FindRadioByTitle(string title);
+    Radio[] FindRadios();
+
+    RadioActor[] FindRadiosActorsByActorId(int actorId);
   }
 }

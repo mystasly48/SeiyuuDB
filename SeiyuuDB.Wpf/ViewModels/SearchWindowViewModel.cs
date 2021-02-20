@@ -13,15 +13,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace SeiyuuDB.Wpf.ViewModels {
-  public class SearchWindowViewModel : INotifyPropertyChanged {
+  public class SearchWindowViewModel : Observable {
     private ObservableCollection<TabItem> _tabItems;
     public ObservableCollection<TabItem> TabItems {
       get {
         return _tabItems;
       }
       set {
-        _tabItems = value;
-        OnPropertyChanged(nameof(TabItems));
+        SetProperty(ref _tabItems, value);
       }
     }
 
@@ -31,9 +30,8 @@ namespace SeiyuuDB.Wpf.ViewModels {
         return _selectedTabItemIndex;
       }
       set {
-        _selectedTabItemIndex = value;
+        SetProperty(ref _selectedTabItemIndex, value);
         OnSelectedTabItemChanged();
-        OnPropertyChanged(nameof(SelectedTabItemIndex));
       }
     }
 
@@ -50,8 +48,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
         return _actorCardModels;
       }
       set {
-        _actorCardModels = value;
-        OnPropertyChanged(nameof(ActorCardModels));
+        SetProperty(ref _actorCardModels, value);
         OnPropertyChanged(nameof(CurrentDisplayActorsCount));
         OnPropertyChanged(nameof(NotFoundTextVisibility));
       }
@@ -84,8 +81,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
         return _searchKeywords == null ? "" : _searchKeywords;
       }
       set {
-        _searchKeywords = value;
-        OnPropertyChanged(nameof(SearchKeywords));
+        SetProperty(ref _searchKeywords, value);
       }
     }
 
@@ -102,8 +98,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
         return _isFavoriteActor;
       }
       set {
-        _isFavoriteActor = value;
-        OnPropertyChanged(nameof(IsFavoriteActor));
+        SetProperty(ref _isFavoriteActor, value);
       }
     }
 
@@ -113,8 +108,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
         return _isCompletedActor;
       }
       set {
-        _isCompletedActor = value;
-        OnPropertyChanged(nameof(IsCompletedActor));
+        SetProperty(ref _isCompletedActor, value);
       }
     }
 
@@ -124,7 +118,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
         return _isLoading;
       }
       set {
-        _isLoading = value;
+        SetProperty(ref _isLoading, value);
         OnPropertyChanged(nameof(LoadingIndicatorVisibility));
         OnPropertyChanged(nameof(IsEnabledAddButton));
       }
@@ -152,11 +146,11 @@ namespace SeiyuuDB.Wpf.ViewModels {
     public ICommand OpenActorCommand => new AnotherCommandImplementation(ExecuteOpenActor);
     public ICommand AddActorCommand => new AnotherCommandImplementation(ExecuteAddActor);
 
-    private LocalSqlite _sqlite;
+    private ISeiyuuDB _db;
 
     public SearchWindowViewModel() {
       // 設定に移す
-      _sqlite = new LocalSqlite(Information.SqliteFilePath, Information.BlobFolderPath);
+      _db = new LocalSqlite(Information.SqliteFilePath, Information.BlobFolderPath);
       Initialize();
     }
 
@@ -169,7 +163,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
     }
 
     private void ExecuteOpenActor(object obj) {
-      Actor actor = _sqlite.FindActorById((obj as ActorCardModel).ActorId);
+      Actor actor = _db.FindActorById((obj as ActorCardModel).ActorId);
       Console.WriteLine($"Execute Open Actor: {actor}");
     }
 
@@ -181,10 +175,10 @@ namespace SeiyuuDB.Wpf.ViewModels {
     private async void ExecuteSearch(object obj) {
       IsLoading = true;
       if (SearchKeywordsArray.Any()) {
-        var result = await _sqlite.FindActorsByKeywords(SearchKeywordsArray);
+        var result = await _db.FindActorsByKeywords(SearchKeywordsArray);
         await UpdateActorsAsync(result);
       } else {
-        await UpdateActorsAsync(_sqlite.FindActors());
+        await UpdateActorsAsync(_db.FindActors());
       }
       IsLoading = false;
     }
@@ -195,9 +189,9 @@ namespace SeiyuuDB.Wpf.ViewModels {
       var completed = IsCompletedActor ?? false;
       Actor[] result;
       if (SearchKeywordsArray.Any()) {
-        result = await _sqlite.FindActorsByKeywords(SearchKeywordsArray);
+        result = await _db.FindActorsByKeywords(SearchKeywordsArray);
       } else {
-        result = _sqlite.FindActors();
+        result = _db.FindActors();
       }
       result = result.Where(actor => actor.IsFavorite == favorite && actor.IsCompleted == completed).ToArray();
       await UpdateActorsAsync(result);
@@ -208,11 +202,6 @@ namespace SeiyuuDB.Wpf.ViewModels {
       await Task.Run(() =>
           ActorCardModels = actors.Select(actor => new ActorCardModel(actor))
         );
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged = null;
-    protected void OnPropertyChanged(string message) {
-      this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(message));
     }
   }
 }
