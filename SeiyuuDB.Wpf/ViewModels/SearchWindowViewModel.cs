@@ -169,13 +169,12 @@ namespace SeiyuuDB.Wpf.ViewModels {
     }
 
     private void ExecuteOpenActor(object obj) {
-      Console.WriteLine("Execute Open Actor");
-      Console.WriteLine(obj);
+      Actor actor = _sqlite.FindActorById((obj as ActorCardModel).ActorId);
+      Console.WriteLine($"Execute Open Actor: {actor}");
     }
 
     private void ExecuteAddActor(object obj) {
       Console.WriteLine("Execute Add Actor");
-      Console.WriteLine(obj);
     }
 
     // Enter で反応するようになにかする

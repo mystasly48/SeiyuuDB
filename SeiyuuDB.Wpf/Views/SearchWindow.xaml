@@ -103,12 +103,16 @@
                                       Margin="0 0 0 0"
                                       VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled">
-                            <ItemsControl ItemsSource="{Binding ActorCardModels, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ItemsControl Name="ActorCards" ItemsSource="{Binding ActorCardModels, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <!-- ここで Command に Binding をしても、ActorCardModel に対して探してしまう -->
-                                        <!-- あと、Card には Command がないので、MouseUp でイベント駆動にするか、Button のデザインをいじるか -->
-                                        <userControls:ActorCard ActorCardModel="{Binding}"/>
+                                        <userControls:ActorCard ActorCardModel="{Binding}">
+                                            <userControls:ActorCard.InputBindings>
+                                                <MouseBinding MouseAction="LeftClick"
+                                                              Command="{Binding ElementName=ActorCards, Path=DataContext.OpenActorCommand}"
+                                                              CommandParameter="{Binding}"/>
+                                            </userControls:ActorCard.InputBindings>
+                                        </userControls:ActorCard>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                                 <ItemsControl.ItemsPanel>
