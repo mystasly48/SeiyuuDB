@@ -36,7 +36,7 @@
     </UserControl.Resources>
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <Grid Margin="10 20 10 80" HorizontalAlignment="Center">
+            <Grid Margin="10 20 10 80" HorizontalAlignment="Center" DataContext="{Binding ActorModel}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="400"/>
                     <RowDefinition Height="*"/>
@@ -99,11 +99,37 @@
                 </Grid>
                 <Grid Grid.Row="1">
                     <StackPanel>
+                        <Border Style="{StaticResource HorizontalDividerBorder}"/>
                         <Expander IsExpanded="True">
                             <Expander.Header>
                                 <TextBlock Text="アニメ出演履歴" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
                             </Expander.Header>
-                            <StackPanel Name="AnimeFilmographiesPanel" Margin="20 0 0 0"/>
+                            <ItemsControl Name="AnimeFilmographies" ItemsSource="{Binding AnimeFilmographyModels, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <WrapPanel Margin="0 0 0 10">
+                                            <TextBlock Text="・" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                            <!-- OpenAnimeCommand を追加する -->
+                                            <Button Style="{StaticResource CustomizedDetailWindowButton}"
+                                                    Content="{Binding Title}"/>
+                                            <!-- 、 がない-->
+                                            <TextBlock Text="（" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                            <Label Content="{Binding ReleasedYear}" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                            <TextBlock Text="、" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                            <!-- OpenCharacterCommand を追加する -->
+                                            <Button Style="{StaticResource CustomizedDetailWindowButton}"
+                                                    Content="{Binding CharacterName}"
+                                                    FontWeight="{Binding CharacterFontWeight}"/>
+                                            <TextBlock Text="）" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                        </WrapPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Margin="20 0 0 0"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
                         </Expander>
                         <Border Style="{StaticResource HorizontalDividerBorder}"/>
                         <Expander IsExpanded="True">
@@ -140,6 +166,7 @@
                             </Expander.Header>
                             <StackPanel Name="ExternalLinksPanel" Margin="20,0,0,0"/>
                         </Expander>
+                        <Border Style="{StaticResource HorizontalDividerBorder}"/>
                     </StackPanel>
                 </Grid>
             </Grid>
