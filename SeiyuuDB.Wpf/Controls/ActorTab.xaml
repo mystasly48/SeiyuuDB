@@ -35,7 +35,7 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <!--<ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
             <Grid Margin="10 20 10 80" HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="400"/>
@@ -49,54 +49,53 @@
                     <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20 5">
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="名前" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="NameTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="ローマ字" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="NameRomajiTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding NameRomaji}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="ニックネーム" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="NicknameTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding Nickname}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="性別" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="GenderTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding Gender}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="生年月日" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="BirthdateTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding Birthdate}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="血液型" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="BloodTypeTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding BloodType}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="身長" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="HeightTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding Height}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="出身" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="HometownTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding Hometown}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="デビュー" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="DebutTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding DebutYear}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="配偶者" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="SpouseTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding SpouseName}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
                             <TextBlock Text="事務所" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
-                            <TextBlock Name="AgencyTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                            <TextBlock Text="{Binding AgencyName}" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
                         </StackPanel>
                     </StackPanel>
                     <Image Grid.Column="1"
-                        Name="ActorImage"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
-                        Source="../Images/noimage.jpg"/>
+                        Source="{Binding Picture}"/>
                 </Grid>
                 <Grid Grid.Row="1">
                     <StackPanel>
@@ -150,36 +149,34 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Margin="20">
-            <ToggleButton Name="CompletedToggleButton"
-                          Style="{StaticResource CompletedToggleButton}"
+            <ToggleButton Style="{StaticResource CompletedToggleButton}"
                           ToolTip="編集完了"
                           Margin="0 0 20 0"
-                          Click="CompletedToggleButton_Clicked"/>
-            <ToggleButton Name="FavoriteToggleButton"
-                          Style="{StaticResource FavoriteToggleButton}"
+                          IsChecked="{Binding IsCompleted}"/>
+            <ToggleButton Style="{StaticResource FavoriteToggleButton}"
                           ToolTip="お気に入り"
                           Margin="0 0 20 0"
-                          Click="FavoriteToggleButton_Clicked"/>
+                          IsChecked="{Binding IsFavorite}"/>
             <materialDesign:PopupBox Style="{DynamicResource MaterialDesignMultiFloatingActionPopupBox}"
                                      PlacementMode="TopAndAlignCentres"
                                      ToggleContent="{materialDesign:PackIcon Kind=Pencil}">
                 <StackPanel>
-                    <Button Click="EditInformationButton_Clicked"
+                    <Button Command="{Binding EditInformationCommand}"
                             Content="{materialDesign:PackIcon Kind=Account, Size=30}"
                             ToolTip="基本情報を編集"/>
-                    <Button Click="AddAnimeFilmographyButton_Clicked"
+                    <Button Command="{Binding AddAnimeFilmographyCommand}"
                             Content="{materialDesign:PackIcon Kind=MovieOpen, Size=30}"
                             ToolTip="アニメ出演履歴を追加"/>
-                    <Button Click="AddRadioFilmographyButton_Clicked"
+                    <Button Command="{Binding AddRadioFilmographyCommand}"
                             Content="{materialDesign:PackIcon Kind=Microphone, Size=30}"
                             ToolTip="ラジオ出演履歴を追加"/>
-                    <Button Click="AddGameFilmographyButton_Clicked"
+                    <Button Command="{Binding AddGameFilmographyCommand}"
                             Content="{materialDesign:PackIcon Kind=GamepadVariant, Size=30}"
                             ToolTip="ゲーム出演履歴を追加"/>
-                    <Button Click="AddNoteButton_Clicked"
+                    <Button Command="{Binding AddNoteCommand}"
                             Content="{materialDesign:PackIcon Kind=NoteText, Size=30}"
                             ToolTip="ノートを追加"/>
-                    <Button Click="AddExternalLinkButton_Clicked"
+                    <Button Command="{Binding AddExternalLinkCommand}"
                             Content="{materialDesign:PackIcon Kind=LinkVariant, Size=30}"
                             ToolTip="外部リンクを追加"/>
                     <Button IsEnabled="False"
@@ -191,6 +188,6 @@
                     </Button>
                 </StackPanel>
             </materialDesign:PopupBox>
-        </StackPanel>-->
+        </StackPanel>
     </Grid>
 </UserControl>

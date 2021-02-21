@@ -1,4 +1,6 @@
 ﻿using SeiyuuDB.Core.Entities;
+using SeiyuuDB.Wpf.Controls;
+using SeiyuuDB.Wpf.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -35,7 +37,7 @@ namespace SeiyuuDB.Wpf.Utils {
       if (existsActorTabIndex == -1) {
         TabItem newTabItem = new TabItem() {
           Header = actor.ShortName,
-          Content = actor.ShortName
+          Content = new ActorTab(new ActorTabViewModel(actor))
         };
         //Content = new ActorControl(_db, actor)
         TabItems.Add(newTabItem);
