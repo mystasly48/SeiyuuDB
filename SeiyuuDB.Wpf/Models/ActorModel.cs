@@ -57,16 +57,7 @@ namespace SeiyuuDB.Wpf.Models {
         var animeFilmographies = DbManager.Connection.FindAnimesCharactersByActorId(Actor.Id);
         var models = new List<AnimeFilmographyModel>();
         foreach (var item in animeFilmographies) {
-          var title = item.Anime.Title;
-          var releasedYear = item.Anime.ReleasedYear;
-          var characterName = item.Character.Name;
-          var isMainRole = item.Character.IsMainRole;
-          models.Add(new AnimeFilmographyModel() {
-            Title = title,
-            ReleasedYear = releasedYear,
-            CharacterName = characterName,
-            IsMainRole = isMainRole
-          });
+          models.Add(new AnimeFilmographyModel(item));
         }
         return models;
       }

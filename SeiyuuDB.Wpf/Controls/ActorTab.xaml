@@ -104,22 +104,21 @@
                             <Expander.Header>
                                 <TextBlock Text="アニメ出演履歴" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
                             </Expander.Header>
-                            <ItemsControl Name="AnimeFilmographies" ItemsSource="{Binding AnimeFilmographyModels, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ItemsControl ItemsSource="{Binding AnimeFilmographyModels, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <WrapPanel Margin="0 0 0 10">
                                             <TextBlock Text="・" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
-                                            <!-- OpenAnimeCommand を追加する -->
                                             <Button Style="{StaticResource CustomizedDetailWindowButton}"
-                                                    Content="{Binding Title}"/>
-                                            <!-- 、 がない-->
+                                                    Content="{Binding Title}"
+                                                    Command="{Binding OpenAnimeCommand}"/>
                                             <TextBlock Text="（" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
                                             <Label Content="{Binding ReleasedYear}" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
                                             <TextBlock Text="、" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
-                                            <!-- OpenCharacterCommand を追加する -->
                                             <Button Style="{StaticResource CustomizedDetailWindowButton}"
                                                     Content="{Binding CharacterName}"
-                                                    FontWeight="{Binding CharacterFontWeight}"/>
+                                                    FontWeight="{Binding CharacterFontWeight}"
+                                                    Command="{Binding OpenCharacterCommand}"/>
                                             <TextBlock Text="）" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
                                         </WrapPanel>
                                     </DataTemplate>

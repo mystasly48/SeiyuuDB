@@ -324,6 +324,13 @@ namespace SeiyuuDB.Core {
         .ToArray();
     }
 
+    public Anime FindAnimeById(int animeId) {
+      var animes = from a in _context.Animes
+                       where a.Id == animeId
+                       select a;
+      return animes.ToArray().FirstOrDefault();
+    }
+
     public Anime FindAnimeByTitle(string title) {
       var animes = from a in _context.Animes
                    where a.Title == title
@@ -357,6 +364,13 @@ namespace SeiyuuDB.Core {
         .OrderBy(ac => ac.Character.NameKana)
         .ThenBy(ac => ac.Character.Name)
         .ToArray();
+    }
+
+    public Character FindCharacterById(int characterId) {
+      var characters = from c in _context.Characters
+                       where c.Id == characterId
+                       select c;
+      return characters.ToArray().FirstOrDefault();
     }
 
     public Character FindCharacterByNameAndActorId(string name, int actorId) {

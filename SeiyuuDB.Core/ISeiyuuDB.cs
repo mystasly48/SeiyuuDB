@@ -18,12 +18,14 @@ namespace SeiyuuDB.Core {
     Actor[] FindActors();
     string[] FindBirthdayActorNames();
 
+    Anime FindAnimeById(int animeId);
     Anime FindAnimeByTitle(string title);
     Anime[] FindAnimes();
 
     AnimeCharacter[] FindAnimesCharactersByActorId(int actorId);
     AnimeCharacter[] FindAnimeCharactersByAnimeId(int animeId);
 
+    Character FindCharacterById(int animeId);
     Character FindCharacterByNameAndActorId(string name, int actorId);
     Character[] FindCharacters();
     Character[] FindCharactersByActorId(int actorId);

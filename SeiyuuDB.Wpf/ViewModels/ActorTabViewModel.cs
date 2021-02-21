@@ -38,6 +38,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
     public ICommand EditInformationCommand => new AnotherCommandImplementation(ExecuteEditInformation);
     public ICommand AddAnimeFilmographyCommand => new AnotherCommandImplementation(ExecuteAddAnimeFilmography);
     public ICommand AddGameFilmographyCommand => new AnotherCommandImplementation(ExecuteAddGameFilmography);
+    public ICommand AddRadioFilmographyCommand => new AnotherCommandImplementation(ExecuteAddRadioFilmography);
     public ICommand AddNoteCommand => new AnotherCommandImplementation(ExecuteAddNote);
     public ICommand AddExternalLinkCommand => new AnotherCommandImplementation(ExecuteAddExternalLink);
     public ICommand DeleteActorCommand => new AnotherCommandImplementation(ExecuteDeleteActor);
@@ -56,6 +57,10 @@ namespace SeiyuuDB.Wpf.ViewModels {
     }
 
     private void ExecuteAddGameFilmography(object obj) {
+
+    }
+
+    private void ExecuteAddRadioFilmography(object obj) {
 
     }
 

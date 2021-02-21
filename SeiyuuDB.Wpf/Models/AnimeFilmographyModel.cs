@@ -1,37 +1,47 @@
-﻿using SeiyuuDB.Wpf.Utils;
+﻿using SeiyuuDB.Core.Entities;
+using SeiyuuDB.Core.Helpers;
+using SeiyuuDB.Wpf.Utils;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SeiyuuDB.Wpf.Models {
   public class AnimeFilmographyModel : Observable {
-    private string _title;
-    public string Title {
-      get => _title;
-      set => SetProperty(ref _title, value);
-    }
-
-    private int _releasedYear;
-    public int ReleasedYear {
-      get => _releasedYear;
-      set => SetProperty(ref _releasedYear, value);
-    }
-
-    private string _characterName;
-    public string CharacterName {
-      get => _characterName;
-      set => SetProperty(ref _characterName, value);
-    }
-
-    private bool _isMainRole;
-    public bool IsMainRole {
-      get => _isMainRole;
+    private AnimeCharacter _animeCharacter;
+    public AnimeCharacter AnimeCharacter {
+      get => _animeCharacter;
       set {
-        SetProperty(ref _isMainRole, value);
+        SetProperty(ref _animeCharacter, value);
+        OnPropertyChanged(nameof(Title));
+        OnPropertyChanged(nameof(ReleasedYear));
+        OnPropertyChanged(nameof(CharacterName));
+        OnPropertyChanged(nameof(IsMainRole));
         OnPropertyChanged(nameof(CharacterFontWeight));
       }
     }
 
+    public string Title => AnimeCharacter.Anime.Title;
+    public int ReleasedYear => AnimeCharacter.Anime.ReleasedYear;
+    public string CharacterName => AnimeCharacter.Character.Name;
+    public bool IsMainRole => AnimeCharacter.Character.IsMainRole;
     public FontWeight CharacterFontWeight {
       get => IsMainRole ? FontWeights.UltraBold : FontWeights.Normal;
+    }
+
+    public ICommand OpenAnimeCommand => new AnotherCommandImplementation(ExecuteOpenAnime);
+    public ICommand OpenCharacterCommand => new AnotherCommandImplementation(ExecuteOpenCharacter);
+
+    // TODO アニメウィンドウがない
+    private void ExecuteOpenAnime(object obj) {
+      var anime = DbManager.Connection.FindAnimeById(AnimeCharacter.Anime.Id);
+    }
+
+    // TODO キャラクタウィンドウがない
+    private void ExecuteOpenCharacter(object obj) {
+      var character = DbManager.Connection.FindCharacterById(AnimeCharacter.Character.Id);
+    }
+
+    public AnimeFilmographyModel(AnimeCharacter item) {
+      AnimeCharacter = item;
     }
   }
 }
