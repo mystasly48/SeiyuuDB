@@ -22,12 +22,8 @@ namespace SeiyuuDB.Wpf.ViewModels {
       };
     }
 
-    public void OnSelectedTabItemChanged() {
-      Console.WriteLine("OnSelectedTabItemChanged");
-    }
-
     private void ExecuteClosingCommand(object obj) {
-      Console.WriteLine("ExecuteClosingCommand");
+      DbManager.Connection.Dispose();
     }
   }
 }

@@ -13,7 +13,7 @@ using System.Net;
 using System.Threading.Tasks;
 
 namespace SeiyuuDB.Core {
-  public class LocalSqlite : ISeiyuuDB, IDisposable {
+  public class LocalSqlite : ISeiyuuDB {
     private SQLiteConnection _connection;
     private SQLiteCommand _command;
     private SeiyuuDataContext _context;

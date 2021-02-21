@@ -1,8 +1,9 @@
 ﻿using SeiyuuDB.Core.Entities;
+using System;
 using System.Threading.Tasks;
 
 namespace SeiyuuDB.Core {
-  public interface ISeiyuuDB {
+  public interface ISeiyuuDB : IDisposable {
     int Insert<T>(T entity) where T : class, ISeiyuuEntity<T>;
     int Update<T>(T entity) where T : class, ISeiyuuEntity<T>;
     int Delete<T>(T entity) where T : class, ISeiyuuEntity<T>;
