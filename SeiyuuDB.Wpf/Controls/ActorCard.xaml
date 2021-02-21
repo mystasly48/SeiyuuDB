@@ -17,7 +17,8 @@
                          Padding="10" Margin="20"
                          VerticalAlignment="Top"
                          HorizontalAlignment="Left"
-                         UniformCornerRadius="10">
+                         UniformCornerRadius="10"
+                         Cursor="Hand">
         <Grid Width="280" Height="140">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
