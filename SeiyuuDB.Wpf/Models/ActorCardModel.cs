@@ -4,25 +4,23 @@ using System.Windows.Media;
 
 namespace SeiyuuDB.Wpf.Models {
   public class ActorCardModel {
-    public int ActorId { get; set; }
-    public string ActorLastName { get; set; }
-    public string ActorFirstName { get; set; }
-    public string ActorLastNameKana { get; set; }
-    public string ActorFirstNameKana { get; set; }
-    public string AgencyName { get; set; }
-    public string Birthdate { get; set; }
-    private string _pictureUrl;
-    public ImageSource Picture => string.IsNullOrEmpty(_pictureUrl) ? ImageHelper.NoImage : ImageHelper.UrlToBitmapImage(_pictureUrl);
+    private Actor _actor;
+
+    public int ActorId => _actor.Id;
+    public string LastName => _actor.LastName;
+    public string FirstName => _actor.FirstName;
+    public string LastNameKana => _actor.LastNameKana;
+    public string FirstNameKana => _actor.FirstNameKana;
+    public string AgencyName => _actor.Agency?.Name;
+    public string Birthdate => _actor.Birthdate.ToString();
+    public ImageSource Picture {
+      get {
+        return string.IsNullOrEmpty(_actor.PictureUrl) ? ImageHelper.NoImage : ImageHelper.UrlToBitmapImage(_actor.PictureUrl);
+      }
+    }
 
     public ActorCardModel(Actor actor) {
-      ActorId = actor.Id;
-      ActorLastName = actor.LastName;
-      ActorFirstName = actor.FirstName;
-      ActorLastNameKana = actor.LastNameKana;
-      ActorFirstNameKana = actor.FirstNameKana;
-      AgencyName = actor.Agency?.Name;
-      Birthdate = actor.Birthdate.ToString();
-      _pictureUrl = actor.PictureUrl;
+      _actor = actor;
     }
   }
 }

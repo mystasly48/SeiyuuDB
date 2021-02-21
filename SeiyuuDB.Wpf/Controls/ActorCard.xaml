@@ -40,21 +40,21 @@
                             <TextBlock HorizontalAlignment="Center"
                                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
                                        Padding="0"
-                                       Text="{Binding ActorLastNameKana}"/>
+                                       Text="{Binding LastNameKana}"/>
                             <TextBlock HorizontalAlignment="Center"
                                        Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                                        FontWeight="ExtraBold"
-                                       Text="{Binding ActorLastName}"/>
+                                       Text="{Binding LastName}"/>
                         </StackPanel>
                         <StackPanel>
                             <TextBlock HorizontalAlignment="Center"
                                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
                                        Padding="0"
-                                       Text="{Binding ActorFirstNameKana}"/>
+                                       Text="{Binding FirstNameKana}"/>
                             <TextBlock HorizontalAlignment="Center"
                                        Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                                        FontWeight="ExtraBold"
-                                       Text="{Binding ActorFirstName}"/>
+                                       Text="{Binding FirstName}"/>
                         </StackPanel>
                     </StackPanel>
                 </Viewbox>
