@@ -1,0 +1,196 @@
+﻿<UserControl x:Class="SeiyuuDB.Wpf.Controls.ActorTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SeiyuuDB.Wpf.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             Background="Transparent"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             FontSize="18">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Border}" x:Key="HorizontalDividerBorder">
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignDivider}"/>
+            <Setter Property="UseLayoutRounding" Value="True"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Height" Value="1"/>
+        </Style>
+        <Style x:Key="ActorInfomationRowStackPanel" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <Style x:Key="ActorInformationRowNameTextBlock" TargetType="TextBlock">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style x:Key="ActorInformationRowContentTextBlock" TargetType="TextBlock">
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <!--<ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid Margin="10 20 10 80" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="400"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="500"/>
+                        <ColumnDefinition Width="250"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20 5">
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="名前" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="NameTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="ローマ字" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="NameRomajiTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="ニックネーム" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="NicknameTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="性別" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="GenderTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="生年月日" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="BirthdateTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="血液型" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="BloodTypeTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="身長" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="HeightTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="出身" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="HometownTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="デビュー" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="DebutTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="配偶者" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="SpouseTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ActorInfomationRowStackPanel}">
+                            <TextBlock Text="事務所" Style="{StaticResource ActorInformationRowNameTextBlock}"/>
+                            <TextBlock Name="AgencyTextBlock" Style="{StaticResource ActorInformationRowContentTextBlock}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Image Grid.Column="1"
+                        Name="ActorImage"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Source="../Images/noimage.jpg"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <StackPanel>
+                        <Expander IsExpanded="True">
+                            <Expander.Header>
+                                <TextBlock Text="アニメ出演履歴" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                            </Expander.Header>
+                            <StackPanel Name="AnimeFilmographiesPanel" Margin="20 0 0 0"/>
+                        </Expander>
+                        <Border Style="{StaticResource HorizontalDividerBorder}"/>
+                        <Expander IsExpanded="True">
+                            <Expander.Header>
+                                <TextBlock Text="ラジオ出演履歴" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                            </Expander.Header>
+                            <StackPanel Name="RadioFilmographiesPanel" Margin="20 0 0 0"/>
+                        </Expander>
+                        <Border Style="{StaticResource HorizontalDividerBorder}"/>
+                        <Expander IsExpanded="True">
+                            <Expander.Header>
+                                <TextBlock Text="ゲーム出演履歴" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                            </Expander.Header>
+                            <StackPanel Name="GameFilmographiesPanel" Margin="20 0 0 0"/>
+                        </Expander>
+                        <Border Style="{StaticResource HorizontalDividerBorder}"/>
+                        <Expander IsExpanded="True">
+                            <Expander.Header>
+                                <TextBlock Text="その他出演履歴" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                            </Expander.Header>
+                            <StackPanel Name="OtherFilmographiesPanel" Margin="20 0 0 0"/>
+                        </Expander>
+                        <Border Style="{StaticResource HorizontalDividerBorder}"/>
+                        <Expander IsExpanded="True">
+                            <Expander.Header>
+                                <TextBlock Text="メモ" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                            </Expander.Header>
+                            <StackPanel Name="NotesPanel" Margin="20,0,0,0"/>
+                        </Expander>
+                        <Border Style="{StaticResource HorizontalDividerBorder}"/>
+                        <Expander IsExpanded="True">
+                            <Expander.Header>
+                                <TextBlock Text="外部リンク" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                            </Expander.Header>
+                            <StackPanel Name="ExternalLinksPanel" Margin="20,0,0,0"/>
+                        </Expander>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="20">
+            <ToggleButton Name="CompletedToggleButton"
+                          Style="{StaticResource CompletedToggleButton}"
+                          ToolTip="編集完了"
+                          Margin="0 0 20 0"
+                          Click="CompletedToggleButton_Clicked"/>
+            <ToggleButton Name="FavoriteToggleButton"
+                          Style="{StaticResource FavoriteToggleButton}"
+                          ToolTip="お気に入り"
+                          Margin="0 0 20 0"
+                          Click="FavoriteToggleButton_Clicked"/>
+            <materialDesign:PopupBox Style="{DynamicResource MaterialDesignMultiFloatingActionPopupBox}"
+                                     PlacementMode="TopAndAlignCentres"
+                                     ToggleContent="{materialDesign:PackIcon Kind=Pencil}">
+                <StackPanel>
+                    <Button Click="EditInformationButton_Clicked"
+                            Content="{materialDesign:PackIcon Kind=Account, Size=30}"
+                            ToolTip="基本情報を編集"/>
+                    <Button Click="AddAnimeFilmographyButton_Clicked"
+                            Content="{materialDesign:PackIcon Kind=MovieOpen, Size=30}"
+                            ToolTip="アニメ出演履歴を追加"/>
+                    <Button Click="AddRadioFilmographyButton_Clicked"
+                            Content="{materialDesign:PackIcon Kind=Microphone, Size=30}"
+                            ToolTip="ラジオ出演履歴を追加"/>
+                    <Button Click="AddGameFilmographyButton_Clicked"
+                            Content="{materialDesign:PackIcon Kind=GamepadVariant, Size=30}"
+                            ToolTip="ゲーム出演履歴を追加"/>
+                    <Button Click="AddNoteButton_Clicked"
+                            Content="{materialDesign:PackIcon Kind=NoteText, Size=30}"
+                            ToolTip="ノートを追加"/>
+                    <Button Click="AddExternalLinkButton_Clicked"
+                            Content="{materialDesign:PackIcon Kind=LinkVariant, Size=30}"
+                            ToolTip="外部リンクを追加"/>
+                    <Button IsEnabled="False"
+                            Content="{materialDesign:PackIcon Kind=TrashCan, Size=30}"
+                            ToolTip="声優を削除">
+                        <Button.Foreground>
+                            <SolidColorBrush Color="Red"/>
+                        </Button.Foreground>
+                    </Button>
+                </StackPanel>
+            </materialDesign:PopupBox>
+        </StackPanel>-->
+    </Grid>
+</UserControl>

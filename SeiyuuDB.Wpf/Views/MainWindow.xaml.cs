@@ -17,10 +17,10 @@ namespace SeiyuuDB.Wpf.Views {
   /// <summary>
   /// Interaction logic for SearchWindow.xaml
   /// </summary>
-  public partial class SearchWindow : Window {
-    public SearchWindow() {
+  public partial class MainWindow : Window {
+    public MainWindow() {
       InitializeComponent();
-      this.DataContext = new SearchWindowViewModel();
+      this.DataContext = new MainWindowViewModel();
     }
   }
 }
