@@ -1,5 +1,4 @@
-﻿using SeiyuuDB.Core;
-using SeiyuuDB.Core.Entities;
+﻿using SeiyuuDB.Core.Entities;
 using SeiyuuDB.Core.Helpers;
 using SeiyuuDB.Wpf.Models;
 using SeiyuuDB.Wpf.Utils;
@@ -7,10 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SeiyuuDB.Wpf.Controls {
+namespace SeiyuuDB.Wpf.ViewModels {
   public class SearchTabViewModel : Observable {
     private IEnumerable<ActorCardModel> _actorCardModels;
     public IEnumerable<ActorCardModel> ActorCardModels {
