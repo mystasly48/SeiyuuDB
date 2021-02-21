@@ -30,6 +30,7 @@ namespace SeiyuuDB.Core {
     Character[] FindCharacters();
     Character[] FindCharactersByActorId(int actorId);
 
+    Company FindCompanyById(int companyId);
     Company FindAgencyByName(string name);
     Company FindStationByName(string name);
     Company[] FindAgencies();
@@ -46,6 +47,7 @@ namespace SeiyuuDB.Core {
 
     OtherAppearance[] FindOtherAppearancesByActorId(int actorId);
 
+    Radio FindRadioById(int radioId);
     Radio FindRadioByTitle(string title);
     Radio[] FindRadios();
 

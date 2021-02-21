@@ -135,7 +135,30 @@
                             <Expander.Header>
                                 <TextBlock Text="ラジオ出演履歴" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
                             </Expander.Header>
-                            <StackPanel Name="RadioFilmographiesPanel" Margin="20 0 0 0"/>
+                            <ItemsControl ItemsSource="{Binding RadioFilmographyModels, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <WrapPanel Margin="0 0 0 10">
+                                            <TextBlock Text="・" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                            <Button Style="{StaticResource CustomizedDetailWindowButton}"
+                                                    Content="{Binding Title}"
+                                                    Command="{Binding OpenRadioCommand}"/>
+                                            <TextBlock Text="（" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                            <TextBlock Text="{Binding StreamingTerm}" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                            <TextBlock Text="、" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                            <Button Style="{StaticResource CustomizedDetailWindowButton}"
+                                                    Content="{Binding StationName}"
+                                                    Command="{Binding OpenStationCommand}"/>
+                                            <TextBlock Text="）" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                        </WrapPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Margin="20 0 0 0"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
                         </Expander>
                         <Border Style="{StaticResource HorizontalDividerBorder}"/>
                         <Expander IsExpanded="True">

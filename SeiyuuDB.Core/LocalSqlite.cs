@@ -398,6 +398,13 @@ namespace SeiyuuDB.Core {
         .ToArray();
     }
 
+    public Company FindCompanyById(int companyId) {
+      var companies = from c in _context.Companies
+                      where c.Id == companyId
+                      select c;
+      return companies.ToArray().FirstOrDefault();
+    }
+
     public Company FindAgencyByName(string name) {
       var agencies = from c in _context.Companies
                      where c.Name == name
@@ -486,6 +493,13 @@ namespace SeiyuuDB.Core {
         .ThenBy(oa => oa.TitleKana)
         .ThenBy(oa => oa.Title)
         .ToArray();
+    }
+
+    public Radio FindRadioById(int radioId) {
+      var radios = from r in _context.Radios
+                   where r.Id == radioId
+                   select r;
+      return radios.ToArray().FirstOrDefault();
     }
 
     public Radio FindRadioByTitle(string title) {

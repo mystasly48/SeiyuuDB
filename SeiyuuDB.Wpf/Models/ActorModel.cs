@@ -57,6 +57,10 @@ namespace SeiyuuDB.Wpf.Models {
       get => DbManager.Connection.FindAnimesCharactersByActorId(Actor.Id)
           .Select(item => new AnimeFilmographyModel(item));
     }
+
+    public IEnumerable<RadioFilmographyModel> RadioFilmographyModels {
+      get => DbManager.Connection.FindRadiosActorsByActorId(Actor.Id)
+          .Select(item => new RadioFilmographyModel(item));
     }
   }
 }
