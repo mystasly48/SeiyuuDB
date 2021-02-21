@@ -20,7 +20,7 @@ namespace SeiyuuDB.Wpf.Models {
     }
 
     public string Title => AnimeCharacter.Anime.Title;
-    public int ReleasedYear => AnimeCharacter.Anime.ReleasedYear;
+    public string ReleasedYear => AnimeCharacter.Anime.ReleasedYear + "年";
     public string CharacterName => AnimeCharacter.Character.Name;
     public bool IsMainRole => AnimeCharacter.Character.IsMainRole;
     public FontWeight CharacterFontWeight {

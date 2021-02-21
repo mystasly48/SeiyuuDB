@@ -113,7 +113,7 @@
                                                     Content="{Binding Title}"
                                                     Command="{Binding OpenAnimeCommand}"/>
                                             <TextBlock Text="（" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
-                                            <Label Content="{Binding ReleasedYear}" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
+                                            <TextBlock Text="{Binding ReleasedYear}" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
                                             <TextBlock Text="、" VerticalAlignment="Bottom" Padding="0 4 0 4"/>
                                             <Button Style="{StaticResource CustomizedDetailWindowButton}"
                                                     Content="{Binding CharacterName}"

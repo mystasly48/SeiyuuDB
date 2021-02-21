@@ -2,6 +2,7 @@
 using SeiyuuDB.Core.Helpers;
 using SeiyuuDB.Wpf.Utils;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media.Imaging;
 
 namespace SeiyuuDB.Wpf.Models {
@@ -53,14 +54,9 @@ namespace SeiyuuDB.Wpf.Models {
     public BitmapImage Picture => string.IsNullOrEmpty(Actor.PictureUrl) ? ImageHelper.NoImage : ImageHelper.UrlToBitmapImage(Actor.PictureUrl);
 
     public IEnumerable<AnimeFilmographyModel> AnimeFilmographyModels {
-      get {
-        var animeFilmographies = DbManager.Connection.FindAnimesCharactersByActorId(Actor.Id);
-        var models = new List<AnimeFilmographyModel>();
-        foreach (var item in animeFilmographies) {
-          models.Add(new AnimeFilmographyModel(item));
-        }
-        return models;
-      }
+      get => DbManager.Connection.FindAnimesCharactersByActorId(Actor.Id)
+          .Select(item => new AnimeFilmographyModel(item));
+    }
     }
   }
 }
