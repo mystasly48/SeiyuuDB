@@ -61,8 +61,12 @@ namespace SeiyuuDB.Wpf.Utils {
     public static void CloseCurrentTab() {
       if (SelectedTabItemIndex > 0) {
         var index = SelectedTabItemIndex;
-        SelectedTabItemIndex = index - 1;
         TabItems.RemoveAt(index);
+        if (index == TabItems.Count) {
+          SwitchTab(index - 1);
+        } else {
+          SwitchTab(index);
+        }
       }
     }
 
