@@ -164,7 +164,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
       }
       result = result.Where(actor => actor.IsFavorite == favorite && actor.IsCompleted == completed).ToArray();
       await UpdateActorsAsync(result);
-      IsLoading = true;
+      IsLoading = false;
     }
 
     private async Task UpdateActorsAsync(Actor[] actors) {
