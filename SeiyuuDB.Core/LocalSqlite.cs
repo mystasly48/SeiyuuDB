@@ -149,12 +149,12 @@ namespace SeiyuuDB.Core {
           }
           client.DownloadFile(pictureUrl, savedPath);
 
-          Bitmap bmp = new Bitmap(savedPath);
+          var bmp = new Bitmap(savedPath);
           int resizeHeight = 400;
           int resizeWidth = (int)(bmp.Width * (resizeHeight / (double)bmp.Height));
 
-          Bitmap resizedBmp = new Bitmap(resizeWidth, resizeHeight);
-          Graphics g = Graphics.FromImage(resizedBmp);
+          var resizedBmp = new Bitmap(resizeWidth, resizeHeight);
+          var g = Graphics.FromImage(resizedBmp);
           g.InterpolationMode = InterpolationMode.HighQualityBicubic;
           g.DrawImage(bmp, 0, 0, resizeWidth, resizeHeight);
           g.Dispose();

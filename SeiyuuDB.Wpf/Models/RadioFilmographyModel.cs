@@ -29,10 +29,12 @@ namespace SeiyuuDB.Wpf.Models {
 
     private void ExecuteOpenRadio(object obj) {
       var radio = DbManager.Connection.FindRadioById(RadioActor.Radio.Id);
+      // TODO 実装
     }
 
     private void ExecuteOpenStation(object obj) {
       var station = DbManager.Connection.FindCompanyById(RadioActor.Radio.Station.Id);
+      // TODO 実装
     }
 
     public RadioFilmographyModel(RadioActor radioActor) {

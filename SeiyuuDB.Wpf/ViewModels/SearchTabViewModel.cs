@@ -42,11 +42,11 @@ namespace SeiyuuDB.Wpf.ViewModels {
       }
     }
 
-    // このプロパティ不要なので、コンバーターでどうにかできない？
+    // TODO このプロパティ不要なので、コンバーターでどうにかできない？
     private string _searchKeywords;
     public string SearchKeywords {
       get {
-        return _searchKeywords == null ? "" : _searchKeywords;
+        return _searchKeywords ?? "";
       }
       set {
         SetProperty(ref _searchKeywords, value);
@@ -119,18 +119,18 @@ namespace SeiyuuDB.Wpf.ViewModels {
     }
 
     private void ExecuteOpenActor(object obj) {
-      Actor actor = obj as Actor;
+      var actor = obj as Actor;
       if (obj is ActorCardModel model) {
         actor = DbManager.Connection.FindActorById(model.ActorId);
       }
       if (actor is null)
         return;
 
-      TabManager.Open(actor);
       TabManager.OpenNewTab(actor);
     }
 
     private void ExecuteAddActor(object obj) {
+      // TODO 実装
       //var form = new AddActorWindow(_db);
       //form.Owner = GetWindow(this);
       //form.ShowDialog();

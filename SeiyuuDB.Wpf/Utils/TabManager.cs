@@ -36,7 +36,7 @@ namespace SeiyuuDB.Wpf.Utils {
     public static void OpenNewTab(Actor actor) {
       int existsActorTabIndex = GetTabIndex(actor);
       if (existsActorTabIndex == -1) {
-        TabItem newTabItem = new TabItem() {
+        var newTabItem = new TabItem() {
           Header = actor.ShortName,
           Content = new ActorTab(new ActorTabViewModel(actor))
         };
@@ -48,7 +48,7 @@ namespace SeiyuuDB.Wpf.Utils {
     }
 
     private static int GetTabIndex(Actor actor) {
-      TabItem existsItem = TabItems.FirstOrDefault(x => x.Header.ToString() == actor.ShortName);
+      var existsItem = TabItems.FirstOrDefault(x => x.Header.ToString() == actor.ShortName);
       return TabItems.IndexOf(existsItem);
     }
 
@@ -75,8 +75,7 @@ namespace SeiyuuDB.Wpf.Utils {
 
     private static void ExecuteSwitchNumTab(object obj) {
       if (obj is string indexStr) {
-        int index;
-        if (int.TryParse(indexStr, out index)) {
+        if (int.TryParse(indexStr, out int index)) {
           SwitchTab(index);
         }
       }
