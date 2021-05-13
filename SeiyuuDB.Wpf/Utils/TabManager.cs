@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SeiyuuDB.Wpf.Utils {
   public static class TabManager {
@@ -39,7 +40,6 @@ namespace SeiyuuDB.Wpf.Utils {
           Header = actor.ShortName,
           Content = new ActorTab(new ActorTabViewModel(actor))
         };
-        //Content = new ActorControl(_db, actor)
         TabItems.Add(newTabItem);
         SelectedTabItemIndex = TabItems.Count() - 1;
       } else {
@@ -50,6 +50,17 @@ namespace SeiyuuDB.Wpf.Utils {
     private static int GetTabIndex(Actor actor) {
       TabItem existsItem = TabItems.FirstOrDefault(x => x.Header.ToString() == actor.ShortName);
       return TabItems.IndexOf(existsItem);
+    }
+
+    public static ICommand CloseCurrentTabCommand => new AnotherCommandImplementation(ExecuteCloseCurrentTab);
+
+    private static void ExecuteCloseCurrentTab(object obj) {
+      if (SelectedTabItemIndex != 0) {
+        var index = SelectedTabItemIndex;
+        SelectedTabItemIndex = index - 1;
+        TabItems.RemoveAt(index);
+      }
+      Console.WriteLine(obj.GetType());
     }
 
     public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;

@@ -25,6 +25,12 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid FocusManager.FocusedElement="{Binding ElementName=MainTabControl}">
+        <Grid.InputBindings>
+            <!-- TODO: Ctrl + 数字 で移動できるように-->
+            <KeyBinding Gesture="Ctrl+W"
+                        Command="{Binding Path=(utils:TabManager.CloseCurrentTabCommand)}"
+                        CommandParameter="{Binding}"/>
+        </Grid.InputBindings>
         <dragablz:TabablzControl Name="MainTabControl"
                                  DefaultHeaderItemStyle="{StaticResource MaterialDesignNavigatilRailTabControl}"
                                  FixedHeaderCount="1"
