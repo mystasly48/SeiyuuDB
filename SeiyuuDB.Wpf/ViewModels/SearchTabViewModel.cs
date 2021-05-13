@@ -127,6 +127,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
         return;
 
       TabManager.Open(actor);
+      TabManager.OpenNewTab(actor);
     }
 
     private void ExecuteAddActor(object obj) {

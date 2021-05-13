@@ -33,7 +33,7 @@ namespace SeiyuuDB.Wpf.Utils {
       }
     }
 
-    public static void Open(Actor actor) {
+    public static void OpenNewTab(Actor actor) {
       int existsActorTabIndex = GetTabIndex(actor);
       if (existsActorTabIndex == -1) {
         TabItem newTabItem = new TabItem() {
@@ -52,15 +52,34 @@ namespace SeiyuuDB.Wpf.Utils {
       return TabItems.IndexOf(existsItem);
     }
 
-    public static ICommand CloseCurrentTabCommand => new AnotherCommandImplementation(ExecuteCloseCurrentTab);
+    public static void SwitchTab(int index) {
+      if (TabItems.Count > index) {
+        SelectedTabItemIndex = index;
+      }
+    }
 
-    private static void ExecuteCloseCurrentTab(object obj) {
-      if (SelectedTabItemIndex != 0) {
+    public static void CloseCurrentTab() {
+      if (SelectedTabItemIndex > 0) {
         var index = SelectedTabItemIndex;
         SelectedTabItemIndex = index - 1;
         TabItems.RemoveAt(index);
       }
-      Console.WriteLine(obj.GetType());
+    }
+
+    public static ICommand SwitchNumTabCommand => new AnotherCommandImplementation(ExecuteSwitchNumTab);
+    public static ICommand CloseCurrentTabCommand => new AnotherCommandImplementation(ExecuteCloseCurrentTab);
+
+    private static void ExecuteSwitchNumTab(object obj) {
+      if (obj is string indexStr) {
+        int index;
+        if (int.TryParse(indexStr, out index)) {
+          SwitchTab(index);
+        }
+      }
+    }
+
+    private static void ExecuteCloseCurrentTab(object obj) {
+      CloseCurrentTab();
     }
 
     public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
