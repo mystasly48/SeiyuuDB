@@ -27,6 +27,12 @@ namespace SeiyuuDB.Core.Entities {
     public string TitleKana { get; private set; }
 
     /// <summary>
+    /// 別称
+    /// </summary>
+    [Column(Name = "alias", CanBeNull = true, DbType = "VARCHAR(MAX)")]
+    public string Alias { get; private set; }
+
+    /// <summary>
     /// 役割
     /// </summary>
     [Column(Name = "role", CanBeNull = false, DbType = "VARCHAR(MAX)")]
@@ -110,9 +116,10 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public OtherAppearance() { }
-    public OtherAppearance(string title, string titleKana, string role, bool isMainRole, Actor actor, DateTime? appearedOn) {
+    public OtherAppearance(string title, string titleKana, string alias, string role, bool isMainRole, Actor actor, DateTime? appearedOn) {
       Title = title;
       TitleKana = titleKana;
+      Alias = alias;
       Role = role;
       IsMainRole = isMainRole;
       AppearedOn = appearedOn;
@@ -124,6 +131,7 @@ namespace SeiyuuDB.Core.Entities {
     public void Replace(OtherAppearance entity) {
       Title = entity.Title;
       TitleKana = entity.TitleKana;
+      Alias = entity.Alias;
       Role = entity.Role;
       IsMainRole = entity.IsMainRole;
       ActorId = entity.Actor.Id;
@@ -159,7 +167,7 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), AppearedOn: {AppearedOn}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Alias: {Alias}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), AppearedOn: {AppearedOn}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

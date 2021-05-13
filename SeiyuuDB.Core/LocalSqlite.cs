@@ -13,7 +13,7 @@ using System.Net;
 using System.Threading.Tasks;
 
 namespace SeiyuuDB.Core {
-  public class LocalSqlite : ISeiyuuDB, IDisposable {
+  public class LocalSqlite : ISeiyuuDB {
     private SQLiteConnection _connection;
     private SQLiteCommand _command;
     private SeiyuuDataContext _context;
@@ -149,12 +149,12 @@ namespace SeiyuuDB.Core {
           }
           client.DownloadFile(pictureUrl, savedPath);
 
-          Bitmap bmp = new Bitmap(savedPath);
+          var bmp = new Bitmap(savedPath);
           int resizeHeight = 400;
           int resizeWidth = (int)(bmp.Width * (resizeHeight / (double)bmp.Height));
 
-          Bitmap resizedBmp = new Bitmap(resizeWidth, resizeHeight);
-          Graphics g = Graphics.FromImage(resizedBmp);
+          var resizedBmp = new Bitmap(resizeWidth, resizeHeight);
+          var g = Graphics.FromImage(resizedBmp);
           g.InterpolationMode = InterpolationMode.HighQualityBicubic;
           g.DrawImage(bmp, 0, 0, resizeWidth, resizeHeight);
           g.Dispose();
@@ -324,6 +324,13 @@ namespace SeiyuuDB.Core {
         .ToArray();
     }
 
+    public Anime FindAnimeById(int animeId) {
+      var animes = from a in _context.Animes
+                       where a.Id == animeId
+                       select a;
+      return animes.ToArray().FirstOrDefault();
+    }
+
     public Anime FindAnimeByTitle(string title) {
       var animes = from a in _context.Animes
                    where a.Title == title
@@ -359,6 +366,13 @@ namespace SeiyuuDB.Core {
         .ToArray();
     }
 
+    public Character FindCharacterById(int characterId) {
+      var characters = from c in _context.Characters
+                       where c.Id == characterId
+                       select c;
+      return characters.ToArray().FirstOrDefault();
+    }
+
     public Character FindCharacterByNameAndActorId(string name, int actorId) {
       var characters = from c in _context.Characters
                        where c.Name == name
@@ -382,6 +396,13 @@ namespace SeiyuuDB.Core {
         .OrderBy(c => c.NameKana)
         .ThenBy(c => c.Name)
         .ToArray();
+    }
+
+    public Company FindCompanyById(int companyId) {
+      var companies = from c in _context.Companies
+                      where c.Id == companyId
+                      select c;
+      return companies.ToArray().FirstOrDefault();
     }
 
     public Company FindAgencyByName(string name) {
@@ -472,6 +493,13 @@ namespace SeiyuuDB.Core {
         .ThenBy(oa => oa.TitleKana)
         .ThenBy(oa => oa.Title)
         .ToArray();
+    }
+
+    public Radio FindRadioById(int radioId) {
+      var radios = from r in _context.Radios
+                   where r.Id == radioId
+                   select r;
+      return radios.ToArray().FirstOrDefault();
     }
 
     public Radio FindRadioByTitle(string title) {
