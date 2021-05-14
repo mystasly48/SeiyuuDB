@@ -58,8 +58,7 @@
                         Command="{Binding Path=(utils:TabManager.SwitchNumTabCommand)}"
                         CommandParameter="9"/>
             <KeyBinding Gesture="Ctrl+W"
-                        Command="{Binding Path=(utils:TabManager.CloseCurrentTabCommand)}"
-                        CommandParameter="{Binding}"/>
+                        Command="{Binding Path=(utils:TabManager.CloseCurrentTabCommand)}"/>
         </Grid.InputBindings>
         <dragablz:TabablzControl Name="MainTabControl"
                                  DefaultHeaderItemStyle="{StaticResource MaterialDesignNavigatilRailTabControl}"
@@ -68,7 +67,9 @@
                                  ItemsSource="{Binding Path=(utils:TabManager.TabItems)}"
                                  SelectedIndex="{Binding Path=(utils:TabManager.SelectedTabItemIndex)}">
             <dragablz:TabablzControl.InputBindings>
-                <MouseBinding Command="dragablz:TabablzControl.CloseItemCommand" MouseAction="MiddleClick"/>
+                <MouseBinding MouseAction="MiddleClick"
+                              Command="{Binding Path=(utils:TabManager.CloseTabByMiddleClickCommand)}"
+                              CommandParameter="{Binding ElementName=MainTabControl}"/>
             </dragablz:TabablzControl.InputBindings>
         </dragablz:TabablzControl>
     </Grid>

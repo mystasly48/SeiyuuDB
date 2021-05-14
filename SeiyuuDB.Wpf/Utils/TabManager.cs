@@ -1,4 +1,5 @@
-﻿using SeiyuuDB.Core.Entities;
+﻿using Dragablz;
+using SeiyuuDB.Core.Entities;
 using SeiyuuDB.Wpf.Controls;
 using SeiyuuDB.Wpf.ViewModels;
 using System;
@@ -58,9 +59,8 @@ namespace SeiyuuDB.Wpf.Utils {
       }
     }
 
-    public static void CloseCurrentTab() {
-      if (SelectedTabItemIndex > 0) {
-        var index = SelectedTabItemIndex;
+    public static void CloseTab(int index) {
+      if (index > 0) {
         TabItems.RemoveAt(index);
         if (index == TabItems.Count) {
           SwitchTab(index - 1);
@@ -70,8 +70,13 @@ namespace SeiyuuDB.Wpf.Utils {
       }
     }
 
+    public static void CloseCurrentTab() {
+      CloseTab(SelectedTabItemIndex);
+    }
+
     public static ICommand SwitchNumTabCommand => new AnotherCommandImplementation(ExecuteSwitchNumTab);
     public static ICommand CloseCurrentTabCommand => new AnotherCommandImplementation(ExecuteCloseCurrentTab);
+    public static ICommand CloseTabByMiddleClickCommand => new AnotherCommandImplementation(ExecuteCloseTabByMiddleClick);
 
     private static void ExecuteSwitchNumTab(object obj) {
       if (obj is string indexStr) {
@@ -83,6 +88,26 @@ namespace SeiyuuDB.Wpf.Utils {
 
     private static void ExecuteCloseCurrentTab(object obj) {
       CloseCurrentTab();
+    }
+
+    private static void ExecuteCloseTabByMiddleClick(object obj) {
+      var element = (TabablzControl)obj;
+      var pos = Mouse.GetPosition(element);
+      var headers = element.GetOrderedHeaders().ToArray();
+      if (pos.Y > headers[0].ActualHeight ||
+        headers.Length < 2) {
+        return;
+      }
+
+      double width = 0;
+      for (int i = 0; i < headers.Length; i++) {
+        var header = headers[i];
+        if (width <= pos.X && pos.X <= width + header.ActualWidth) {
+          CloseTab(i);
+          return;
+        }
+        width += header.ActualWidth;
+      }
     }
 
     public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
