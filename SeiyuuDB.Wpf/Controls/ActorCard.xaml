@@ -13,8 +13,7 @@
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}"
              mc:Ignorable="d" >
-    <materialDesign:Card Width="280" Height="160"
-                         Padding="10" Margin="20"
+    <materialDesign:Card Width="280" Height="160" Padding="10"
                          VerticalAlignment="Top"
                          HorizontalAlignment="Left"
                          UniformCornerRadius="10"

@@ -90,7 +90,8 @@
                 <ItemsControl Name="ActorCards" ItemsSource="{Binding ActorCardModels, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <userControls:ActorCard ActorCardModel="{Binding}">
+                            <userControls:ActorCard ActorCardModel="{Binding}"
+                                                    Margin="0 20">
                                 <userControls:ActorCard.InputBindings>
                                     <MouseBinding MouseAction="LeftClick"
                                                   Command="{Binding ElementName=ActorCards, Path=DataContext.OpenActorCommand}"
