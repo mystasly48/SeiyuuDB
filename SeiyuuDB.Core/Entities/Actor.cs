@@ -336,8 +336,9 @@ namespace SeiyuuDB.Core.Entities {
       _notes = new EntitySet<Note>();
     }
 
-    public Actor(string lastName, string firstName, string lastNameKana, string firstNameKana, string lastNameRomaji, string firstNameRomaji,
-      string nickname, Gender? gender, Birthdate birthdate, BloodType? bloodType, int? height, string hometown, int? debutYear, string spouseName,
+    public Actor(string lastName, string firstName, string lastNameKana, string firstNameKana,
+      string lastNameRomaji, string firstNameRomaji, string nickname, Gender? gender, Birthdate birthdate,
+      BloodType? bloodType, int? height, string hometown, int? debutYear, string spouseName,
       Company agency, string pictureUrl, bool isFavorite, bool isCompleted) : this() {
       LastName = lastName;
       FirstName = firstName;
@@ -410,7 +411,13 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, DebutYear: {DebutYear?.ToString() ?? "NULL"}, SpouseName: {SpouseName ?? "NULL"}, Agency: ({Agency?.ToString() ?? "NULL"}), PictureUrl: {PictureUrl ?? "NULL"}, IsFavorite: {IsFavorite}, IsCompleted: {IsCompleted}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, "
+        + $"Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), "
+        + $"Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), "
+        + $"Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, "
+        + $"DebutYear: {DebutYear?.ToString() ?? "NULL"}, SpouseName: {SpouseName ?? "NULL"}, "
+        + $"Agency: ({Agency?.ToString() ?? "NULL"}), PictureUrl: {PictureUrl ?? "NULL"}, "
+        + $"IsFavorite: {IsFavorite}, IsCompleted: {IsCompleted}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

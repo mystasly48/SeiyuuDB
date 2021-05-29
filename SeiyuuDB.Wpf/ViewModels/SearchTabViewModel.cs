@@ -143,6 +143,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
 
     private async void ExecuteSearch(object obj) {
       IsLoading = true;
+      // TODO キーワードが変わるたびに自動で検索するようにしたいが、DBアクセスの負担が高い
       if (SearchKeywordsArray.Any()) {
         var result = await DbManager.Connection.FindActorsByKeywords(SearchKeywordsArray);
         await UpdateActorsAsync(result);
@@ -168,6 +169,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
     }
 
     private async Task UpdateActorsAsync(Actor[] actors) {
+      // TODO actors が変わらなければ変更を加えないようにしたい
       await Task.Run(() =>
           ActorCardModels = actors.Select(actor => new ActorCardModel(actor))
         );

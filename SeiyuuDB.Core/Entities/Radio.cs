@@ -137,11 +137,12 @@ namespace SeiyuuDB.Core.Entities {
       _radiosActors = new EntitySet<RadioActor>();
     }
 
-    public Radio(string title, string titleKana, string alias, Company station, DateTime? startedOn, DateTime? endedOn, string url) : this() {
+    public Radio(string title, string titleKana, string alias, Company station,
+      DateTime? startedOn, DateTime? endedOn, string url) : this() {
       Title = title;
       TitleKana = titleKana;
       Alias = alias;
-      StationId= station.Id;
+      StationId = station.Id;
       Station = station;
       StartedOn = startedOn;
       EndedOn = endedOn;
@@ -151,7 +152,7 @@ namespace SeiyuuDB.Core.Entities {
     public void Replace(Radio entity) {
       Title = entity.Title;
       TitleKana = entity.TitleKana;
-      Alias = entity.Alias; 
+      Alias = entity.Alias;
       StationId = entity.StationId;
       Station = entity.Station;
       StartedOn = entity.StartedOn;
@@ -187,7 +188,10 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Alias: {Alias}, Station: ({Station?.ToString() ?? "NULL"}), StartedOn: {StartedOn?.ToString() ?? "NULL"}, EndedOn: {EndedOn?.ToString() ?? "NULL"}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Alias: {Alias}, "
+        + $"Station: ({Station?.ToString() ?? "NULL"}), StartedOn: {StartedOn?.ToString() ?? "NULL"}, "
+        + $"EndedOn: {EndedOn?.ToString() ?? "NULL"}, Url: {Url ?? "NULL"}, "
+        + $"CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

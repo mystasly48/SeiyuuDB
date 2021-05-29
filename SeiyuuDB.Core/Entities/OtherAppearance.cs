@@ -116,7 +116,8 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public OtherAppearance() { }
-    public OtherAppearance(string title, string titleKana, string alias, string role, bool isMainRole, Actor actor, DateTime? appearedOn) {
+    public OtherAppearance(string title, string titleKana, string alias, string role,
+      bool isMainRole, Actor actor, DateTime? appearedOn) {
       Title = title;
       TitleKana = titleKana;
       Alias = alias;
@@ -167,7 +168,9 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Alias: {Alias}, Role: {Role}, IsMainRole: {IsMainRole}, Actor: ({Actor}), AppearedOn: {AppearedOn}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, TitleKana: {TitleKana}, Alias: {Alias}, Role: {Role}, "
+        + $"IsMainRole: {IsMainRole}, Actor: ({Actor}), AppearedOn: {AppearedOn}, "
+        + $"CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

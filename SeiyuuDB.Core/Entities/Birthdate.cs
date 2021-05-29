@@ -30,9 +30,9 @@ namespace SeiyuuDB.Core.Entities {
         if (!Year.HasValue && !Month.HasValue && !Day.HasValue) {
           return null;
         } else {
-          var year = Year.HasValue ? $"{Year, 4}" : "????";
-          var month = Month.HasValue ? $"{Month, 2}" : "??";
-          var day = Day.HasValue ? $"{Day, 2}" : "??";
+          var year = Year.HasValue ? $"{Year,4}" : "????";
+          var month = Month.HasValue ? $"{Month,2}" : "??";
+          var day = Day.HasValue ? $"{Day,2}" : "??";
           return $"{year}/{month}/{day}";
         }
       }
@@ -92,9 +92,9 @@ namespace SeiyuuDB.Core.Entities {
       if (!Year.HasValue && !Month.HasValue && !Day.HasValue) {
         return null;
       } else {
-        var year = Year.HasValue ? $"{Year, 4}年" : "";
-        var month = Month.HasValue ? $"{Month, 2}月" : "";
-        var day = Day.HasValue ? $"{Day, 2}日" : "";
+        var year = Year.HasValue ? $"{Year,4}年" : "";
+        var month = Month.HasValue ? $"{Month,2}月" : "";
+        var day = Day.HasValue ? $"{Day,2}日" : "";
         return $"{year}{month}{day}";
       }
     }

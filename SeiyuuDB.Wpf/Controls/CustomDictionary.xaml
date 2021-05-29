@@ -2,218 +2,335 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:local="clr-namespace:SeiyuuDB.Wpf.Controls">
-    <Style x:Key="CustomizedTextBlock" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Width" Value="80"/>
-        <Setter Property="Margin" Value="10 0"/>
-    </Style>
+  <Style x:Key="CustomizedTextBlock"
+         TargetType="TextBlock"
+         BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
+    <Setter Property="VerticalAlignment"
+            Value="Top" />
+    <Setter Property="Width"
+            Value="80" />
+    <Setter Property="Margin"
+            Value="10 0" />
+  </Style>
 
-    <Style x:Key="CustomizedStackPanel" TargetType="StackPanel">
-        <Setter Property="Margin" Value="20 10"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Orientation" Value="Horizontal"/>
-    </Style>
+  <Style x:Key="CustomizedStackPanel"
+         TargetType="StackPanel">
+    <Setter Property="Margin"
+            Value="20 10" />
+    <Setter Property="HorizontalAlignment"
+            Value="Left" />
+    <Setter Property="VerticalAlignment"
+            Value="Top" />
+    <Setter Property="Orientation"
+            Value="Horizontal" />
+  </Style>
 
-    <Style x:Key="CustomizedCheckBox" TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}">
-        <Setter Property="Margin" Value="10 0"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
+  <Style x:Key="CustomizedCheckBox"
+         TargetType="CheckBox"
+         BasedOn="{StaticResource MaterialDesignCheckBox}">
+    <Setter Property="Margin"
+            Value="10 0" />
+    <Setter Property="VerticalAlignment"
+            Value="Top" />
+  </Style>
 
-    <Style x:Key="CustomizedTextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
-        <Setter Property="Margin" Value="10 0"/>
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
+  <Style x:Key="CustomizedTextBox"
+         TargetType="TextBox"
+         BasedOn="{StaticResource MaterialDesignTextBox}">
+    <Setter Property="Margin"
+            Value="10 0" />
+    <Setter Property="Width"
+            Value="200" />
+    <Setter Property="VerticalAlignment"
+            Value="Top" />
+  </Style>
 
-    <Style x:Key="CustomizedLongTextBox" TargetType="TextBox" BasedOn="{StaticResource CustomizedTextBox}">
-        <Setter Property="Width" Value="300"/>
-    </Style>
+  <Style x:Key="CustomizedLongTextBox"
+         TargetType="TextBox"
+         BasedOn="{StaticResource CustomizedTextBox}">
+    <Setter Property="Width"
+            Value="300" />
+  </Style>
 
-    <Style x:Key="CustomizedVeryLongTextBox" TargetType="TextBox" BasedOn="{StaticResource CustomizedTextBox}">
-        <Setter Property="Width" Value="400"/>
-    </Style>
+  <Style x:Key="CustomizedVeryLongTextBox"
+         TargetType="TextBox"
+         BasedOn="{StaticResource CustomizedTextBox}">
+    <Setter Property="Width"
+            Value="400" />
+  </Style>
 
-    <Style x:Key="CustomizedComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
-        <Setter Property="Margin" Value="10 0"/>
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
+  <Style x:Key="CustomizedComboBox"
+         TargetType="ComboBox"
+         BasedOn="{StaticResource MaterialDesignComboBox}">
+    <Setter Property="Margin"
+            Value="10 0" />
+    <Setter Property="Width"
+            Value="200" />
+    <Setter Property="VerticalAlignment"
+            Value="Top" />
+  </Style>
 
-    <Style x:Key="CustomizedDatePicker" TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignDatePicker}">
-        <Setter Property="Margin" Value="10 0"/>
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
+  <Style x:Key="CustomizedDatePicker"
+         TargetType="DatePicker"
+         BasedOn="{StaticResource MaterialDesignDatePicker}">
+    <Setter Property="Margin"
+            Value="10 0" />
+    <Setter Property="Width"
+            Value="200" />
+    <Setter Property="VerticalAlignment"
+            Value="Top" />
+  </Style>
 
-    <Style x:Key="CustomizedTextArea" TargetType="TextBox" BasedOn="{StaticResource CustomizedTextBox}">
-        <Setter Property="Width" Value="300"/>
-        <Setter Property="Height" Value="100"/>
-        <Setter Property="TextWrapping" Value="Wrap"/>
-    </Style>
+  <Style x:Key="CustomizedTextArea"
+         TargetType="TextBox"
+         BasedOn="{StaticResource CustomizedTextBox}">
+    <Setter Property="Width"
+            Value="300" />
+    <Setter Property="Height"
+            Value="100" />
+    <Setter Property="TextWrapping"
+            Value="Wrap" />
+  </Style>
 
-    <Style x:Key="CustomizedButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
-        <Setter Property="Width" Value="100"/>
-        <Setter Property="Margin" Value="10"/>
-    </Style>
+  <Style x:Key="CustomizedButton"
+         TargetType="Button"
+         BasedOn="{StaticResource MaterialDesignRaisedButton}">
+    <Setter Property="Width"
+            Value="100" />
+    <Setter Property="Margin"
+            Value="10" />
+  </Style>
 
-    <Style TargetType="Button" x:Key="CustomizedDetailWindowButton">
-        <Setter Property="Margin" Value="0"/>
-        <Setter Property="Padding" Value="4"/>
-        <Setter Property="VerticalAlignment" Value="Bottom"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup Name="CommonStates">
-                                <VisualStateGroup.Transitions>
-                                    <VisualTransition GeneratedDuration="0:0:0.3" To="Normal">
-                                        <VisualTransition.GeneratedEasingFunction>
-                                            <CircleEase EasingMode="EaseOut"/>
-                                        </VisualTransition.GeneratedEasingFunction>
-                                    </VisualTransition>
-                                </VisualStateGroup.Transitions>
-                                <VisualState Name="Normal"/>
-                                <VisualState Name="MouseOver">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="MouseOverBorder"
-                                                             Storyboard.TargetProperty="Opacity" To="0.1" Duration="0"/>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState Name="Disabled">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.48" Duration="0"/>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Border Name="MouseOverBorder" Opacity="0"
-                                    Background="{TemplateBinding Foreground, Converter={StaticResource BrushRoundConverter}}"/>
-                        <materialDesign:Ripple Feedback="{TemplateBinding Foreground, Converter={StaticResource BrushRoundConverter}}"
-                                                   Focusable="False"
-                                                   MinHeight="16"
-                                                   Content="{TemplateBinding Content}"
-                                                   ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                   ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"                                                                
-                                                   Padding="{TemplateBinding Padding}"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  <Style TargetType="Button"
+         x:Key="CustomizedDetailWindowButton">
+    <Setter Property="Margin"
+            Value="0" />
+    <Setter Property="Padding"
+            Value="4" />
+    <Setter Property="VerticalAlignment"
+            Value="Bottom" />
+    <Setter Property="HorizontalAlignment"
+            Value="Left" />
+    <Setter Property="VerticalContentAlignment"
+            Value="Bottom" />
+    <Setter Property="HorizontalContentAlignment"
+            Value="Left" />
+    <Setter Property="Foreground"
+            Value="{DynamicResource MaterialDesignBody}" />
+    <Setter Property="Cursor"
+            Value="Hand" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type Button}">
+          <Grid>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup Name="CommonStates">
+                <VisualStateGroup.Transitions>
+                  <VisualTransition GeneratedDuration="0:0:0.3"
+                                    To="Normal">
+                    <VisualTransition.GeneratedEasingFunction>
+                      <CircleEase EasingMode="EaseOut" />
+                    </VisualTransition.GeneratedEasingFunction>
+                  </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState Name="Normal" />
+                <VisualState Name="MouseOver">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="MouseOverBorder"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0.1"
+                                     Duration="0" />
+                  </Storyboard>
+                </VisualState>
+                <VisualState Name="Disabled">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                     To="0.48"
+                                     Duration="0" />
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border Name="MouseOverBorder"
+                    Opacity="0"
+                    Background="{TemplateBinding Foreground, Converter={StaticResource BrushRoundConverter}}" />
+            <materialDesign:Ripple Feedback="{TemplateBinding Foreground, Converter={StaticResource BrushRoundConverter}}"
+                                   Focusable="False"
+                                   MinHeight="16"
+                                   Content="{TemplateBinding Content}"
+                                   ContentTemplate="{TemplateBinding ContentTemplate}"
+                                   ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Padding="{TemplateBinding Padding}" />
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
-    <Style x:Key="FavoriteToggleButton" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Background" Value="{DynamicResource MaterialDesignToolBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignToolForeground}" />
-        <Setter Property="Width" Value="40"/>
-        <Setter Property="Height" Value="40"/>
-        <Setter Property="FontSize" Value="18"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Grid ClipToBounds="True">
-                        <materialDesign:PackIcon Name="UncheckedIcon"
-                                                     Background="Transparent"
-                                                     Kind="HeartOutline"
-                                                     Width="40" Height="40"/>
-                        <materialDesign:PackIcon Name="HoveredIcon"
-                                                     Foreground="#f50057"
-                                                     Background="Transparent"
-                                                     Kind="HeartOutline"
-                                                     Width="40" Height="40"/>
-                        <materialDesign:PackIcon Name="CheckedIcon"
-                                                     Kind="Heart"
-                                                     Foreground="#f50057"
-                                                     Background="Transparent"
-                                                     Width="40" Height="40"/>
-                        <ContentPresenter x:Name="Presenter"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Visibility" TargetName="HoveredIcon" Value="Visible"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="False">
-                            <Setter Property="Visibility" TargetName="HoveredIcon" Value="Collapsed"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Visibility" TargetName="UncheckedIcon" Value="Collapsed"/>
-                            <Setter Property="Visibility" TargetName="CheckedIcon" Value="Visible"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Visibility" TargetName="UncheckedIcon" Value="Visible"/>
-                            <Setter Property="Visibility" TargetName="CheckedIcon" Value="Collapsed"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  <Style x:Key="FavoriteToggleButton"
+         TargetType="{x:Type ToggleButton}">
+    <Setter Property="Background"
+            Value="{DynamicResource MaterialDesignToolBackground}" />
+    <Setter Property="Foreground"
+            Value="{DynamicResource MaterialDesignToolForeground}" />
+    <Setter Property="Width"
+            Value="40" />
+    <Setter Property="Height"
+            Value="40" />
+    <Setter Property="FontSize"
+            Value="18" />
+    <Setter Property="HorizontalContentAlignment"
+            Value="Center" />
+    <Setter Property="VerticalContentAlignment"
+            Value="Center" />
+    <Setter Property="Padding"
+            Value="0" />
+    <Setter Property="Cursor"
+            Value="Hand" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ToggleButton}">
+          <Grid ClipToBounds="True">
+            <materialDesign:PackIcon Name="UncheckedIcon"
+                                     Background="Transparent"
+                                     Kind="HeartOutline"
+                                     Width="40"
+                                     Height="40" />
+            <materialDesign:PackIcon Name="HoveredIcon"
+                                     Foreground="#f50057"
+                                     Background="Transparent"
+                                     Kind="HeartOutline"
+                                     Width="40"
+                                     Height="40" />
+            <materialDesign:PackIcon Name="CheckedIcon"
+                                     Kind="Heart"
+                                     Foreground="#f50057"
+                                     Background="Transparent"
+                                     Width="40"
+                                     Height="40" />
+            <ContentPresenter x:Name="Presenter"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+              <Setter Property="Visibility"
+                      TargetName="HoveredIcon"
+                      Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsMouseOver"
+                     Value="False">
+              <Setter Property="Visibility"
+                      TargetName="HoveredIcon"
+                      Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="IsChecked"
+                     Value="True">
+              <Setter Property="Visibility"
+                      TargetName="UncheckedIcon"
+                      Value="Collapsed" />
+              <Setter Property="Visibility"
+                      TargetName="CheckedIcon"
+                      Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsChecked"
+                     Value="False">
+              <Setter Property="Visibility"
+                      TargetName="UncheckedIcon"
+                      Value="Visible" />
+              <Setter Property="Visibility"
+                      TargetName="CheckedIcon"
+                      Value="Collapsed" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
-    <Style x:Key="CompletedToggleButton" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Background" Value="{DynamicResource MaterialDesignToolBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignToolForeground}" />
-        <Setter Property="Width" Value="40"/>
-        <Setter Property="Height" Value="40"/>
-        <Setter Property="FontSize" Value="18"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Grid ClipToBounds="True">
-                        <materialDesign:PackIcon Name="UncheckedIcon"
-                                                     Background="Transparent"
-                                                     Kind="CheckboxBlankOutline"
-                                                     Width="40" Height="40"/>
-                        <materialDesign:PackIcon Name="HoveredIcon"
-                                                     Foreground="#4caf50"
-                                                     Background="Transparent"
-                                                     Kind="CheckboxBlankOutline"
-                                                     Width="40" Height="40"/>
-                        <materialDesign:PackIcon Name="CheckedIcon"
-                                                     Kind="CheckboxMarked"
-                                                     Foreground="#4caf50"
-                                                     Background="Transparent"
-                                                     Width="40" Height="40"/>
-                        <ContentPresenter x:Name="Presenter"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Visibility" TargetName="HoveredIcon" Value="Visible"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="False">
-                            <Setter Property="Visibility" TargetName="HoveredIcon" Value="Collapsed"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Visibility" TargetName="UncheckedIcon" Value="Collapsed"/>
-                            <Setter Property="Visibility" TargetName="CheckedIcon" Value="Visible"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Visibility" TargetName="UncheckedIcon" Value="Visible"/>
-                            <Setter Property="Visibility" TargetName="CheckedIcon" Value="Collapsed"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  <Style x:Key="CompletedToggleButton"
+         TargetType="{x:Type ToggleButton}">
+    <Setter Property="Background"
+            Value="{DynamicResource MaterialDesignToolBackground}" />
+    <Setter Property="Foreground"
+            Value="{DynamicResource MaterialDesignToolForeground}" />
+    <Setter Property="Width"
+            Value="40" />
+    <Setter Property="Height"
+            Value="40" />
+    <Setter Property="FontSize"
+            Value="18" />
+    <Setter Property="HorizontalContentAlignment"
+            Value="Center" />
+    <Setter Property="VerticalContentAlignment"
+            Value="Center" />
+    <Setter Property="Padding"
+            Value="0" />
+    <Setter Property="Cursor"
+            Value="Hand" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ToggleButton}">
+          <Grid ClipToBounds="True">
+            <materialDesign:PackIcon Name="UncheckedIcon"
+                                     Background="Transparent"
+                                     Kind="CheckboxBlankOutline"
+                                     Width="40"
+                                     Height="40" />
+            <materialDesign:PackIcon Name="HoveredIcon"
+                                     Foreground="#4caf50"
+                                     Background="Transparent"
+                                     Kind="CheckboxBlankOutline"
+                                     Width="40"
+                                     Height="40" />
+            <materialDesign:PackIcon Name="CheckedIcon"
+                                     Kind="CheckboxMarked"
+                                     Foreground="#4caf50"
+                                     Background="Transparent"
+                                     Width="40"
+                                     Height="40" />
+            <ContentPresenter x:Name="Presenter"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+              <Setter Property="Visibility"
+                      TargetName="HoveredIcon"
+                      Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsMouseOver"
+                     Value="False">
+              <Setter Property="Visibility"
+                      TargetName="HoveredIcon"
+                      Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="IsChecked"
+                     Value="True">
+              <Setter Property="Visibility"
+                      TargetName="UncheckedIcon"
+                      Value="Collapsed" />
+              <Setter Property="Visibility"
+                      TargetName="CheckedIcon"
+                      Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsChecked"
+                     Value="False">
+              <Setter Property="Visibility"
+                      TargetName="UncheckedIcon"
+                      Value="Visible" />
+              <Setter Property="Visibility"
+                      TargetName="CheckedIcon"
+                      Value="Collapsed" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 </ResourceDictionary>

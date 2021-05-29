@@ -116,7 +116,8 @@ namespace SeiyuuDB.Core.Entities {
       _gamesCharacters = new EntitySet<GameCharacter>();
     }
 
-    public Character(string name, string nameKana, string alias, bool isMainRole, string pictureUrl, Actor actor) : this() {
+    public Character(string name, string nameKana, string alias,
+      bool isMainRole, string pictureUrl, Actor actor) : this() {
       Name = name;
       NameKana = nameKana;
       Alias = alias;
@@ -164,7 +165,8 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana}, Alias: {Alias}, IsMainRole: {IsMainRole}, PictureUrl: {PictureUrl}, Actor: ({Actor}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana}, Alias: {Alias}, IsMainRole: {IsMainRole}, "
+        + $"PictureUrl: {PictureUrl}, Actor: ({Actor}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

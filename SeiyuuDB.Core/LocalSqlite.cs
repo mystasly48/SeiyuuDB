@@ -83,7 +83,7 @@ namespace SeiyuuDB.Core {
       } else if (typeof(T) == typeof(ExternalLink)) {
         obj = _context.ExternalLinks.FirstOrDefault(x => x.Id == id);
       } else if (typeof(T) == typeof(Note)) {
-        obj  = _context.Notes.FirstOrDefault(x => x.Id == id);
+        obj = _context.Notes.FirstOrDefault(x => x.Id == id);
       }
       return obj as T;
     }
@@ -120,8 +120,10 @@ namespace SeiyuuDB.Core {
     }
 
     public int Delete<T>(T entity) where T : class, ISeiyuuEntity<T> {
-      if (typeof(T) == typeof(Actor) || typeof(T) == typeof(Anime) || typeof(T) == typeof(Company) || typeof(T) == typeof(Radio)) {
-        //throw new NotImplementedException("The entity can be referred by another table, it may cause an error so you can't delete it now. We will implement the feature ASAP.");
+      if (typeof(T) == typeof(Actor) || typeof(T) == typeof(Anime)
+        || typeof(T) == typeof(Company) || typeof(T) == typeof(Radio)) {
+        //throw new NotImplementedException("The entity can be referred by another table, "
+        //  + "it may cause an error so you can't delete it now. We will implement the feature ASAP.");
         return -1;
       }
 
@@ -217,18 +219,18 @@ namespace SeiyuuDB.Core {
                              select actor;
 
           var actors = from actor in _context.Actors
-                              where actor.Nickname.Contains(keyword)
-                              // Gender
-                              // Birthdate
-                              // BloodType
-                              || actor.Hometown.Contains(keyword)
-                              // Height
-                              // Debut
-                              || actor.SpouseName.Contains(keyword)
-                              || actor.Agency.Name.Contains(keyword)
-                              || actor.Agency.NameKana.Contains(keyword)
-                              || actor.Agency.Alias.Contains(keyword)
-                              select actor;
+                       where actor.Nickname.Contains(keyword)
+                       // Gender
+                       // Birthdate
+                       // BloodType
+                       || actor.Hometown.Contains(keyword)
+                       // Height
+                       // Debut
+                       || actor.SpouseName.Contains(keyword)
+                       || actor.Agency.Name.Contains(keyword)
+                       || actor.Agency.NameKana.Contains(keyword)
+                       || actor.Agency.Alias.Contains(keyword)
+                       select actor;
 
           var characters = from character in _context.Characters
                            where character.Name.Contains(keyword)
@@ -237,25 +239,25 @@ namespace SeiyuuDB.Core {
                            select character.Actor;
 
           var animesCharacters = from film in _context.AnimesCharacters
-                                   where film.Anime.Title.Contains(keyword)
-                                   || film.Anime.TitleKana.Contains(keyword)
-                                   || film.Anime.Alias.Contains(keyword)
-                                   select film.Character.Actor;
+                                 where film.Anime.Title.Contains(keyword)
+                                 || film.Anime.TitleKana.Contains(keyword)
+                                 || film.Anime.Alias.Contains(keyword)
+                                 select film.Character.Actor;
 
           var gamesCharacters = from film in _context.GamesCharacters
-                                  where film.Game.Title.Contains(keyword)
-                                  || film.Game.TitleKana.Contains(keyword)
-                                  || film.Game.Alias.Contains(keyword)
-                                  select film.Character.Actor;
+                                where film.Game.Title.Contains(keyword)
+                                || film.Game.TitleKana.Contains(keyword)
+                                || film.Game.Alias.Contains(keyword)
+                                select film.Character.Actor;
 
           var radiosActors = from film in _context.RadiosActors
-                                   where film.Radio.Title.Contains(keyword)
-                                   || film.Radio.TitleKana.Contains(keyword)
-                                   || film.Radio.Alias.Contains(keyword)
-                                   || film.Radio.Station.Name.Contains(keyword)
-                                   || film.Radio.Station.NameKana.Contains(keyword)
-                                   || film.Radio.Station.Alias.Contains(keyword)
-                                   select film.Actor;
+                             where film.Radio.Title.Contains(keyword)
+                             || film.Radio.TitleKana.Contains(keyword)
+                             || film.Radio.Alias.Contains(keyword)
+                             || film.Radio.Station.Name.Contains(keyword)
+                             || film.Radio.Station.NameKana.Contains(keyword)
+                             || film.Radio.Station.Alias.Contains(keyword)
+                             select film.Actor;
 
           var links = from link in _context.ExternalLinks
                       where link.Title.Contains(keyword)
@@ -326,8 +328,8 @@ namespace SeiyuuDB.Core {
 
     public Anime FindAnimeById(int animeId) {
       var animes = from a in _context.Animes
-                       where a.Id == animeId
-                       select a;
+                   where a.Id == animeId
+                   select a;
       return animes.ToArray().FirstOrDefault();
     }
 
@@ -412,7 +414,7 @@ namespace SeiyuuDB.Core {
                      select c;
       return agencies.ToArray().FirstOrDefault();
     }
-    
+
     public Company FindStationByName(string name) {
       var stations = from c in _context.Companies
                      where c.Name == name
@@ -452,8 +454,8 @@ namespace SeiyuuDB.Core {
 
     public Game FindGameByTitle(string title) {
       var games = from g in _context.Games
-                   where g.Title == title
-                   select g;
+                  where g.Title == title
+                  select g;
       return games.ToArray().FirstOrDefault();
     }
 

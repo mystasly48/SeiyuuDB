@@ -71,7 +71,7 @@ namespace SeiyuuDB.Core.Entities {
       Actor = actor;
       Url = url;
     }
-    
+
     public void Replace(ExternalLink entity) {
       Title = entity.Title;
       ActorId = entity.ActorId;
@@ -107,7 +107,8 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title ?? "NULL"}, Actor: ({Actor}), Url: {Url}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title ?? "NULL"}, Actor: ({Actor}), Url: {Url}, "
+        + $"CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

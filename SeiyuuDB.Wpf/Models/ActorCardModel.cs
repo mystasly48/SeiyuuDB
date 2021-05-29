@@ -15,7 +15,9 @@ namespace SeiyuuDB.Wpf.Models {
     public string Birthdate => _actor.Birthdate.ToString();
     public ImageSource Picture {
       get {
-        return string.IsNullOrEmpty(_actor.PictureUrl) ? ImageHelper.NoImage : ImageHelper.UrlToBitmapImage(_actor.PictureUrl);
+        return string.IsNullOrEmpty(_actor.PictureUrl)
+          ? ImageHelper.NoImage
+          : ImageHelper.UrlToBitmapImage(_actor.PictureUrl);
       }
     }
 

@@ -51,7 +51,13 @@ namespace SeiyuuDB.Wpf.Models {
     public string DebutYear => Actor.DebutYear.HasValue ? Actor.DebutYear.Value.ToString() + "年" : "";
     public string SpouseName => Actor.SpouseName;
     public string AgencyName => Actor.Agency?.Name; // ボタンにする
-    public BitmapImage Picture => string.IsNullOrEmpty(Actor.PictureUrl) ? ImageHelper.NoImage : ImageHelper.UrlToBitmapImage(Actor.PictureUrl);
+    public BitmapImage Picture {
+      get {
+        return string.IsNullOrEmpty(Actor.PictureUrl)
+          ? ImageHelper.NoImage
+          : ImageHelper.UrlToBitmapImage(Actor.PictureUrl);
+      }
+    }
 
     public IEnumerable<AnimeFilmographyModel> AnimeFilmographyModels {
       get => DbManager.Connection.FindAnimesCharactersByActorId(Actor.Id)

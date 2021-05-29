@@ -1,63 +1,64 @@
 ﻿<UserControl x:Class="SeiyuuDB.Wpf.Controls.SearchTab"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:SeiyuuDB.Wpf.Controls"
              xmlns:userControls="clr-namespace:SeiyuuDB.Wpf.Controls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
              xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextElement.FontWeight="Regular"
              TextElement.FontSize="13"
-             TextOptions.TextFormattingMode="Ideal" 
-             TextOptions.TextRenderingMode="Auto"        
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid FocusManager.FocusedElement="{Binding ElementName=SearchTextBox}">
-        <TextBlock Style="{StaticResource MaterialDesignTextBlock}"
-                   Text="検索結果がありません"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Visibility="{Binding NotFoundTextVisibility, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+  <Grid FocusManager.FocusedElement="{Binding ElementName=SearchTextBox}">
+    <TextBlock Style="{StaticResource MaterialDesignTextBlock}"
+               Text="検索結果がありません"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Visibility="{Binding NotFoundTextVisibility, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <StackPanel Grid.Row="0"
+                  Margin="10"
+                  Width="500">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0"
-                        Margin="10"
-                        Width="500">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0"
-                            Command="{Binding SearchCommand}"
-                            Style="{StaticResource MaterialDesignToolButton}"
-                            Content="{materialDesign:PackIcon Kind=Magnify, Size=30}"
-                            ToolTip="検索"/>
-                    <TextBox Name="SearchTextBox"
-                             Grid.Column="1"
-                             Style="{StaticResource MaterialDesignTextBox}"
-                             FontSize="24"
-                             materialDesign:HintAssist.Hint="{Binding CurrentDisplayActorsCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                             materialDesign:TextFieldAssist.HasClearButton="True"
-                             ToolTip="名前、所属事務所、誕生日、出身地、出演アニメ名、出演ラジオ名、役名、メモ、などから検索できます"
-                             Focusable="True"
-                             Text="{Binding SearchKeywords, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        <TextBox.InputBindings>
-                            <KeyBinding Gesture="Enter" Command="{Binding SearchCommand}"/>
-                        </TextBox.InputBindings>
-                    </TextBox>
-                </Grid>
-                <Expander Header="詳細検索">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <!--<TextBlock VerticalAlignment="Bottom" Text="生年月日"/>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="0"
+                  Command="{Binding SearchCommand}"
+                  Style="{StaticResource MaterialDesignToolButton}"
+                  Content="{materialDesign:PackIcon Kind=Magnify, Size=30}"
+                  ToolTip="検索" />
+          <TextBox Name="SearchTextBox"
+                   Grid.Column="1"
+                   Style="{StaticResource MaterialDesignTextBox}"
+                   FontSize="24"
+                   materialDesign:HintAssist.Hint="{Binding CurrentDisplayActorsCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                   materialDesign:TextFieldAssist.HasClearButton="True"
+                   ToolTip="名前、所属事務所、誕生日、出身地、出演アニメ名、出演ラジオ名、役名、メモ、などから検索できます"
+                   Focusable="True"
+                   Text="{Binding SearchKeywords, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.InputBindings>
+              <KeyBinding Gesture="Enter"
+                          Command="{Binding SearchCommand}" />
+            </TextBox.InputBindings>
+          </TextBox>
+        </Grid>
+        <Expander Header="詳細検索">
+          <StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <!--<TextBlock VerticalAlignment="Bottom" Text="生年月日"/>
                             <ComboBox Name="EqualityComboBox" Margin="10 0" Width="40"/>
                             <ComboBox Name="BirthYearComboBox" Margin="10 0" Width="60"/>
                             <TextBlock VerticalAlignment="Bottom" Text="年"/>
@@ -65,97 +66,100 @@
                             <TextBlock VerticalAlignment="Bottom" Text="月"/>
                             <ComboBox Name="BirthDayComboBox" Margin="10 0" Width="40"/>
                             <TextBlock VerticalAlignment="Bottom" Text="日"/>-->
-                            <CheckBox Content="編集完了"
-                                      Margin="0 0 10 0"
-                                      IsChecked="{Binding IsCompletedActor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <CheckBox Content="お気に入り"
-                                      Margin="0 0 10 0"
-                                      IsChecked="{Binding IsFavoriteActor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Content="クリア"
-                                    Margin="0 10 10 10"
-                                    IsEnabled="False"/>
-                            <Button Content="検索"
-                                    Margin="10 10 0 10"
-                                    Command="{Binding AdvancedSearchCommand}"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Expander>
+              <CheckBox Content="編集完了"
+                        Margin="0 0 10 0"
+                        IsChecked="{Binding IsCompletedActor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <CheckBox Content="お気に入り"
+                        Margin="0 0 10 0"
+                        IsChecked="{Binding IsFavoriteActor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
-            <ScrollViewer Grid.Row="1"
-                          Margin="0 0 0 0"
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled">
-                <ItemsControl Name="ActorCards" ItemsSource="{Binding ActorCardModels, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <userControls:ActorCard ActorCardModel="{Binding}"
-                                                    Margin="0 20">
-                                <userControls:ActorCard.InputBindings>
-                                    <MouseBinding MouseAction="LeftClick"
-                                                  Command="{Binding ElementName=ActorCards, Path=DataContext.OpenActorCommand}"
-                                                  CommandParameter="{Binding}"/>
-                                </userControls:ActorCard.InputBindings>
-                            </userControls:ActorCard>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <wpftk:VirtualizingWrapPanel Margin="20 0"
-                                                         HorizontalAlignment="Center"
-                                                         VirtualizingPanel.VirtualizationMode="Recycling"
-                                                         VirtualizingPanel.IsVirtualizing="True"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
-        </Grid>
-        <Button Command="{Binding AddActorCommand}"
-                IsEnabled="{Binding IsEnabledAddButton, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                Width="60" Height="60"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="30"
-                ToolTip="新しい声優を追加"
-                Style="{StaticResource MaterialDesignFloatingActionButton}"
-                Content="{materialDesign:PackIcon Kind=Plus, Size=30}"/>
-        <materialDesign:Card Name="BirthdayActorsCard"
-                             Visibility="Collapsed"
-                             Background="#ff77a9"
-                             Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
-                             Padding="8"
-                             Margin="0 20"
-                             Width="500"
-                             VerticalAlignment="Bottom"
-                             UniformCornerRadius="6">
             <StackPanel Orientation="Horizontal"
-                        VerticalAlignment="Center"
                         HorizontalAlignment="Center">
-                <emoji:TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                                 Margin="10 0"
-                                 VerticalAlignment="Center"
-                                 Text="🎉"/>
-                <TextBlock Name="BirthdayActorsTextBlock"
-                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                           Width="380" 
-                           VerticalAlignment="Center"
-                           TextAlignment="Center"
-                           TextWrapping="Wrap"/>
-                <emoji:TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                                 Margin="10 0"
-                                 VerticalAlignment="Center"
-                                 Text="🎉"
-                                 RenderTransformOrigin="0.5,0.5">
-                    <TextBlock.RenderTransform>
-                        <ScaleTransform ScaleX="-1" />
-                    </TextBlock.RenderTransform>
-                </emoji:TextBlock>
+              <Button Content="クリア"
+                      Margin="0 10 10 10"
+                      IsEnabled="False" />
+              <Button Content="検索"
+                      Margin="10 10 0 10"
+                      Command="{Binding AdvancedSearchCommand}" />
             </StackPanel>
-        </materialDesign:Card>
-        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
-                     Value="48"
-                     IsIndeterminate="True"
-                     Visibility="{Binding LoadingIndicatorVisibility, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+          </StackPanel>
+        </Expander>
+      </StackPanel>
+      <ScrollViewer Grid.Row="1"
+                    Margin="0 0 0 0"
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Disabled">
+        <ItemsControl Name="ActorCards"
+                      ItemsSource="{Binding ActorCardModels, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <userControls:ActorCard ActorCardModel="{Binding}"
+                                      Margin="0 20">
+                <userControls:ActorCard.InputBindings>
+                  <MouseBinding MouseAction="LeftClick"
+                                Command="{Binding ElementName=ActorCards, Path=DataContext.OpenActorCommand}"
+                                CommandParameter="{Binding}" />
+                </userControls:ActorCard.InputBindings>
+              </userControls:ActorCard>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <wpftk:VirtualizingWrapPanel Margin="20 0"
+                                           HorizontalAlignment="Center"
+                                           VirtualizingPanel.VirtualizationMode="Recycling"
+                                           VirtualizingPanel.IsVirtualizing="True" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </ScrollViewer>
     </Grid>
+    <Button Command="{Binding AddActorCommand}"
+            IsEnabled="{Binding IsEnabledAddButton, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            Width="60"
+            Height="60"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Margin="30"
+            ToolTip="新しい声優を追加"
+            Style="{StaticResource MaterialDesignFloatingActionButton}"
+            Content="{materialDesign:PackIcon Kind=Plus, Size=30}" />
+    <materialDesign:Card Name="BirthdayActorsCard"
+                         Visibility="Collapsed"
+                         Background="#ff77a9"
+                         Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                         Padding="8"
+                         Margin="0 20"
+                         Width="500"
+                         VerticalAlignment="Bottom"
+                         UniformCornerRadius="6">
+      <StackPanel Orientation="Horizontal"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center">
+        <emoji:TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                         Margin="10 0"
+                         VerticalAlignment="Center"
+                         Text="🎉" />
+        <TextBlock Name="BirthdayActorsTextBlock"
+                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                   Width="380"
+                   VerticalAlignment="Center"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap" />
+        <emoji:TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                         Margin="10 0"
+                         VerticalAlignment="Center"
+                         Text="🎉"
+                         RenderTransformOrigin="0.5,0.5">
+          <TextBlock.RenderTransform>
+            <ScaleTransform ScaleX="-1" />
+          </TextBlock.RenderTransform>
+        </emoji:TextBlock>
+      </StackPanel>
+    </materialDesign:Card>
+    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                 Value="48"
+                 IsIndeterminate="True"
+                 Visibility="{Binding LoadingIndicatorVisibility, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+  </Grid>
 </UserControl>

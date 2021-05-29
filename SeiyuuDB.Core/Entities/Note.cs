@@ -107,7 +107,8 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Title: {Title}, Content: {Content}, Actor: ({Actor}), CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Title: {Title}, Content: {Content}, Actor: ({Actor}), "
+        + "CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }

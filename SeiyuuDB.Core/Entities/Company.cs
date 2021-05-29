@@ -147,7 +147,8 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public override string ToString() {
-      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana}, Alias: {Alias}, CompanyType: {CompanyType}, Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
+      return $"Id: {Id}, Name: {Name}, NameKana: {NameKana}, Alias: {Alias}, CompanyType: {CompanyType}, "
+        + $"Url: {Url ?? "NULL"}, CreatedAt: {CreatedAt}, UpdatedAt: {UpdatedAt}";
     }
   }
 }
