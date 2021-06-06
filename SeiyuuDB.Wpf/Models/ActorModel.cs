@@ -9,9 +9,7 @@ namespace SeiyuuDB.Wpf.Models {
   public class ActorModel : Observable {
     private Actor _actor;
     public Actor Actor {
-      get {
-        return _actor;
-      }
+      get => _actor;
       set {
         SetProperty(ref _actor, value);
         OnPropertyChanged(nameof(Name));
@@ -51,22 +49,16 @@ namespace SeiyuuDB.Wpf.Models {
     public string DebutYear => Actor.DebutYear.HasValue ? Actor.DebutYear.Value.ToString() + "年" : "";
     public string SpouseName => Actor.SpouseName;
     public string AgencyName => Actor.Agency?.Name; // ボタンにする
-    public BitmapImage Picture {
-      get {
-        return string.IsNullOrEmpty(Actor.PictureUrl)
-          ? ImageHelper.NoImage
-          : ImageHelper.UrlToBitmapImage(Actor.PictureUrl);
-      }
-    }
+    public BitmapImage Picture => string.IsNullOrEmpty(Actor.PictureUrl)
+      ? ImageHelper.NoImage
+      : ImageHelper.UrlToBitmapImage(Actor.PictureUrl);
 
-    public IEnumerable<AnimeFilmographyModel> AnimeFilmographyModels {
-      get => DbManager.Connection.FindAnimesCharactersByActorId(Actor.Id)
+    public IEnumerable<AnimeFilmographyModel> AnimeFilmographyModels =>
+      DbManager.Connection.FindAnimesCharactersByActorId(Actor.Id)
           .Select(item => new AnimeFilmographyModel(item));
-    }
 
-    public IEnumerable<RadioFilmographyModel> RadioFilmographyModels {
-      get => DbManager.Connection.FindRadiosActorsByActorId(Actor.Id)
+    public IEnumerable<RadioFilmographyModel> RadioFilmographyModels =>
+      DbManager.Connection.FindRadiosActorsByActorId(Actor.Id)
           .Select(item => new RadioFilmographyModel(item));
-    }
   }
 }

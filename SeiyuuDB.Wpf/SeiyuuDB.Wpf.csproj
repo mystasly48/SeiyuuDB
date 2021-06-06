@@ -66,13 +66,19 @@
     <Compile Include="Controls\ActorTab.xaml.cs">
       <DependentUpon>ActorTab.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\YesNoCancelDialog.xaml.cs">
+      <DependentUpon>YesNoCancelDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActorModel.cs" />
     <Compile Include="Models\AnimeFilmographyModel.cs" />
     <Compile Include="Models\RadioFilmographyModel.cs" />
+    <Compile Include="Utils\NotEmptyValidationRule.cs" />
+    <Compile Include="Utils\PositiveIntegerValidationRule.cs" />
     <Compile Include="ViewModels\ActorTabViewModel.cs" />
     <Compile Include="Controls\SearchTab.xaml.cs">
       <DependentUpon>SearchTab.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AddActorViewModel.cs" />
     <Compile Include="ViewModels\SearchTabViewModel.cs" />
     <Compile Include="Models\ActorCardModel.cs" />
     <Compile Include="Utils\AnotherCommandImplementation.cs" />
@@ -81,6 +87,10 @@
     <Compile Include="Utils\ImageHelper.cs" />
     <Compile Include="Utils\Information.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\YesNoCancelDialogViewModel.cs" />
+    <Compile Include="Views\AddActorWindow.xaml.cs">
+      <DependentUpon>AddActorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -101,6 +111,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SearchTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\YesNoCancelDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddActorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

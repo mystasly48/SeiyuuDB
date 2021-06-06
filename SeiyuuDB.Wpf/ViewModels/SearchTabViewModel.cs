@@ -2,6 +2,7 @@
 using SeiyuuDB.Core.Helpers;
 using SeiyuuDB.Wpf.Models;
 using SeiyuuDB.Wpf.Utils;
+using SeiyuuDB.Wpf.Views;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,9 +13,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
   public class SearchTabViewModel : Observable {
     private IEnumerable<ActorCardModel> _actorCardModels;
     public IEnumerable<ActorCardModel> ActorCardModels {
-      get {
-        return _actorCardModels;
-      }
+      get => _actorCardModels;
       set {
         SetProperty(ref _actorCardModels, value);
         OnPropertyChanged(nameof(CurrentDisplayActorsCount));
@@ -45,46 +44,29 @@ namespace SeiyuuDB.Wpf.ViewModels {
     // TODO このプロパティ不要なので、コンバーターでどうにかできない？
     private string _searchKeywords;
     public string SearchKeywords {
-      get {
-        return _searchKeywords ?? "";
-      }
-      set {
-        SetProperty(ref _searchKeywords, value);
-      }
+      get => _searchKeywords ?? "";
+      set => SetProperty(ref _searchKeywords, value);
     }
 
-    public string[] SearchKeywordsArray {
-      get {
-        return SearchKeywords.Split(' ', '　', ',', '、')
+    public string[] SearchKeywordsArray =>
+      SearchKeywords.Split(' ', '　', ',', '、')
           .Where(x => !string.IsNullOrEmpty(x)).ToArray();
-      }
-    }
 
     private bool? _isFavoriteActor;
     public bool? IsFavoriteActor {
-      get {
-        return _isFavoriteActor;
-      }
-      set {
-        SetProperty(ref _isFavoriteActor, value);
-      }
+      get => _isFavoriteActor;
+      set => SetProperty(ref _isFavoriteActor, value);
     }
 
     private bool? _isCompletedActor;
     public bool? IsCompletedActor {
-      get {
-        return _isCompletedActor;
-      }
-      set {
-        SetProperty(ref _isCompletedActor, value);
-      }
+      get => _isCompletedActor;
+      set => SetProperty(ref _isCompletedActor, value);
     }
 
     private bool _isLoading = true;
     public bool IsLoading {
-      get {
-        return _isLoading;
-      }
+      get => _isLoading;
       set {
         SetProperty(ref _isLoading, value);
         OnPropertyChanged(nameof(LoadingIndicatorVisibility));
@@ -93,9 +75,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
     }
 
     public Visibility LoadingIndicatorVisibility {
-      get {
-        return IsLoading ? Visibility.Visible : Visibility.Collapsed;
-      }
+      get => IsLoading ? Visibility.Visible : Visibility.Collapsed;
       set {
         IsLoading = value == Visibility.Visible;
         OnPropertyChanged(nameof(LoadingIndicatorVisibility));
@@ -103,11 +83,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
       }
     }
 
-    public bool IsEnabledAddButton {
-      get {
-        return !IsLoading;
-      }
-    }
+    public bool IsEnabledAddButton => !IsLoading;
 
     public ICommand SearchCommand => new AnotherCommandImplementation(ExecuteSearch);
     public ICommand AdvancedSearchCommand => new AnotherCommandImplementation(ExecuteAdvancedSearch);
@@ -131,9 +107,10 @@ namespace SeiyuuDB.Wpf.ViewModels {
 
     private void ExecuteAddActor(object obj) {
       // TODO 実装
-      //var form = new AddActorWindow(_db);
-      //form.Owner = GetWindow(this);
-      //form.ShowDialog();
+      var actor = DbManager.Connection.FindActorById(1);
+      var viewModel = new AddActorViewModel(actor);
+      var form = new AddActorWindow(viewModel);
+      form.ShowDialog();
 
       //if (form.Success) {
       //  await ExecuteSearch(null);

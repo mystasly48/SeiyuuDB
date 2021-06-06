@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="SeiyuuDB.Wpf.Controls.YesNoCancelDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mdWpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:local="clr-namespace:SeiyuuDB.Wpf.Controls"
+             mc:Ignorable="d"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             d:DesignHeight="180"
+             d:DesignWidth="400">
+  <Grid Margin="16">
+    <TextBlock Margin="0 10 0 0"
+               FontSize="16"
+               Text="{Binding Message}"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Center"
+               TextAlignment="Center"
+               TextWrapping="Wrap"
+               Height="100"/>
+    <Grid VerticalAlignment="Bottom"
+          HorizontalAlignment="Center">
+      <StackPanel Orientation="Horizontal">
+        <Button IsDefault="True"
+                Margin="0"
+                Style="{DynamicResource MaterialDesignFlatButton}"
+                Command="{x:Static mdWpf:DialogHost.CloseDialogCommand}">
+          <Button.CommandParameter>
+            <MessageBoxResult>Yes</MessageBoxResult>
+          </Button.CommandParameter>
+          はい
+        </Button>
+        <Button Margin="50 0 0 0"
+                Style="{DynamicResource MaterialDesignFlatButton}"
+                Command="{x:Static mdWpf:DialogHost.CloseDialogCommand}">
+          <Button.CommandParameter>
+            <MessageBoxResult>No</MessageBoxResult>
+          </Button.CommandParameter>
+          いいえ
+        </Button>
+        <Button IsCancel="True"
+                Margin="50 0 0 0"
+                Style="{DynamicResource MaterialDesignFlatButton}"
+                Command="{x:Static mdWpf:DialogHost.CloseDialogCommand}">
+          <Button.CommandParameter>
+            <MessageBoxResult>Cancel</MessageBoxResult>
+          </Button.CommandParameter>
+          キャンセル
+        </Button>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</UserControl>

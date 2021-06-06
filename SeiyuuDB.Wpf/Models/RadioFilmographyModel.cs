@@ -18,11 +18,9 @@ namespace SeiyuuDB.Wpf.Models {
 
     public string Title => RadioActor.Radio.Title;
     public string StationName => RadioActor.Radio.Station.Name;
-    public string StreamingTerm {
-      get => string.Format("{0} - {1}",
+    public string StreamingTerm => string.Format("{0} - {1}",
           RadioActor.Radio.StartedOn.HasValue ? RadioActor.Radio.StartedOn.Value.Year + "年" : "",
           RadioActor.Radio.EndedOn.HasValue ? RadioActor.Radio.EndedOn.Value.Year + "年" : "");
-    }
 
     public ICommand OpenRadioCommand => new AnotherCommandImplementation(ExecuteOpenRadio);
     public ICommand OpenStationCommand => new AnotherCommandImplementation(ExecuteOpenStation);
