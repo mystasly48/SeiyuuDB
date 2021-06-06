@@ -69,6 +69,7 @@
     <Compile Include="Models\ActorModel.cs" />
     <Compile Include="Models\AnimeFilmographyModel.cs" />
     <Compile Include="Models\RadioFilmographyModel.cs" />
+    <Compile Include="Utils\NotEmptyValidationRule.cs" />
     <Compile Include="ViewModels\ActorTabViewModel.cs" />
     <Compile Include="Controls\SearchTab.xaml.cs">
       <DependentUpon>SearchTab.xaml</DependentUpon>
