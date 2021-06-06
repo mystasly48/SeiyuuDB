@@ -1,0 +1,175 @@
+﻿<Window x:Class="SeiyuuDB.Wpf.Views.AddActorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SeiyuuDB.Wpf.Views"
+        xmlns:utils="clr-namespace:SeiyuuDB.Wpf.Utils"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="新規作成 - 声優"
+        Height="700"
+        Width="800"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+  <Grid FocusManager.FocusedElement="{Binding ElementName=LastNameTextBox}">
+    <Image HorizontalAlignment="Right"
+           VerticalAlignment="Top"
+           Height="250"
+           Width="250"
+           Margin="0 20 20 0"
+           Source="{Binding PictureUrl}" />
+    <StackPanel Margin="10">
+      <StackPanel HorizontalAlignment="Left">
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <TextBox Style="{StaticResource CustomizedTextBox}"
+                   Name="LastNameTextBox"
+                   materialDesign:HintAssist.Hint="性"
+                   materialDesign:HintAssist.HelperText="* 入力必須">
+            <TextBox.Text>
+              <Binding Path="LastName"
+                       UpdateSourceTrigger="PropertyChanged">
+                <Binding.ValidationRules>
+                  <utils:NotEmptyValidationRule ValidatesOnTargetUpdated="False"/>
+                </Binding.ValidationRules>
+              </Binding>
+            </TextBox.Text>
+          </TextBox>
+          <TextBox Style="{StaticResource CustomizedTextBox}"
+                   Text="{Binding FirstName}"
+                   materialDesign:HintAssist.Hint="名" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <TextBox Style="{StaticResource CustomizedTextBox}"
+                   Text="{Binding LastNameKana}"
+                   materialDesign:HintAssist.Hint="かな 性" />
+          <TextBox Style="{StaticResource CustomizedTextBox}"
+                   Text="{Binding FirstNameKana}"
+                   materialDesign:HintAssist.Hint="かな 名" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <TextBox Style="{StaticResource CustomizedTextBox}"
+                   Text="{Binding LastNameRomaji}"
+                   materialDesign:HintAssist.Hint="ローマ字 性" />
+          <TextBox Style="{StaticResource CustomizedTextBox}"
+                   Text="{Binding FirstNameRomaji}"
+                   materialDesign:HintAssist.Hint="ローマ字 名" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <TextBox Style="{StaticResource CustomizedTextBox}"
+                   Text="{Binding Nickname}"
+                   materialDesign:HintAssist.Hint="ニックネーム" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <ComboBox Style="{StaticResource CustomizedComboBox}"
+                    Width="60"
+                    materialDesign:HintAssist.Hint="性別"
+                    ItemsSource="{Binding Genders}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding Gender}" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}"
+                    Orientation="Horizontal">
+          <ComboBox Style="{StaticResource CustomizedComboBox}"
+                    Width="60"
+                    materialDesign:HintAssist.Hint="西暦"
+                    ItemsSource="{Binding BirthYears}"
+                    SelectedItem="{Binding BirthYear}" />
+          <ComboBox Style="{StaticResource CustomizedComboBox}"
+                    Width="40"
+                    materialDesign:HintAssist.Hint="月"
+                    ItemsSource="{Binding BirthMonths}"
+                    SelectedItem="{Binding BirthMonth}" />
+          <ComboBox Style="{StaticResource CustomizedComboBox}"
+                    Width="40"
+                    materialDesign:HintAssist.Hint="日"
+                    ItemsSource="{Binding BirthDays}"
+                    SelectedItem="{Binding BirthDay}" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <ComboBox Style="{StaticResource CustomizedComboBox}"
+                    materialDesign:HintAssist.Hint="血液型"
+                    Width="60"
+                    ItemsSource="{Binding BloodTypes}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding BloodType}" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <TextBox Style="{StaticResource CustomizedTextBox}"
+                   materialDesign:HintAssist.Hint="身長"
+                   Width="60">
+            <TextBox.Text>
+              <Binding Path="Height"
+                       UpdateSourceTrigger="PropertyChanged">
+                <Binding.ValidationRules>
+                  <utils:PositiveIntegerValidationRule ValidatesOnTargetUpdated="False" />
+                </Binding.ValidationRules>
+              </Binding>
+            </TextBox.Text>
+          </TextBox>
+          <TextBlock VerticalAlignment="Bottom"
+                     Text="cm" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <TextBox Style="{StaticResource CustomizedTextBox}"
+                   materialDesign:HintAssist.Hint="出身"
+                   Margin="10 0"
+                   Width="200"
+                   Text="{Binding Hometown}" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <ComboBox Style="{StaticResource CustomizedComboBox}"
+                    materialDesign:HintAssist.Hint="デビュー"
+                    ItemsSource="{Binding DebutYears}"
+                    SelectedItem="{Binding DebutYear}"
+                    Width="60" />
+          <TextBlock VerticalAlignment="Bottom"
+                     Text="年" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <TextBox Style="{StaticResource CustomizedTextBox}"
+                   materialDesign:HintAssist.Hint="配偶者"
+                   Text="{Binding Spouse}" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource CustomizedStackPanel}">
+          <ComboBox Style="{StaticResource CustomizedComboBox}"
+                    Name="AgencyComboBox"
+                    materialDesign:HintAssist.Hint="事務所"
+                    IsEditable="True"
+                    Width="200"
+                    ItemsSource="{Binding Agencies}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding Agency}" />
+          <Button VerticalAlignment="Center"
+                  ToolTip="新しい事務所を追加"
+                  Style="{StaticResource MaterialDesignIconButton}"
+                  Width="{Binding Height, ElementName=AgencyComboBox}"
+                  Height="{Binding Height, ElementName=AgencyComboBox}"
+                  Content="{materialDesign:PackIcon Kind=PlusCircle}" />
+        </StackPanel>
+      </StackPanel>
+      <StackPanel Style="{StaticResource CustomizedStackPanel}">
+        <TextBox Style="{StaticResource CustomizedVeryLongTextBox}"
+                 Text="{Binding PictureUrl}"
+                 materialDesign:HintAssist.Hint="写真URL" />
+      </StackPanel>
+      <StackPanel HorizontalAlignment="Right"
+                  Orientation="Horizontal">
+        <Button Name="AddButton"
+                Margin="30 10 10 10"
+                Content="新規作成" />
+        <Button IsCancel="True"
+                Margin="10 10 30 10"
+                Content="キャンセル" />
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</Window>

@@ -2,6 +2,7 @@
 using SeiyuuDB.Core.Helpers;
 using SeiyuuDB.Wpf.Models;
 using SeiyuuDB.Wpf.Utils;
+using SeiyuuDB.Wpf.Views;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -131,9 +132,11 @@ namespace SeiyuuDB.Wpf.ViewModels {
 
     private void ExecuteAddActor(object obj) {
       // TODO 実装
-      //var form = new AddActorWindow(_db);
-      //form.Owner = GetWindow(this);
-      //form.ShowDialog();
+      var viewModel = new AddActorViewModel();
+      var form = new AddActorWindow(viewModel);
+      form.ShowDialog();
+
+      System.Console.WriteLine(viewModel.IsChanged);
 
       //if (form.Success) {
       //  await ExecuteSearch(null);
