@@ -7,32 +7,20 @@ namespace SeiyuuDB.Wpf.ViewModels {
   public class ActorTabViewModel : Observable {
     private ActorModel _actorModel;
     public ActorModel ActorModel {
-      get {
-        return _actorModel;
-      }
-      set {
-        SetProperty(ref _actorModel, value);
-      }
+      get => _actorModel;
+      set => SetProperty(ref _actorModel, value);
     }
 
     private bool _isCompleted;
     public bool IsCompleted {
-      get {
-        return _isCompleted;
-      }
-      set {
-        SetProperty(ref _isCompleted, value);
-      }
+      get => _isCompleted;
+      set => SetProperty(ref _isCompleted, value);
     }
 
     private bool _isFavorite;
     public bool IsFavorite {
-      get {
-        return _isFavorite;
-      }
-      set {
-        SetProperty(ref _isFavorite, value);
-      }
+      get => _isFavorite;
+      set => SetProperty(ref _isFavorite, value);
     }
 
     public ICommand EditInformationCommand => new AnotherCommandImplementation(ExecuteEditInformation);

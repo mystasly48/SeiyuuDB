@@ -23,9 +23,7 @@ namespace SeiyuuDB.Wpf.Models {
     public string ReleasedYear => AnimeCharacter.Anime.ReleasedYear + "年";
     public string CharacterName => AnimeCharacter.Character.Name;
     public bool IsMainRole => AnimeCharacter.Character.IsMainRole;
-    public FontWeight CharacterFontWeight {
-      get => IsMainRole ? FontWeights.UltraBold : FontWeights.Normal;
-    }
+    public FontWeight CharacterFontWeight => IsMainRole ? FontWeights.UltraBold : FontWeights.Normal;
 
     public ICommand OpenAnimeCommand => new AnotherCommandImplementation(ExecuteOpenAnime);
     public ICommand OpenCharacterCommand => new AnotherCommandImplementation(ExecuteOpenCharacter);

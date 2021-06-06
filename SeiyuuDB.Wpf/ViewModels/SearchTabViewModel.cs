@@ -13,9 +13,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
   public class SearchTabViewModel : Observable {
     private IEnumerable<ActorCardModel> _actorCardModels;
     public IEnumerable<ActorCardModel> ActorCardModels {
-      get {
-        return _actorCardModels;
-      }
+      get => _actorCardModels;
       set {
         SetProperty(ref _actorCardModels, value);
         OnPropertyChanged(nameof(CurrentDisplayActorsCount));
@@ -46,46 +44,29 @@ namespace SeiyuuDB.Wpf.ViewModels {
     // TODO このプロパティ不要なので、コンバーターでどうにかできない？
     private string _searchKeywords;
     public string SearchKeywords {
-      get {
-        return _searchKeywords ?? "";
-      }
-      set {
-        SetProperty(ref _searchKeywords, value);
-      }
+      get => _searchKeywords ?? "";
+      set => SetProperty(ref _searchKeywords, value);
     }
 
-    public string[] SearchKeywordsArray {
-      get {
-        return SearchKeywords.Split(' ', '　', ',', '、')
+    public string[] SearchKeywordsArray =>
+      SearchKeywords.Split(' ', '　', ',', '、')
           .Where(x => !string.IsNullOrEmpty(x)).ToArray();
-      }
-    }
 
     private bool? _isFavoriteActor;
     public bool? IsFavoriteActor {
-      get {
-        return _isFavoriteActor;
-      }
-      set {
-        SetProperty(ref _isFavoriteActor, value);
-      }
+      get => _isFavoriteActor;
+      set => SetProperty(ref _isFavoriteActor, value);
     }
 
     private bool? _isCompletedActor;
     public bool? IsCompletedActor {
-      get {
-        return _isCompletedActor;
-      }
-      set {
-        SetProperty(ref _isCompletedActor, value);
-      }
+      get => _isCompletedActor;
+      set => SetProperty(ref _isCompletedActor, value);
     }
 
     private bool _isLoading = true;
     public bool IsLoading {
-      get {
-        return _isLoading;
-      }
+      get => _isLoading;
       set {
         SetProperty(ref _isLoading, value);
         OnPropertyChanged(nameof(LoadingIndicatorVisibility));
@@ -94,9 +75,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
     }
 
     public Visibility LoadingIndicatorVisibility {
-      get {
-        return IsLoading ? Visibility.Visible : Visibility.Collapsed;
-      }
+      get => IsLoading ? Visibility.Visible : Visibility.Collapsed;
       set {
         IsLoading = value == Visibility.Visible;
         OnPropertyChanged(nameof(LoadingIndicatorVisibility));
@@ -104,11 +83,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
       }
     }
 
-    public bool IsEnabledAddButton {
-      get {
-        return !IsLoading;
-      }
-    }
+    public bool IsEnabledAddButton => !IsLoading;
 
     public ICommand SearchCommand => new AnotherCommandImplementation(ExecuteSearch);
     public ICommand AdvancedSearchCommand => new AnotherCommandImplementation(ExecuteAdvancedSearch);
