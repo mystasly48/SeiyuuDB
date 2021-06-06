@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSharp.Japanese.Kanaxs;
+using System;
 
 namespace SeiyuuDB.Core.Helpers {
   public static class HelperStaticExtentions {
