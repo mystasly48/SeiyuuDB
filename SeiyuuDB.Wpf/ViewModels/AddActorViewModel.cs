@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using MaterialDesignThemes.Wpf;
 using SeiyuuDB.Core.Entities;
 using SeiyuuDB.Core.Helpers;
+using SeiyuuDB.Wpf.Controls;
 using SeiyuuDB.Wpf.Utils;
+using SeiyuuDB.Wpf.Views;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 
 namespace SeiyuuDB.Wpf.ViewModels {
   public class AddActorViewModel : Observable {
@@ -29,6 +33,8 @@ namespace SeiyuuDB.Wpf.ViewModels {
       }
     }
 
+    public string Title { get; set; }
+
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string FirstNameKana { get; set; }
@@ -41,7 +47,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
     public string SpouseName { get; set; }
     public string PictureUrl { get; set; }
     public ObservableCollection<Gender> Genders { get; private set; }
-    public Gender Gender { get; set; }
+    public Gender Gender { get; set; } = Gender.Empty;
     public ObservableCollection<int> BirthYears { get; private set; }
     public int? BirthYear { get; set; }
     public ObservableCollection<int> BirthMonths { get; private set; }
@@ -51,7 +57,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
     public ObservableCollection<int> DebutYears { get; private set; }
     public int? DebutYear { get; set; }
     public ObservableCollection<BloodType> BloodTypes { get; private set; }
-    public BloodType BloodType { get; set; }
+    public BloodType BloodType { get; set; } = BloodType.Empty;
     public ObservableCollection<Company> Agencies { get; private set; }
     public Company Agency { get; set; }
 
@@ -64,7 +70,7 @@ namespace SeiyuuDB.Wpf.ViewModels {
     public string OldNickname { get; }
     public int? OldHeight { get; }
     public string OldHometown { get; }
-    public string OldSpouseName { get;}
+    public string OldSpouseName { get; }
     public string OldPictureUrl { get; }
     public Gender OldGender { get; } = Gender.Empty;
     public int? OldBirthYear { get; }
@@ -75,6 +81,8 @@ namespace SeiyuuDB.Wpf.ViewModels {
     public Company OldAgency { get; }
 
     public AddActorViewModel() {
+      this.Title = "追加 - 声優";
+
       this.BirthYears = new ObservableCollection<int>();
       this.BirthMonths = new ObservableCollection<int>();
       this.BirthDays = new ObservableCollection<int>();
@@ -116,6 +124,8 @@ namespace SeiyuuDB.Wpf.ViewModels {
     }
 
     public AddActorViewModel(Actor actor) : this() {
+      this.Title = "編集 - 声優";
+
       this.OldFirstName = actor.FirstName;
       this.OldLastName = actor.LastName;
       this.OldFirstNameKana = actor.FirstNameKana;
@@ -134,6 +144,30 @@ namespace SeiyuuDB.Wpf.ViewModels {
       this.OldDebutYear = actor.DebutYear;
       this.OldBloodType = actor.BloodType;
       this.OldAgency = actor.Agency;
+
+      this.FirstName = OldFirstName;
+      this.LastName = OldLastName;
+      this.FirstNameKana = OldFirstNameKana;
+      this.LastNameKana = OldLastNameKana;
+      this.FirstNameRomaji = OldFirstNameRomaji;
+      this.LastNameRomaji = OldLastNameRomaji;
+      this.Nickname = OldNickname;
+      this.Height = OldHeight;
+      this.Hometown = OldHometown;
+      this.SpouseName = OldSpouseName;
+      this.PictureUrl = OldPictureUrl;
+      this.Gender = OldGender;
+      this.BirthYear = OldBirthYear;
+      this.BirthMonth = OldBirthMonth;
+      this.BirthDay = OldBirthDay;
+      this.DebutYear = OldDebutYear;
+      this.BloodType = OldBloodType;
+      this.Agency = OldAgency;
+    }
+
+    public ICommand AddActorCommand => new AnotherCommandImplementation(ExecuteAddActor);
+
+    private void ExecuteAddActor(object obj) {
     }
   }
 }

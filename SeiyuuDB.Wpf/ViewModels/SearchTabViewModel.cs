@@ -107,11 +107,10 @@ namespace SeiyuuDB.Wpf.ViewModels {
 
     private void ExecuteAddActor(object obj) {
       // TODO 実装
-      var viewModel = new AddActorViewModel();
+      var actor = DbManager.Connection.FindActorById(1);
+      var viewModel = new AddActorViewModel(actor);
       var form = new AddActorWindow(viewModel);
       form.ShowDialog();
-
-      System.Console.WriteLine(viewModel.IsChanged);
 
       //if (form.Success) {
       //  await ExecuteSearch(null);
