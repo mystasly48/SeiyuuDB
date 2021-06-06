@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\HelperStaticExtentions.cs" />
     <Compile Include="SeiyuuDataContext.cs" />
     <Compile Include="Entities\Birthdate.cs" />
     <Compile Include="Entities\Character.cs" />

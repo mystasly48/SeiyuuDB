@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeiyuuDB.Core.Helpers;
+using System;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 
@@ -53,64 +54,32 @@ namespace SeiyuuDB.Core.Entities {
     /// <summary>
     /// 名前
     /// </summary>
-    public string Name {
-      get {
-        if (string.IsNullOrEmpty(FirstName)) {
-          return LastName;
-        } else {
-          return LastName + " " + FirstName;
-        }
-      }
-    }
+    public string Name => StringHelper.Join(" ", LastName, FirstName);
 
     /// <summary>
     /// 名前短縮形
     /// </summary>
-    public string ShortName => LastName + FirstName;
+    public string ShortName => StringHelper.Join("", LastName, FirstName);
 
     /// <summary>
     /// 名前かな
     /// </summary>
-    public string NameKana {
-      get {
-        if (string.IsNullOrEmpty(FirstNameKana) && string.IsNullOrEmpty(LastNameKana)) {
-          return null;
-        } else if (string.IsNullOrEmpty(FirstNameKana)) {
-          return LastNameKana;
-        } else if (string.IsNullOrEmpty(LastNameKana)) {
-          return FirstNameKana;
-        } else {
-          return LastNameKana + " " + FirstNameKana;
-        }
-      }
-    }
+    public string NameKana => StringHelper.Join(" ", LastNameKana, FirstNameKana);
 
     /// <summary>
     /// 名前かな短縮形
     /// </summary>
-    public string ShortNameKana => LastNameKana + FirstNameKana;
+    public string ShortNameKana => StringHelper.Join("", LastNameKana, FirstNameKana);
 
     /// <summary>
     /// 名前ローマ字
     /// </summary>
-    public string NameRomaji {
-      get {
-        if (string.IsNullOrEmpty(FirstNameRomaji) && string.IsNullOrEmpty(LastNameRomaji)) {
-          return null;
-        } else if (string.IsNullOrEmpty(FirstNameRomaji)) {
-          return LastNameRomaji;
-        } else if (string.IsNullOrEmpty(LastNameRomaji)) {
-          return FirstNameRomaji;
-        } else {
-          return LastNameRomaji + " " + FirstNameRomaji;
-        }
-      }
-    }
+    public string NameRomaji => StringHelper.Join(" ", LastNameRomaji, FirstNameRomaji);
 
     /// <summary>
     /// 名前ローマ字短縮形
     /// </summary>
-    public string ShortNameRomaji => LastNameRomaji + FirstNameRomaji;
+    public string ShortNameRomaji => StringHelper.Join("", LastNameRomaji, FirstNameRomaji);
 
     /// <summary>
     /// ニックネーム

@@ -1,43 +1,28 @@
-﻿using CSharp.Japanese.Kanaxs;
-using System;
+﻿using System;
+using System.Linq;
 
 namespace SeiyuuDB.Core.Helpers {
-  public static class HelperStaticExtentions {
-    public static bool Contains(this string str, string substring, StringComparison comp) {
-      if (substring == null) {
-        throw new ArgumentNullException("substring cannot be null.", "substring");
-      } else if (!Enum.IsDefined(typeof(StringComparison), comp)) {
-        throw new ArgumentException("comp is not a member of StringComparison", "comp");
-      }
-
-      return str.IndexOf(substring, comp) >= 0;
-    }
-
-    public static bool ContainsOriginally(this string value, string query) {
-      if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(query)) {
-        return false;
-      } else {
-        value = value.ToComparable();
-        query = query.ToComparable();
-        return value.Contains(query);
-      }
-    }
-
-    public static bool ContainsOriginally(this int value, string query) {
-      return value.ToString().ContainsOriginally(query);
-    }
-
-    public static bool ContainsOriginally(this int? value, string query) {
-      return value?.ToString().ContainsOriginally(query) ?? false;
-    }
-
+  public class StringHelper {
     /// <summary>
-    /// 全角を半角、カタカナをひらがな、大文字を小文字、に変換した文字列を返却します
+    /// 文字列配列の空でない文字列を、区切り文字を挿入して連結します。
     /// </summary>
-    /// <param name="str">対象の文字列</param>
-    /// <returns>変換後の文字列</returns>
-    private static string ToComparable(this string value) {
-      return Kana.ToHiragana(Kana.ToHankaku(value.ToLower()));
+    /// <param name="separator">区切り文字</param>
+    /// <param name="values">文字列配列</param>
+    /// <returns>連結した文字列</returns>
+    public static string Join(string separator, params string[] values) {
+      if (separator == null) {
+        throw new ArgumentNullException("区切り文字はnullにできません");
+      }
+      if (values == null || values.Length == 0) {
+        return null;
+      }
+
+      string[] nonEmptyValues = values.Where(str => !string.IsNullOrEmpty(str)).ToArray();
+      if (nonEmptyValues.Length == 0) {
+        return null;
+      } else {
+        return string.Join(separator, nonEmptyValues);
+      }
     }
   }
 }
