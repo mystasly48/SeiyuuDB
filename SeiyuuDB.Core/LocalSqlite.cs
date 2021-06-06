@@ -410,7 +410,7 @@ namespace SeiyuuDB.Core {
     public Company FindAgencyByName(string name) {
       var agencies = from c in _context.Companies
                      where c.Name == name
-                     && c.CompanyTypeId == (int)CompanyType.Agency
+                     && c.CompanyTypeId == CompanyType.Agency.Id
                      select c;
       return agencies.ToArray().FirstOrDefault();
     }
@@ -418,14 +418,14 @@ namespace SeiyuuDB.Core {
     public Company FindStationByName(string name) {
       var stations = from c in _context.Companies
                      where c.Name == name
-                     && c.CompanyTypeId == (int)CompanyType.Station
+                     && c.CompanyTypeId == CompanyType.Station.Id
                      select c;
       return stations.ToArray().FirstOrDefault();
     }
 
     public Company[] FindAgencies() {
       var agencies = from c in _context.Companies
-                     where c.CompanyTypeId == (int)CompanyType.Agency
+                     where c.CompanyTypeId == CompanyType.Agency.Id
                      select c;
       return agencies.ToArray()
         .OrderBy(c => c.NameKana)
@@ -435,7 +435,7 @@ namespace SeiyuuDB.Core {
 
     public Company[] FindStations() {
       var stations = from c in _context.Companies
-                     where c.CompanyTypeId == (int)CompanyType.Station
+                     where c.CompanyTypeId == CompanyType.Station.Id
                      select c;
       return stations.ToArray()
         .OrderBy(c => c.NameKana)

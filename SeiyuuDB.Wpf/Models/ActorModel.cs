@@ -35,7 +35,7 @@ namespace SeiyuuDB.Wpf.Models {
     public string NameRomaji => Actor.NameRomaji;
     public string NameKana => Actor.NameKana;
     public string Nickname => Actor.Nickname;
-    public string Gender => EnumHelper.DisplayName(Actor.Gender);
+    public string Gender => Actor.Gender.Name;
     public string Birthdate {
       get {
         string res = Actor.Birthdate.ToString();
@@ -45,7 +45,7 @@ namespace SeiyuuDB.Wpf.Models {
         return res;
       }
     }
-    public string BloodType => EnumHelper.DisplayName(Actor.BloodType);
+    public string BloodType => Actor.BloodType.Name;
     public string Height => Actor.Height.HasValue ? Actor.Height.Value.ToString() + "cm" : "";
     public string Hometown => Actor.Hometown;
     public string DebutYear => Actor.DebutYear.HasValue ? Actor.DebutYear.Value.ToString() + "年" : "";

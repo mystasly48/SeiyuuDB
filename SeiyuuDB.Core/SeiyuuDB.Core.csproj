@@ -51,7 +51,6 @@
     <Compile Include="Entities\GameCharacter.cs" />
     <Compile Include="Entities\OtherAppearance.cs" />
     <Compile Include="Helpers\DbManager.cs" />
-    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="ISeiyuuDB.cs" />
     <Compile Include="LocalSqlite.cs" />
     <Compile Include="Entities\Actor.cs" />

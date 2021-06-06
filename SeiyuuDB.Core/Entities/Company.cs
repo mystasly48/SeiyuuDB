@@ -43,10 +43,10 @@ namespace SeiyuuDB.Core.Entities {
     /// </summary>
     public CompanyType CompanyType {
       get {
-        return (CompanyType)Enum.ToObject(typeof(CompanyType), CompanyTypeId);
+        return new CompanyType(CompanyTypeId);
       }
       private set {
-        CompanyTypeId = (int)value;
+        CompanyTypeId = value.Id.Value;
       }
     }
 

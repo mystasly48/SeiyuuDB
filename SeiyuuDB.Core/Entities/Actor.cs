@@ -93,20 +93,12 @@ namespace SeiyuuDB.Core.Entities {
     /// <summary>
     /// 性別
     /// </summary>
-    public Gender? Gender {
+    public Gender Gender {
       get {
-        if (_genderId.HasValue) {
-          return (Gender)Enum.ToObject(typeof(Gender), _genderId.Value);
-        } else {
-          return null;
-        }
+        return new Gender(_genderId);
       }
       private set {
-        if (value.HasValue) {
-          _genderId = (int)value.Value;
-        } else {
-          _genderId = null;
-        }
+        _genderId = value.Id;
       }
     }
 
@@ -131,20 +123,12 @@ namespace SeiyuuDB.Core.Entities {
     /// <summary>
     /// 血液型
     /// </summary>
-    public BloodType? BloodType {
+    public BloodType BloodType {
       get {
-        if (_bloodTypeId.HasValue) {
-          return (BloodType)Enum.ToObject(typeof(BloodType), _bloodTypeId.Value);
-        } else {
-          return null;
-        }
+        return new BloodType(_bloodTypeId);
       }
       private set {
-        if (value.HasValue) {
-          _bloodTypeId = (int)value.Value;
-        } else {
-          _bloodTypeId = null;
-        }
+        _bloodTypeId = value.Id;
       }
     }
 
@@ -306,8 +290,8 @@ namespace SeiyuuDB.Core.Entities {
     }
 
     public Actor(string lastName, string firstName, string lastNameKana, string firstNameKana,
-      string lastNameRomaji, string firstNameRomaji, string nickname, Gender? gender, Birthdate birthdate,
-      BloodType? bloodType, int? height, string hometown, int? debutYear, string spouseName,
+      string lastNameRomaji, string firstNameRomaji, string nickname, Gender gender, Birthdate birthdate,
+      BloodType bloodType, int? height, string hometown, int? debutYear, string spouseName,
       Company agency, string pictureUrl, bool isFavorite, bool isCompleted) : this() {
       LastName = lastName;
       FirstName = firstName;
@@ -381,8 +365,8 @@ namespace SeiyuuDB.Core.Entities {
 
     public override string ToString() {
       return $"Id: {Id}, Name: {Name}, NameKana: {NameKana ?? "NULL"}, NameRomaji: {NameRomaji ?? "NULL"}, "
-        + $"Nickname: {Nickname ?? "NULL"}, Gender: ({Gender?.ToString() ?? "NULL"}), "
-        + $"Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType?.ToString() ?? "NULL"}), "
+        + $"Nickname: {Nickname ?? "NULL"}, Gender: ({Gender.ToString() ?? "NULL"}), "
+        + $"Birthdate: {Birthdate.ToString() ?? "NULL"}, BloodType: ({BloodType.ToString() ?? "NULL"}), "
         + $"Height: {Height?.ToString() ?? "NULL"}, Hometown: {Hometown ?? "NULL"}, "
         + $"DebutYear: {DebutYear?.ToString() ?? "NULL"}, SpouseName: {SpouseName ?? "NULL"}, "
         + $"Agency: ({Agency?.ToString() ?? "NULL"}), PictureUrl: {PictureUrl ?? "NULL"}, "
