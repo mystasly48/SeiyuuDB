@@ -164,7 +164,7 @@
       <Version>1.0.114.3</Version>
     </PackageReference>
     <PackageReference Include="VirtualizingWrapPanel">
-      <Version>1.5.4</Version>
+      <Version>1.5.5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
